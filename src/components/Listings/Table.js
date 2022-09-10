@@ -41,7 +41,7 @@ export default function BasicTable(props) {
   I am not sure if I fixed it, I looked at the error and the console log
    said I shouldn't be using brackets but instead parenthesis. I didn't test it yet
    */
- const [data, setData] = React.useState("");
+ //const [data, setData] = React.useState("");
 
 
   function createData(name, info) {
@@ -49,7 +49,7 @@ export default function BasicTable(props) {
   }
     
   const rows = [
-    createData('Street', data.street),
+    createData('Street', street),
     createData('City', document.getElementById('city')),
     createData('State', document.getElementById('state')),
     createData('Zip', document.getElementById('zip')),

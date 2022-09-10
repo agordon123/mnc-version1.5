@@ -1,7 +1,14 @@
 import { auth, db } from "../../firebase";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Carousel from "react-bootstrap/Carousel";
+import 'bootstrap/dist/css/bootstrap.css';
+import Carousel from 'react-bootstrap/Carousel';
+//import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../../firebase";
+//import { getDownloadURL } from "firebase/storage";
+//import { ref } from "firebase/storage";
+import { getDownloadURL, ref as reff } from "firebase/storage"
+import { useStorage, useStorageDownloadURL } from "reactfire";
 
 import {
   query,
@@ -25,7 +32,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "../../pages/Listings/styles.css";
 
-
 //import {StyleSheet, Text, View, Imahe, TouchableHighlight} from 'react-native';
 //import firebaseConfig from '.friebaseConfig.tsx';
 //import { initializeApp } from "firebase/app";
@@ -39,9 +45,6 @@ export const CarouselImagePull = () => {
    the all documentation on hooks.
 
    To back on track, you see that the usestate and useeffect
-
-
-  
 
   const [data, setData] = React.useState("");
   const formRef = React.useRef();
@@ -59,14 +62,33 @@ export const CarouselImagePull = () => {
   const [description, setDescription] = React.useState("");
   */
 };
+export function CarouselImage() {
+  const storage = useStorage();
+  const imageRef1 = reff(
+    storage,
+    "gs://mnc-development.appspot.com/images/listingImages/TestBathroomImage.jpg"
+  );
+  const imageRef2 = reff(
+    storage,
+    "gs://mnc-development.appspot.com/images/listingImages/TestImage.jpg"
+  );
+  const imageRef3 = reff(
+    storage,
+    "gs://mnc-development.appspot.com/images/listingImages/TestlivingRoom.jpg"
 
-export function CarouselImage(props) {
-  const [url1, setUrl1] = React.useState("");
-  const [url2, setUrl2] = React.useState("");
-  const [url3, setUrl3] = React.useState("");
-
-
-
+  );
+  const { status, data: url1 } = useStorageDownloadURL(imageRef1);
+  const { status2, data: url2 } = useStorageDownloadURL(imageRef2);
+  const { status3, data: url3 } = useStorageDownloadURL(imageRef3);
+  if (status === "loading") {
+    return <span>loading...</span>;
+  }
+  if (status2 === "loading") {
+    return <span>loading...</span>;
+  }
+  if (status3 === "loading") {
+    return <span>loading...</span>;
+  }
   return (
     <Carousel>
       <Carousel.Item>
