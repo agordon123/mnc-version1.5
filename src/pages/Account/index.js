@@ -10,13 +10,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
-
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import { ProfileChange } from "../../components/Account/ChangeUserInfo";
 import Grid from "@mui/material/Grid";
+import { ProfileChange } from "../../components/Account/ChangeUserInfo";
 import { PortfolioChange } from "../../components/Account/PortfolioChange";
-import NavBar from "../../components/Misc/NavBar";
+import AccountPageDeleteProfileBox from "../../components/Account/DeleteAccount"
+//import NavBar from "../../components/Misc/NavBar";
 import { useAuth } from "reactfire";
 //This is white
 const Item = styled(Paper)(({ theme }) => ({
@@ -35,6 +35,7 @@ const Item2 = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  
 }));
 
 //need a profile edit component/form

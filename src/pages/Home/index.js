@@ -43,8 +43,8 @@ export const HomePage = (props) => {
         >
           <MNCLogo />
         </Grid>
-        <Grid item>
-          <Item sx={{ justifyContent: "center", width: "90%" }}>
+        <Grid item sx={{ alignItems:"center",justifyContent: "center", width:"100%",  display: "flex",}}>
+          <Item sx={{ alignItems:"center",justifyContent: "center",width:"70",  display: "flex", }}>
             <SearchForm />
           </Item>
         </Grid>
