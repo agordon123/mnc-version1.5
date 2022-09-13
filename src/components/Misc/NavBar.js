@@ -79,7 +79,8 @@ export const NavBar = (props) => {
     {
       page: "/",
       text: "Logout",
-      onClickFunc: () => {},
+      onClickFunc: () => navigate("/"),
+      //onClickFunc: () => navigate{},
       id: "logout",
     },
   ];

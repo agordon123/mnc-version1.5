@@ -1,6 +1,7 @@
 import { auth, db } from "../../firebase";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+/*Do not remove the carousel css */
 import 'bootstrap/dist/css/bootstrap.css';
 import Carousel from 'react-bootstrap/Carousel';
 //import { getDownloadURL, ref } from "firebase/storage";

@@ -7,6 +7,27 @@ import Item from "../Misc/Surface";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 export const SearchForm = (props) => {
+
+
+  const [isHover, setIsHover] = useState(false);
+
+  const handleMouseEnter = () => {
+     setIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+     setIsHover(false);
+  };
+/*
+  Experimenting with separate hovers
+  const [isHover2, setIsHover2] = useState(false);
+  const handleMouseEnter2 = () => {
+   setIsHover(true);
+  };
+  const handleMouseLeave2 = () => {
+   setIsHover(false);
+  };
+*/
   const [searchQuery, setSearchQuery] = useState("");
   const [type, setType] = useState("");
   const handleChange = (e) => {
@@ -17,7 +38,6 @@ export const SearchForm = (props) => {
   return (
     <Grid2
       component="form"
-    
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -33,14 +53,17 @@ export const SearchForm = (props) => {
           sx={{ display: "flex", flexDirection: "row", width: "100%" }}
         >
           <Button
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             className="buy-button"
             style={{
               fontSize: "16px",
-              color: "white",
-              backgroundColor: "black",
+              color: isHover? "black": "white",
+              backgroundColor: isHover? "white": "#63666A",
               fontWeight: "bold",
               padding: "15px",
               fontFamily: "Garamond",
+              transitionDuration:"0.4s",
             }}
             onClick={() => setType("forSale")}
           >
@@ -48,14 +71,17 @@ export const SearchForm = (props) => {
           </Button>
 
           <Button
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             className="rent-button"
             style={{
               fontWeight: "bold",
               padding: "15px",
               fontSize: "16px",
-              color: "white",
-              backgroundColor: "#858181",
+              color: isHover? "black":"white",
+              backgroundColor: isHover? "white":"#858181",
               fontFamily: "Garamond",
+        
             }}
             onClick={() => setType("rentals")}
           >
@@ -63,6 +89,8 @@ export const SearchForm = (props) => {
           </Button>
 
           <Button
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             className="sold-button"
             style={{
               borderBox: "solid 1px black",
@@ -71,7 +99,9 @@ export const SearchForm = (props) => {
               fontSize: "16px",
               width: "90px",
               fontFamily: "Garamond",
-              backgroundColor: "lightgrey",
+              backgroundColor: isHover? "white":"lightgrey",
+              color: isHover? "black": "black",
+              fontWeight: "bold",
             }}
             onClick={() => setType("sold")}
           >
@@ -90,10 +120,10 @@ export const SearchForm = (props) => {
           onChange={(e) => handleChange(e)}
           placeholder="Search by City"
           sx={{
-            padding: "15px",
-            fontSize: "20px",
-            width: 500,
-            height: 500,
+            padding: "50px",
+            fontSize: "25px",
+            width: "400px",
+            height: "400px",
             border: "black solid 1px",
             backgroundColor: "white",
           }}
@@ -105,7 +135,7 @@ export const SearchForm = (props) => {
           disableFocusRipple
           sx={{
             height: 25,
-            width: 40,
+            width: 35,
           }}
         >
           <SearchTwoToneIcon />
