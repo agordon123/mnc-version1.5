@@ -1,10 +1,15 @@
 import { initializeApp } from "firebase/app";
 import React from "react";
-import {getAuth} from "firebase/auth";
-import {getFirestore} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { StorageProvider, AuthProvider, useFirebaseApp, FirestoreProvider } from "reactfire";
-import { App } from './App';
+import {
+  StorageProvider,
+  AuthProvider,
+  useFirebaseApp,
+  FirestoreProvider,
+} from "reactfire";
+import { App } from "./App";
 import { BrowserRouter } from "react-router-dom";
 export const firebaseConfig = {
   apiKey: "AIzaSyDWCSguMcsxy-39ZV2vfPJwQdmd44JP0rk",
@@ -17,7 +22,7 @@ export const firebaseConfig = {
   measurementId: "G-E3FYEFLBKE",
 };
 export const app = initializeApp(firebaseConfig);
-
+export const auth = getAuth(app);
 
 export const GlobalFirebaseProvider = ({ children }) => {
   const app = useFirebaseApp();
@@ -37,10 +42,5 @@ export const GlobalFirebaseProvider = ({ children }) => {
   );
 };
 export const passwordUpdate = async (auth, password) => {};
-
-
-
-
-
 
 export default app;

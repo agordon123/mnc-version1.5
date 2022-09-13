@@ -27,7 +27,6 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
-import { connectStorageEmulator } from "firebase/storage";
 /*const NavBarItem =StyledComponent.button`
   border: none;
   background-color: rgb(196, 196, 196);
@@ -39,10 +38,12 @@ import { connectStorageEmulator } from "firebase/storage";
   text-align: left;
   z-index: 3;
 `; */
+
 export const NavBar = (props) => {
   const { data: user } = useUser();
   const firestore = useFirestore();
   const navigate = useNavigate();
+
   const { status, data: signInCheckResult } = useSigninCheck();
   const pages = [
     {

@@ -7,20 +7,30 @@ import { useNavigate } from "react-router-dom";
 import { ButtonGroup, Button } from "@mui/material";
 import { Footer } from "../Misc/Footer";
 import { setPersistence, browserLocalPersistence } from "firebase/auth";
-import { getDoc, doc } from "firebase/firestore";
-
-
-//import { useAuth } from "../../Context/AuthContext";
+import { getDoc, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth } from "../../firebase";
+import { useFirestore } from "reactfire";
 export const LoginForm = ({ title }) => {
-
   const navigate = useNavigate();
-
+  const firestore = useFirestore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const handleNavigate = () => {
     navigate("/register");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await signInWithEmailAndPassword(auth, email, password).then((user) => {
+      setDoc(
+        doc(firestore, "users", user.user.uid, {
+          lastSignedIn: serverTimestamp(),
+        })
+      );
+      setTimeout(() => 2000);
+      navigate("/");
+    });
   };
 
   useEffect(() => {}, []);
@@ -32,7 +42,6 @@ export const LoginForm = ({ title }) => {
         component="form"
         autocomplete
         noValidate
-   
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -71,6 +80,7 @@ export const LoginForm = ({ title }) => {
             variant="contained"
             type="submit"
             sx={{ backgroundColor: "gray" }}
+            onClick={handleSubmit}
           >
             Login
           </Button>

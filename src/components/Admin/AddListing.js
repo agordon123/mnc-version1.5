@@ -11,22 +11,37 @@ import {
   TextField,
   Grid,
   Unstable_Grid2,
+  Alert,
 } from "@mui/material";
-import Alert from "@mui/material/Alert";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { uuidv4 } from "@firebase/util";
+import { InputUnstyled } from "@mui/base";
+import React, { useReducer, useRef, useState } from "react";
+import { UseRadioGroup } from "./AdminPageComponents";
+import { states } from "../Misc/constants";
+import {
+  useFirestore,
+  useFirestoreCollection,
+  useStorage,
+  useStorageDownloadURL,
+  useStorageTask,
+} from "reactfire";
+import {
+  addDoc,
+  collection,
+  doc,
+  documentId,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 import {
   getDownloadURL,
-  ref as reff,
   uploadBytesResumable,
+  uploadBytes,
+  ref,
 } from "firebase/storage";
-import { InputUnstyled } from "@mui/base";
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { auditLogger, UseRadioGroup } from "./AdminPageComponents";
-import { states } from "../Misc/constants";
-import { Item } from "./AdminPageComponents";
-
+import { child } from "firebase/database";
 const initialValues = {
+  docId: "",
   type: "forSale",
   street: "",
   city: "",
@@ -38,26 +53,84 @@ const initialValues = {
   sqft: "",
   description: "",
   images: [],
+  imageCount: 0,
 };
-const reducer = () => {
-
-}
 export const AddListingForm = () => {
+  const firestore = useFirestore();
+  const storage = useStorage();
+  const batch = writeBatch(firestore);
   const formRef = useRef();
   const [data, setData] = useState(initialValues);
-  const [state, dispatch] = useReducer(reducer, initialValues);
+  const [docID, setDocID] = useState("");
   const [progress, setProgress] = useState(0);
+  const [file, setFile] = useState([]);
+  const collectionRef = collection(
+    firestore,
+    `listings/${data.type}/properties`
+  );
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`);
+    const docData = {
+      street: data.street,
+      city: data.city,
+      state: data.state,
+      zip: data.zip,
+      bedrooms: data.bedrooms,
+      bathrooms: data.bathrooms,
+      images: data.images,
+      sqft: data.sqft,
+      price: data.price,
+    };
 
+    await setDoc(newDoc, docData).then((res) => {
+      if (res) {
+        return <Alert severity="success">Firestore Document Added</Alert>;
+      }
+    });
+  };
+  const handleChange = async (e) => e.target.value;
 
+  const handleFileChange = async (e) => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+  };
+  const handleUpload = (e) => {
+    const newId = uuidv4();
+    e.preventDefault();
+    const newDoc = doc(firestore, `$listings/${data.type}/properties/${newId}`);
+    const storageRef = ref(storage, `${newId}/images${data.imageCount}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
 
- 
+        // update progress
+      },
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          batch.update(newDoc, "images", `image${data.imageCount}`.concat(url));
+          data.imageCount++;
+          setDocID(newDoc.id);
+          data.images.push(url);
+        });
+      }
+    );
+  };
+
   return (
     <React.Fragment>
-      <Grid>
+      <Grid container>
         <Box
           className="add-listing-form"
           component="form"
           ref={formRef}
+          onSubmit={handleSubmit}
           /*
         The entire error is build.umd.js:3103 Warning: UploadImages: `ref` is not a prop. 
         Trying to access it will result in `undefined` being returned.
@@ -68,23 +141,21 @@ export const AddListingForm = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+
             justifyContent: "left",
             padding: "10px",
             margin: "15%",
             border: "2px solid black",
             borderRadius: "5px",
-            width: "75%",
+            width: "100%",
             fontFamily: "Garamond",
           }}
-         
         >
           <UseRadioGroup
             aria-label="listing-type"
             onChange={(e) => setData({ ...data, type: e.target.value })}
             name="type"
             sx={{
-              justifyContent: "center",
               fontFamily: "Garamond",
               alignItems: "center",
               fontSize: "20px",
@@ -114,13 +185,15 @@ export const AddListingForm = () => {
               value={data.state}
               name="state"
               label="State"
-              onChange={(e) => setData({ ...data, state: e.target.value })}
+              onChange={handleChange}
               sx={{ fontFamily: "Garamond", width: "80%" }}
             >
-              {states.map((state) => (
+              {states.map((state, key) => (
                 <MenuItem
-                  value={state}
+                  value={data.state}
+                  key={key}
                   onChange={(e) => setData({ ...data, state: e.target.value })}
+                  sx={{ height: "30px", width: "100%", justifyContent: "left" }}
                 >
                   {state}
                 </MenuItem>
@@ -180,12 +253,13 @@ export const AddListingForm = () => {
               type="file"
               ref={formRef}
               multiple
+              onChange={handleFileChange}
             />
             <Fab
               color="primary"
               aria-label="upload picture"
               component="span"
-              
+              onClick={handleUpload}
             >
               <PhotoCamera />
             </Fab>
@@ -193,7 +267,7 @@ export const AddListingForm = () => {
           {data.images.map((url) => {
             return <img src={url} alt="def" width="160px" height="90px" />;
           })}
-          <Button type="submit" variant="contained" >
+          <Button type="submit" variant="contained">
             Add Property
           </Button>
         </Box>
