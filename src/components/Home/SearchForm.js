@@ -10,6 +10,8 @@ export const SearchForm = (props) => {
 
 
   const [isHover, setIsHover] = useState(false);
+  const [isHover2, setIsHover2] = useState(false);
+  const [isHover3, setIsHover3] = useState(false);
 
   const handleMouseEnter = () => {
      setIsHover(true);
@@ -18,16 +20,21 @@ export const SearchForm = (props) => {
   const handleMouseLeave = () => {
      setIsHover(false);
   };
-/*
-  Experimenting with separate hovers
-  const [isHover2, setIsHover2] = useState(false);
+
   const handleMouseEnter2 = () => {
-   setIsHover(true);
+   setIsHover2(true);
   };
   const handleMouseLeave2 = () => {
-   setIsHover(false);
+   setIsHover2(false);
   };
-*/
+
+  const handleMouseEnter3 = () => {
+    setIsHover3(true);
+ };
+ const handleMouseLeave3 = () => {
+    setIsHover3(false);
+ };
+
   const [searchQuery, setSearchQuery] = useState("");
   const [type, setType] = useState("");
   const handleChange = (e) => {
@@ -71,15 +78,15 @@ export const SearchForm = (props) => {
           </Button>
 
           <Button
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={handleMouseEnter2}
+            onMouseLeave={handleMouseLeave2}
             className="rent-button"
             style={{
               fontWeight: "bold",
               padding: "15px",
               fontSize: "16px",
-              color: isHover? "black":"white",
-              backgroundColor: isHover? "white":"#858181",
+              color: isHover2? "black":"white",
+              backgroundColor: isHover2? "white":"#858181",
               fontFamily: "Garamond",
         
             }}
@@ -89,8 +96,8 @@ export const SearchForm = (props) => {
           </Button>
 
           <Button
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={handleMouseEnter3}
+            onMouseLeave={handleMouseLeave3}
             className="sold-button"
             style={{
               borderBox: "solid 1px black",
@@ -99,8 +106,8 @@ export const SearchForm = (props) => {
               fontSize: "16px",
               width: "90px",
               fontFamily: "Garamond",
-              backgroundColor: isHover? "white":"lightgrey",
-              color: isHover? "black": "black",
+              backgroundColor: isHover3? "white":"lightgrey",
+              color: isHover3? "black": "black",
               fontWeight: "bold",
             }}
             onClick={() => setType("sold")}

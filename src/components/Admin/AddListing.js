@@ -40,6 +40,7 @@ import {
   ref,
 } from "firebase/storage";
 import { child } from "firebase/database";
+
 const initialValues = {
   docId: "",
   type: "forSale",
@@ -55,6 +56,7 @@ const initialValues = {
   images: [],
   imageCount: 0,
 };
+
 export const AddListingForm = () => {
   const firestore = useFirestore();
   const storage = useStorage();
@@ -131,6 +133,7 @@ export const AddListingForm = () => {
           component="form"
           ref={formRef}
           onSubmit={handleSubmit}
+          autoComplete="true"
           /*
         The entire error is build.umd.js:3103 Warning: UploadImages: `ref` is not a prop. 
         Trying to access it will result in `undefined` being returned.
@@ -141,7 +144,6 @@ export const AddListingForm = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-
             justifyContent: "left",
             padding: "10px",
             margin: "15%",
@@ -186,14 +188,21 @@ export const AddListingForm = () => {
               name="state"
               label="State"
               onChange={handleChange}
-              sx={{ fontFamily: "Garamond", width: "80%" }}
+              sx={{ fontFamily: "Garamond", width: "80%", justifyContent: "center", alignItems:"center"}}
             >
               {states.map((state, key) => (
                 <MenuItem
                   value={data.state}
                   key={key}
                   onChange={(e) => setData({ ...data, state: e.target.value })}
-                  sx={{ height: "30px", width: "100%", justifyContent: "left" }}
+                  /*
+                  For some reason I tried to change the background color in sx but it wouldn't work and I don't know why.
+                  So I had to use style and change it through it. 
+                  Also interesting behavior I find, after change the color of the background. When I hovered over an item(state), it would 
+                  highlight the item before selecting the item. It doesn't highlight the item anymore after changing the background color.
+                  */
+                  style={{backgroundColor:"white"}}
+                  sx={{height: "30px", width: "100%", justifyContent: "left", alignItems:"left", color:"black"}}
                 >
                   {state}
                 </MenuItem>
