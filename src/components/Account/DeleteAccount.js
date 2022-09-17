@@ -1,41 +1,75 @@
-import styled from 'styled-components';
-import { useNavigate ,useLocation} from 'react-router-dom';
-import { db,userSignOut } from '../../firebase';
-import { ProfileButton } from "./AccountStyles";
-import { deleteDoc,collection,doc,query,where } from 'firebase/firestore';
-import React, { useEffect,useState } from 'react';
-import { StyledProfileLabel } from './AccountStyles';
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  deleteDoc,
+  collection,
+  query,
+  where,
+  FirestoreError,
+  getDoc,
+  onSnapshot,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { Button, Box } from "@mui/material";
+import { useFirestore, useUser } from "reactfire";
+import { auth } from "../../firebase";
+import { deleteUser } from "firebase/auth";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-
-const AccountPageDeleteProfileBox = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  
-  //function to delete the user's account
-  const deleteUser = async(e) => {
-    e.preventDefault();
-    const user = location.state.user;
-    let docRef =query(collection(db,"users"),where("email","==",user));
-    deleteDoc(docRef).then(() => userSignOut());
-    navigate("/", { state: { user: user } });
+export function AlertDialog() {
+  const [open, setOpen] = useState(false);
+  const { data: user, status } = useUser();
+  const firestore = useFirestore();
+  const handleClickOpen = () => {
+    setOpen(true);
   };
-  //useEffect hook that will navigate back to the home page if on the account page and not logged in
-  useEffect(() => {
 
-  })
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const deleteCurrentUser = async () => {
+    if (status === "success" && user !== null) {
+      const collectionRefName = collection(firestore, "users");
+
+      const q = query(collectionRefName, ["where", "uid", "===", user.uid]);
+      await getDoc(q).then((onSnapshot) => {
+        if (onSnapshot.exists) {
+          deleteDoc(onSnapshot);
+          deleteUser(user);
+        }
+      });
+    }
+  };
+
   return (
-    <div className="delete-profile-box">
-      <h4>Delete Account</h4>
-      <p>
-        <StyledProfileLabel>
-          This action is permanent and cannot be reversed
-        </StyledProfileLabel>
-      </p>
-      <ProfileButton id="delete-account" onClick={deleteUser}>
-        Delete
-      </ProfileButton>
+    <div className="DeleteDialog">
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Delete Account
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">DELETE ACCOUNT ?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete your account ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={deleteCurrentUser} autoFocus>
+            Delete Account
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
-};
+}
 
-export default AccountPageDeleteProfileBox;
+export default AlertDialog;
