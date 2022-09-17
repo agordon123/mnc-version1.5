@@ -15,7 +15,7 @@ import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { ProfileChange } from "../../components/Account/ChangeUserInfo";
 import { PortfolioChange } from "../../components/Account/PortfolioChange";
-import AccountPageDeleteProfileBox from "../../components/Account/DeleteAccount"
+//import AccountPageDeleteProfileBox from "../../components/Account/DeleteAccount"
 //import NavBar from "../../components/Misc/NavBar";
 import { useAuth } from "reactfire";
 //This is white
