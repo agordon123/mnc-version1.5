@@ -17,6 +17,8 @@ import { ProfileChange } from "../../components/Account/ChangeUserInfo";
 import { PortfolioChange } from "../../components/Account/PortfolioChange";
 //import AccountPageDeleteProfileBox from "../../components/Account/DeleteAccount"
 //import NavBar from "../../components/Misc/NavBar";
+//import ProfileEdit from "../../components/Account/AccountProfile";
+
 import { useAuth } from "reactfire";
 //This is white
 const Item = styled(Paper)(({ theme }) => ({
@@ -75,7 +77,9 @@ export const AccountPage = () => {
                 </Item>
               </Grid>
               <Grid item xs={4}>
-                <Item></Item>
+                <Item>
+                  
+                </Item>
                 <Item></Item>
               </Grid>
             </Grid>

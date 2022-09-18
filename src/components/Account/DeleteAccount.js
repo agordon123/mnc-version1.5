@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Button, Box } from "@mui/material";
 import { useFirestore, useUser } from "reactfire";
-import { auth } from "../../firebase";
+//import { auth } from "../../firebase";
 import { deleteUser } from "firebase/auth";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
