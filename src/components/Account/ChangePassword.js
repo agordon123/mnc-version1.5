@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import { ProfileButton } from "../../components/Buttons";
-import { Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 import { auth } from "../../firebase";
 import { useAuthState, useUpdateEmail } from "react-firebase-hooks/auth";
 import { query, getDoc } from "firebase/firestore";
@@ -15,9 +15,11 @@ import {
   signInWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
+import { useUser } from "reactfire";
 
 export const ChangePassword = () => {
   //const [useUpdatePassword] = useState("");
+  const { data: user } = useUser();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,12 +27,17 @@ export const ChangePassword = () => {
     e.preventDefault();
     if (newPassword === confirmPassword) {
       try {
-        const user = localStorage.getItem("authToken");
+        
         const credential = EmailAuthProvider.credential(user, oldPassword);
 
         await reauthenticateWithCredential(user, credential).then(() => {
           if (newPassword === confirmPassword) {
-            updatePassword(user, newPassword);
+            updatePassword(user, newPassword).then((res) => {
+              if (res) {
+                return <Alert severity="success"> Password </Alert>;
+              }
+              
+            })
           }
         });
       } catch (error) {
@@ -66,7 +73,7 @@ export const ChangePassword = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <Button onClick={handlePWChange}>Change Password</Button>
-        <ProfileButton>Change</ProfileButton>
+        <Button>Change</Button>
       </Box>
     </React.Fragment>
   );

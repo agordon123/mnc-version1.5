@@ -5,26 +5,15 @@ import { signOut } from "firebase/auth";
 import { CatchingPokemonSharp, LogoutOutlined } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { StyledComponent } from "styled-components";
-import {} from "styled-components";
+import { auth } from "../../firebase";
 import {
-  useAuth,
   useUser,
   useFirestore,
   useSigninCheck,
-  useFirestoreDocData,
-  useFirestoreCollection,
-  useFirestoreDocDataOnce,
 } from "reactfire";
 import {
   doc,
   getDoc,
-  collection,
-  orderBy,
-  getDocs,
-  query,
-  snapshotEqual,
-  where,
-  onSnapshot,
 } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
 /*const NavBarItem =StyledComponent.button`
@@ -39,7 +28,7 @@ import { Spinner } from "react-bootstrap";
   z-index: 3;
 `; */
 
-export const NavBar = (props) => {
+export const NavBar = () => {
   const { data: user } = useUser();
   const firestore = useFirestore();
   const navigate = useNavigate();
@@ -80,7 +69,10 @@ export const NavBar = (props) => {
     {
       page: "/",
       text: "Logout",
-      onClickFunc: () => navigate("/"),
+      onClickFunc: () => {
+        signOut(auth).then(() => {
+        navigate("/");
+      }) },
       //onClickFunc: () => navigate{},
       id: "logout",
     },
