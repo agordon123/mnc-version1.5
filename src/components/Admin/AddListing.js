@@ -134,6 +134,7 @@ export const AddListingForm = () => {
           ref={formRef}
           onSubmit={handleSubmit}
           autoComplete="true"
+          backgroundColor="white"
           /*
         The entire error is build.umd.js:3103 Warning: UploadImages: `ref` is not a prop. 
         Trying to access it will result in `undefined` being returned.

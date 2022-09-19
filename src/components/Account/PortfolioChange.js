@@ -23,11 +23,12 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
         "& .MuiTextField-root": { m: 1, width: "25ch" },
         border: 1,
         borderColor: "gray", borderRadius: "5px", 
-        width:400,
+        width: 600,
       }}
       noValidate
       autoComplete="off"
-    >
+      backgroundColor="#808080"
+      >
       <div>
       <Typography
       variant="h4"
@@ -35,7 +36,8 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
         fontFamily: "Garamond",
         alignItems: "center",
         justifyContent: "center",
-        fontSize:"40px"}}>
+        fontSize:"40px",
+        color:"white"}}>
        Edit Portfolio Info
       </Typography>
         <TextField
@@ -67,6 +69,7 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
           }}
         />
       </div>
+
     </Box>
   );
 });

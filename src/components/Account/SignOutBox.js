@@ -18,6 +18,10 @@ export const SignOutBox = () => {
     }
   };
   useEffect(() => {}, []);
+
+  if (status === "loading") {
+    return <span>loading...</span>;
+  }
   return (
     <Box
       component="div"
