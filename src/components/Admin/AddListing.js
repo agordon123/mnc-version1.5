@@ -233,7 +233,7 @@ export const AddListingForm = () => {
             onChange={(e) => setData({ ...data, price: e.target.value })}
             sx={{ fontFamily: "Garamond", width: "80%", fontSize: "18px" }}
           />
-          <InputUnstyled
+          <input
             type="textarea"
             label="Description"
             //component="textarea"
