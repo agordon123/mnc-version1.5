@@ -6,7 +6,7 @@ import { signOut } from "firebase/auth";
 import { useAuth } from "reactfire";
 export const SignOutBox = () => {
   const { status, data: user } = useAuth();
-  const navigate = useNavigate();
+  const navigate = useNavigate("/");
 
   const handleSignOut = async () => {
     try {
@@ -15,6 +15,7 @@ export const SignOutBox = () => {
   };
   const getUser = () => {
     if (user) {
+      return navigate;
     }
   };
   useEffect(() => {}, []);

@@ -15,9 +15,10 @@ import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { ProfileChange } from "../../components/Account/ChangeUserInfo";
 import { PortfolioChange } from "../../components/Account/PortfolioChange";
-//import AccountPageDeleteProfileBox from "../../components/Account/DeleteAccount"
+import SignOutBox from "../../components/Account/SignOutBox";
 //import NavBar from "../../components/Misc/NavBar";
-//import ProfileEdit from "../../components/Account/AccountProfile";
+import ProfileEdit from "../../components/Account/AccountProfile";
+import ChangePassword from "../../components/Account/ChangePassword";
 
 import { useAuth } from "reactfire";
 //This is white
@@ -78,9 +79,11 @@ export const AccountPage = () => {
               </Grid>
               <Grid item xs={4}>
                 <Item>
-                  
+                <SignOutBox></SignOutBox>
                 </Item>
-                <Item></Item>
+                <Item>
+                <ChangePassword></ChangePassword>
+                </Item>
               </Grid>
             </Grid>
           </Item>

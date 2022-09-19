@@ -1,8 +1,8 @@
 import TextField from "@mui/material/TextField";
-import { ProfileButton } from "../../components/Buttons";
+//import { ProfileButton } from "../../components/Buttons";
 import { Alert, Box, Button, Typography } from "@mui/material";
-import { auth } from "../../firebase";
-import { useAuthState, useUpdateEmail } from "react-firebase-hooks/auth";
+//import { auth } from "../../firebase";
+//import { useAuthState, useUpdateEmail } from "react-firebase-hooks/auth";
 import { query, getDoc } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import {
