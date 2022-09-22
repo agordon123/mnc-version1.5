@@ -42,7 +42,7 @@ export const SignOutBox = () => {
         Signing out? You can always log back in
       </Typography>
 
-      <Button onClick={handleSignOut}>Sign Out</Button>
+      <Button onClick={handleSignOut} sx={{color:"gray"}}>Sign Out</Button>
     </Box>
   );
 };

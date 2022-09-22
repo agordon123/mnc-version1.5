@@ -7,7 +7,7 @@ export const FooterImage1 = () => {
   const storage = useStorage();
   const image1 = ref(
     storage,
-    "gs://mnc-development.appspot.com/images/mncthumbnail2.jpg"
+    "gs://mnc-development.appspot.com/images/mncthumbnail1.jpg"
   );
   const { status, data: imageURL } = useStorageDownloadURL(image1);
   if (status === "loading") {
@@ -54,7 +54,7 @@ export const FooterImage3 = () => {
   const storage = useStorage();
   const image1 = ref(
     storage,
-    "gs://mnc-development.appspot.com/images/mncthumbnail2.jpg"
+    "gs://mnc-development.appspot.com/images/mncthumbnail3.jpg"
   );
   const { status, data: imageURL } = useStorageDownloadURL(image1);
   if (status === "loading") {

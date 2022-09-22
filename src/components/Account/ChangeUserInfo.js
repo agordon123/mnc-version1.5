@@ -32,6 +32,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
         borderColor: "gray",
         borderRadius: "5px",
         width: 600,
+        backgroundColor:"gray"
       }}
       noValidate
       autoComplete="off"
@@ -43,7 +44,8 @@ export const ProfileChange = React.forwardRef((props, ref) => {
       fontFamily: "Garamond",
       alignItems: "center",
       justifyContent: "center",
-      fontSize:"40px"}}>
+      fontSize:"40px",
+      color:"white"}}>
       Edit User Info
       </Typography>                
         <TextField

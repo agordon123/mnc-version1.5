@@ -57,23 +57,29 @@ export const ChangePassword = () => {
       <Box
         className="account-password-container"
         component="form"
+        style={{backgroundColor:"grey"}}
         sx={{ display: "flex", flexDirection: "column" }}
       >
-        <Typography variant="h4">Change Password</Typography>
+        <Typography variant="h4" sx={{color:"white"}}>Change Password</Typography>
         <TextField
           name="oldPassword"
           onChange={(e) => setOldPassword(e.target.value)}
+          style={{backgroundColor:"white"}}
         />
         <TextField
           name="newPassword"
           onChange={(e) => setNewPassword(e.target.value)}
+          style={{backgroundColor:"white"}}
         />
         <TextField
           name="confirmNewPassword"
           onChange={(e) => setConfirmPassword(e.target.value)}
+          style={{backgroundColor:"white"}}
         />
-        <Button onClick={handlePWChange}>Change Password</Button>
-        <Button>Change</Button>
+        <Button onClick={handlePWChange}
+        style={{color:"white"}}>Change Password</Button>
+        <Button
+        style={{color:"white"}}>Change</Button>
       </Box>
     </React.Fragment>
   );
