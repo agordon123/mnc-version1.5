@@ -24,8 +24,8 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 
 const Item2 = styled(Paper)(({ theme }) => ({
@@ -40,6 +40,16 @@ const Item2 = styled(Paper)(({ theme }) => ({
 export const ProfileChange = React.forwardRef((props, ref) => {
   const { data: user } = useUser();
 const [isSubmit, setIsSubmit] = React.useState(false);
+const navigate = useNavigate();
+const userDoc = [
+  {email: "", id:"email"},
+  {userName: "" ,id:"userName"},
+  {role: "", id:"role"},
+  {currentPhoneNumber:"", id:"phonenumber"},
+  {userID:"", id: "userID"}
+  
+];
+
 const [formValue, setFormValue] = React.useState({
   email: "",
   userName: "",
@@ -125,33 +135,39 @@ React.useEffect(() => {
       fontSize:"40px",
       color:"white"}}>
       Edit User Info
-      </Typography>                
-        <TextField
-          required
-          id="outlined-required"
-          label="Required"
-          defaultValue=" Username:"
-          value={formValue.userName}
-          sx={{
-            backgroundColor: "white",
-            border: 1,
-            borderColor: "gray",
-            borderRadius: "5px",
-          }}
-        />
+      </Typography>     
+      {userDoc.map((userName, idx) => (
         <TextField
         required
-        id="outlined-required"
+        id={userName.id}
+        key={idx}
         label="Required"
-        defaultValue=" Email:"
-        value={formValue.email}
+        defaultValue=" Username:"
+        value={formValue.userName}
         sx={{
-        backgroundColor: "white",
-        border: 1,
-        borderColor: "gray",
-        borderRadius: "5px",
-      }}
+          backgroundColor: "white",
+          border: 1,
+          borderColor: "gray",
+          borderRadius: "5px",
+        }}
       />
+      ))}           
+        {userDoc.map((email, idx)=>(
+           <TextField
+           required
+           id={email.id}
+           key={idx}
+           label="Required"
+           defaultValue=" Email:"
+           value={formValue.email}
+           sx={{
+           backgroundColor: "white",
+           border: 1,
+           borderColor: "gray",
+           borderRadius: "5px",
+            }}
+           />
+        ))}
       </div>
       <div>
         <TextField
@@ -192,19 +208,22 @@ React.useEffect(() => {
             borderRadius: "5px",
           }}
         />
-        <TextField
-          disabled
-          id="outlined-disabled"
-          label="Role Change Disabled"
-          defaultValue=" User"
-          value={formValue.role}
-          sx={{
-            backgroundColor: "white",
-            border: 1,
-            borderColor: "gray",
-            borderRadius: "5px",
-          }}
-        />
+        {userDoc.map((role, idx)=>(
+           <TextField
+           disabled
+           id={role.id}
+           key={idx}
+           label="Role Change Disabled"
+           defaultValue=" User"
+           value={formValue.role}
+           sx={{
+             backgroundColor: "white",
+             border: 1,
+             borderColor: "gray",
+             borderRadius: "5px",
+           }}
+         />
+        ))}
       </div>
       <Button variant="contained" sx={{bottom:0, right:-255}}
       onClick={handleSubmit}>

@@ -29,6 +29,10 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
     min: "",
     max: "",
   });
+  const userDoc = [
+    {min: "", id:"min"},
+    {min: "" ,id:"max"},
+  ];
   const formRef = React.useRef();
   const docRef = doc(useFirestore(), "users", user.uid);
   const { status, data } = useFirestoreDocData(docRef);
@@ -75,8 +79,10 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
         color:"white"}}>
        Edit Portfolio Info
       </Typography>
-        <TextField
-          id="outlined-number"
+        {userDoc.map((min,idx)=>(
+          <TextField
+          id={min.id}
+          key={idx}
           value={formValue.min}
           label=" Portfolio Min:"
           type="number"
@@ -90,21 +96,25 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
             borderRadius: "5px",
           }}
         />
+        ))}
+        {userDoc.map((max,idx)=>
         <TextField
-          id="outlined-number"
-          value={formValue.max}
-          label=" Portfolio Max:"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          sx={{
-            backgroundColor: "white",
-            border: 1,
-            borderColor: "gray",
-            borderRadius: "5px",
-          }}
-        />
+        id={max.id}
+        value={formValue.max}
+        key={idx}
+        label=" Portfolio Max:"
+        type="number"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        sx={{
+          backgroundColor: "white",
+          border: 1,
+          borderColor: "gray",
+          borderRadius: "5px",
+        }}
+      />
+        )}
       </div>
       <Button variant="contained" sx={{bottom:0, right:-255}}
       onClick={handleSubmit}
