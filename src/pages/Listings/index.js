@@ -59,9 +59,7 @@ export const ListingPage = ({ type }) => {
           </Box>
         </Grid>
         <Grid item xs={2}>
-          <Item>
             <BasicTable></BasicTable>
-          </Item>
         </Grid>
       </Grid>
     </Box>

@@ -22,7 +22,6 @@ export const ProfileEdit = (props) => {
     max: "",
   });
   const formRef = useRef();
-  //
   const docRef = doc(useFirestore(), "users", user.uid);
   const { status, data } = useFirestoreDocData(docRef);
 

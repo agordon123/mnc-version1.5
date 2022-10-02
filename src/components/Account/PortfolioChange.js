@@ -3,22 +3,57 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Stack } from "@mui/material";
+import { Stack, Alert } from "@mui/material";
 import {
   Typography,
   ButtonGroup,
   TextareaAutosize,
 } from "@mui/material";
 
-
+import { Spinner } from "react-bootstrap";
+import { auth } from "../../firebase";
+import {
+  where,
+  getDoc,
+  doc,
+  collection,
+  query,
+  setDoc,
+} from "firebase/firestore";
+import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
 
 export const PortfolioChange = React.forwardRef((props, ref) => {
-  
-  const { user } = props;
+  const { data: user } = useUser();
+  const [isSubmit, setIsSubmit] = React.useState(false);
+  const [formValue, setFormValue] = React.useState({
+    min: "",
+    max: "",
+  });
+  const formRef = React.useRef();
+  const docRef = doc(useFirestore(), "users", user.uid);
+  const { status, data } = useFirestoreDocData(docRef);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
+    if (isSubmit) {
+      setDoc(docRef, ...formValue).then((res) => {
+        if (res) {
+          return <Alert variant="success">Account Updated</Alert>;
+        }
+      });
+    }
+  };
+  React.useEffect(() => {
+    if (status === "success") {
+      setFormValue(...data);
+    }
+  }, [status, setFormValue, data]);
+
+
   return (
     <Box
       component="form"
-      ref={ref}
+      ref={formRef}
       sx={{
         "& .MuiTextField-root": { m: 1, width: "25ch" },
         border: 1,
@@ -42,6 +77,7 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
       </Typography>
         <TextField
           id="outlined-number"
+          value={formValue.min}
           label=" Portfolio Min:"
           type="number"
           InputLabelProps={{
@@ -56,6 +92,7 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
         />
         <TextField
           id="outlined-number"
+          value={formValue.max}
           label=" Portfolio Max:"
           type="number"
           InputLabelProps={{
@@ -69,7 +106,9 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
           }}
         />
       </div>
-      <Button variant="contained" sx={{bottom:0, right:-255}}>
+      <Button variant="contained" sx={{bottom:0, right:-255}}
+      onClick={handleSubmit}
+      >
         Submit
       </Button>
     </Box>

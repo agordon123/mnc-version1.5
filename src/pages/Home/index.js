@@ -39,9 +39,12 @@ export const HomePage = (props) => {
             justifyContent: "center",
             paddingTop: "150px",
             margin: "auto",
+            //The logo is off centered, I tried to push it the right but doesn't work correctly
+            right:-1000,
           }}
         >
-          <MNCLogo />
+          <MNCLogo/>
+          
         </Grid>
         <Grid item sx={{ alignItems:"center",justifyContent: "center", width:"100%",  display: "flex",}}>
           <Item sx={{ alignItems:"center",justifyContent: "center",width:"70",  display: "flex", }}>

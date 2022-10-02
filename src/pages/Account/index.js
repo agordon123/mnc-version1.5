@@ -70,16 +70,12 @@ export const AccountPage = () => {
           <Item sx={{ height: 516, width: 1444 }}>
             <Grid container spacing={5}>
               <Grid item xs={6}>
-                
                   <ProfileChange></ProfileChange>
                   <PortfolioChange></PortfolioChange>
-        
               </Grid>
               <Grid item xs={4}>
-           
                 <SignOutBox></SignOutBox>
                 <ChangePassword></ChangePassword>
-              
               </Grid>
             </Grid>
           </Item>

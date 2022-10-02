@@ -34,7 +34,7 @@ export const SearchForm = (props) => {
     width: 400px;
     height: 50px;
     font-family: Garamond;
-    fontSize: 50px;
+    fontSize: 75px;
     font-weight: 500;
     line-height: 1.5;
     padding: 12px;

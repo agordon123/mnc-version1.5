@@ -23,7 +23,7 @@ export default function BasicTable(props) {
 
 
 
-  //const [data, setData] = React.useState("");
+  const [data, setData] = React.useState("");
   const formRef = React.useRef();
   const [type, setType] = React.useState("");
   const [street, setStreet] = React.useState("");
