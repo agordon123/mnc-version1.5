@@ -10,12 +10,10 @@ import {
   Select,
   TextField,
   Grid,
-  Unstable_Grid2,
   Alert,
 } from "@mui/material";
 import { uuidv4 } from "@firebase/util";
-import { InputUnstyled } from "@mui/base";
-import React, { useReducer, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { UseRadioGroup } from "./AdminPageComponents";
 import { states } from "../Misc/constants";
 import {
@@ -88,6 +86,8 @@ export const AddListingForm = () => {
     await setDoc(newDoc, docData).then((res) => {
       if (res) {
         return <Alert severity="success">Firestore Document Added</Alert>;
+      } else {
+        return <Alert severity="error"></Alert>;
       }
     });
   };
@@ -189,12 +189,19 @@ export const AddListingForm = () => {
               name="state"
               label="State"
               onChange={handleChange}
-              sx={{ fontFamily: "Garamond", width: "80%", justifyContent: "center", alignItems:"center"}}
+              sx={{
+                fontFamily: "Garamond",
+                width: "80%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
               {states.map((state, key) => (
                 <MenuItem
                   value={data.state}
                   key={key}
+                  children
+                  dense={true}
                   onChange={(e) => setData({ ...data, state: e.target.value })}
                   /*
                   For some reason I tried to change the background color in sx but it wouldn't work and I don't know why.
@@ -202,8 +209,14 @@ export const AddListingForm = () => {
                   Also interesting behavior I find, after change the color of the background. When I hovered over an item(state), it would 
                   highlight the item before selecting the item. It doesn't highlight the item anymore after changing the background color.
                   */
-                  style={{backgroundColor:"white"}}
-                  sx={{height: "30px", width: "100%", justifyContent: "left", alignItems:"left", color:"black"}}
+                  style={{ backgroundColor: "white" }}
+                  sx={{
+                    height: "30px",
+                    width: "30  %",
+                    justifyContent: "left",
+                    alignItems: "left",
+                    color: "black",
+                  }}
                 >
                   {state}
                 </MenuItem>

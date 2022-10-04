@@ -7,10 +7,10 @@ import {
   ButtonGroup,
   TextareaAutosize,
   TextField,
-  Alert
+  Alert,
 } from "@mui/material";
-import Button from '@mui/material/Button';
-import DoneIcon from '@mui/icons-material/Done';
+import Button from "@mui/material/Button";
+import DoneIcon from "@mui/icons-material/Done";
 import { auth } from "../../firebase";
 import {
   useUser,
@@ -18,15 +18,10 @@ import {
   useSigninCheck,
   useFirestoreDocData,
 } from "reactfire";
-import {
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
 
 const Item2 = styled(Paper)(({ theme }) => ({
   backgroundColor:
@@ -39,44 +34,43 @@ const Item2 = styled(Paper)(({ theme }) => ({
 
 export const ProfileChange = React.forwardRef((props, ref) => {
   const { data: user } = useUser();
-const [isSubmit, setIsSubmit] = React.useState(false);
-const navigate = useNavigate();
-const userDoc = [
-  {email: "", id:"email"},
-  {userName: "" ,id:"userName"},
-  {role: "", id:"role"},
-  {currentPhoneNumber:"", id:"phonenumber"},
-  {userID:"", id: "userID"}
-  
-];
+  const [isSubmit, setIsSubmit] = React.useState(false);
+  const navigate = useNavigate();
+  const userDoc = [
+    { email: "", id: "email" },
+    { userName: "", id: "userName" },
+    { role: "", id: "role" },
+    { currentPhoneNumber: "", id: "phonenumber" },
+    { userID: "", id: "userID" },
+  ];
 
-const [formValue, setFormValue] = React.useState({
-  email: "",
-  userName: "",
-  role: "",
+  const [formValue, setFormValue] = React.useState({
+    email: "",
+    userName: "",
+    role: "",
+  });
+  const formRef = React.useRef();
+  const docRef = doc(useFirestore(), "users", user.uid);
+  const { status, data } = useFirestoreDocData(docRef);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
+    if (isSubmit) {
+      setDoc(docRef, ...formValue).then((res) => {
+        if (res) {
+          return <Alert variant="success">Account Updated</Alert>;
+        }
+      });
+    }
+  };
+  React.useEffect(() => {
+    if (status === "success") {
+      console.log(data);
+      setFormValue(data);
+    }
+  }, [status, setFormValue, data]);
 
-});
-const formRef = React.useRef();
-const docRef = doc(useFirestore(), "users", user.uid);
-const { status, data } = useFirestoreDocData(docRef);
-const handleSubmit = (e) => {
-  e.preventDefault();
-  setIsSubmit(true);
-  if (isSubmit) {
-    setDoc(docRef, ...formValue).then((res) => {
-      if (res) {
-        return <Alert variant="success">Account Updated</Alert>;
-      }
-    });
-  }
-};
-React.useEffect(() => {
-  if (status === "success") {
-    setFormValue(...data);
-  }
-}, [status, setFormValue, data]);
-
-/*
+  /*
   React.useEffect(() => {
     const userCheck = async () => {
       if (status === "loading") {
@@ -120,53 +114,55 @@ React.useEffect(() => {
         borderColor: "gray",
         borderRadius: "5px",
         width: 600,
-        backgroundColor:"gray"
+        backgroundColor: "gray",
       }}
       noValidate
       autoComplete="off"
     >
       <div>
-      <Typography
-      variant="h4"
-       sx={{
-      fontFamily: "Garamond",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize:"40px",
-      color:"white"}}>
-      Edit User Info
-      </Typography>     
-      {userDoc.map((userName, idx) => (
-        <TextField
-        required
-        id={userName.id}
-        key={idx}
-        label="Required"
-        defaultValue=" Username:"
-        value={formValue.userName}
-        sx={{
-          backgroundColor: "white",
-          border: 1,
-          borderColor: "gray",
-          borderRadius: "5px",
-        }}
-      />
-      ))}           
-        {userDoc.map((email, idx)=>(
-           <TextField
-           required
-           id={email.id}
-           key={idx}
-           label="Required"
-           defaultValue=" Email:"
-           value={formValue.email}
-           sx={{
-           backgroundColor: "white",
-           border: 1,
-           borderColor: "gray",
-           borderRadius: "5px",
+        <Typography
+          variant="h4"
+          sx={{
+            fontFamily: "Garamond",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "40px",
+            color: "white",
+          }}
+        >
+          Edit User Info
+        </Typography>
+        {userDoc.map((userName, idx) => (
+          <TextField
+            required
+            id={userName.id}
+            key={idx}
+            label="Required"
+            defaultValue=" Username:"
+            value={formValue.userName}
+            sx={{
+              backgroundColor: "white",
+              border: 1,
+              borderColor: "gray",
+              borderRadius: "5px",
             }}
-           />
+          />
+        ))}
+        {userDoc.map((email, idx) => (
+          <TextField
+            required
+            id={email.id}
+            key={idx}
+            label="Required"
+            defaultValue=" Email:"
+            value={formValue.email}
+            sx={{
+              backgroundColor: "white",
+              border: 1,
+              borderColor: "gray",
+              borderRadius: "5px",
+            }}
+          />
         ))}
       </div>
       <div>
@@ -208,27 +204,30 @@ React.useEffect(() => {
             borderRadius: "5px",
           }}
         />
-        {userDoc.map((role, idx)=>(
-           <TextField
-           disabled
-           id={role.id}
-           key={idx}
-           label="Role Change Disabled"
-           defaultValue=" User"
-           value={formValue.role}
-           sx={{
-             backgroundColor: "white",
-             border: 1,
-             borderColor: "gray",
-             borderRadius: "5px",
-           }}
-         />
+        {userDoc.map((role, idx) => (
+          <TextField
+            disabled
+            id={role.id}
+            key={idx}
+            label="Role Change Disabled"
+            defaultValue=" User"
+            value={formValue.role}
+            sx={{
+              backgroundColor: "white",
+              border: 1,
+              borderColor: "gray",
+              borderRadius: "5px",
+            }}
+          />
         ))}
       </div>
-      <Button variant="contained" sx={{bottom:0, right:-255}}
-      onClick={handleSubmit}>
-      Submit
-    </Button>
+      <Button
+        variant="contained"
+        sx={{ bottom: 0, right: -255 }}
+        onClick={handleSubmit}
+      >
+        Submit
+      </Button>
     </Box>
   );
 });

@@ -1,35 +1,34 @@
-import { Box, TextField, IconButton, Grid, Button, Stack } from "@mui/material";
+import { IconButton, Grid, Button, Stack } from "@mui/material";
 import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
-import { query, collection, getDocs, where } from "firebase/firestore";
-import React, { useRef, useState } from "react";
+import { query, collection, getDocs, where ,} from "firebase/firestore";
+import React, { useState } from "react";
 import { InputUnstyled } from "@mui/base";
 import Item from "../Misc/Surface";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 export const SearchForm = (props) => {
-
   const blue = {
-    100: '#DAECFF',
-    200: '#80BFFF',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E5',
+    100: "#DAECFF",
+    200: "#80BFFF",
+    400: "#3399FF",
+    500: "#007FFF",
+    600: "#0072E5",
   };
-  
+
   const grey = {
-    50: '#F3F6F9',
-    100: '#E7EBF0',
-    200: '#E0E3E7',
-    300: '#CDD2D7',
-    400: '#B2BAC2',
-    500: '#A0AAB4',
-    600: '#6F7E8C',
-    700: '#3E5060',
-    800: '#2D3843',
-    900: '#1A2027',
+    50: "#F3F6F9",
+    100: "#E7EBF0",
+    200: "#E0E3E7",
+    300: "#CDD2D7",
+    400: "#B2BAC2",
+    500: "#A0AAB4",
+    600: "#6F7E8C",
+    700: "#3E5060",
+    800: "#2D3843",
+    900: "#1A2027",
   };
-  
-  const StyledInputElement = styled('input')(
+
+  const StyledInputElement = styled("input")(
     ({ theme }) => `
     width: 400px;
     height: 50px;
@@ -39,10 +38,12 @@ export const SearchForm = (props) => {
     line-height: 1.5;
     padding: 12px;
     border-radius: 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border: 2px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+    background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
+    border: 2px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
+    box-shadow: 0px 2px 2px ${
+      theme.palette.mode === "dark" ? grey[900] : grey[50]
+    };
   
     &:hover {
       border-color: ${blue[400]};
@@ -50,54 +51,61 @@ export const SearchForm = (props) => {
   
     &:focus {
       border-color: ${blue[400]};
-      outline: 3px solid ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
+      outline: 3px solid ${
+        theme.palette.mode === "dark" ? blue[500] : blue[200]
+      };
     }
-  `,
+  `
   );
-  
+
   const CustomInput = React.forwardRef(function CustomInput(props, ref) {
     return (
-      <InputUnstyled components={{ Input: StyledInputElement }} {...props} ref={ref}
-      className="search-input"
-      type="text"
-      onChange={(e) => handleChange(e)}
-      placeholder="Search by City"/>
+      <InputUnstyled
+        components={{ Input: StyledInputElement }}
+        {...props}
+        ref={ref}
+        className="search-input"
+        type="text"
+        onChange={(e) => e.target.value}
+        placeholder="Search by City"
+      />
     );
   });
-
 
   const [isHover, setIsHover] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
   const [isHover3, setIsHover3] = useState(false);
+  const handleSearch = (e) => {
+    e.preventDefault();
 
+  }
   const handleMouseEnter = () => {
-     setIsHover(true);
+    setIsHover(true);
   };
 
   const handleMouseLeave = () => {
-     setIsHover(false);
+    setIsHover(false);
   };
 
   const handleMouseEnter2 = () => {
-   setIsHover2(true);
+    setIsHover2(true);
   };
   const handleMouseLeave2 = () => {
-   setIsHover2(false);
+    setIsHover2(false);
   };
 
   const handleMouseEnter3 = () => {
     setIsHover3(true);
- };
- const handleMouseLeave3 = () => {
+  };
+  const handleMouseLeave3 = () => {
     setIsHover3(false);
- };
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [type, setType] = useState("");
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
 
   return (
     <Grid2
@@ -119,11 +127,12 @@ export const SearchForm = (props) => {
           <Button
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            disableFocusRipple
             className="buy-button"
             style={{
               fontSize: "16px",
-              color: isHover? "black": "white",
-              backgroundColor: isHover? "white": "#63666A",
+              color: isHover ? "black" : "white",
+              backgroundColor: isHover ? "white" : "#63666A",
               fontWeight: "bold",
               padding: "15px",
               fontFamily: "Garamond",
@@ -136,15 +145,15 @@ export const SearchForm = (props) => {
           <Button
             onMouseEnter={handleMouseEnter2}
             onMouseLeave={handleMouseLeave2}
+            disableFocusRipple
             className="rent-button"
             style={{
               fontWeight: "bold",
               padding: "15px",
               fontSize: "16px",
-              color: isHover2? "black":"white",
-              backgroundColor: isHover2? "white":"#858181",
+              color: isHover2 ? "black" : "white",
+              backgroundColor: isHover2 ? "white" : "#858181",
               fontFamily: "Garamond",
-        
             }}
             onClick={() => setType("rentals")}
           >
@@ -162,8 +171,8 @@ export const SearchForm = (props) => {
               fontSize: "16px",
               width: "90px",
               fontFamily: "Garamond",
-              backgroundColor: isHover3? "white":"lightgrey",
-              color: isHover3? "black": "black",
+              backgroundColor: isHover3 ? "white" : "lightgrey",
+              color: isHover3 ? "black" : "black",
               fontWeight: "bold",
             }}
             onClick={() => setType("sold")}
@@ -177,7 +186,7 @@ export const SearchForm = (props) => {
         elevation={0}
         sx={{ width: "100%", flexDirection: "row", display: "flex" }}
       >
-        <CustomInput/>
+        <CustomInput onChange={(e) => e.target.value} />
         <IconButton
           className="search-icon"
           aria-label="search"
@@ -186,14 +195,15 @@ export const SearchForm = (props) => {
           sx={{
             height: 35,
             width: 35,
-            top:8
+            top: 8,
           }}
+          onClick={handleSearch}
         >
           <SearchTwoToneIcon
-          sx={{
-            height: 35,
-            width: 40,
-          }}
+            sx={{
+              height: 35,
+              width: 40,
+            }}
           />
         </IconButton>
       </Item>

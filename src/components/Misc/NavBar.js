@@ -6,15 +6,8 @@ import { CatchingPokemonSharp, LogoutOutlined } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { StyledComponent } from "styled-components";
 import { auth } from "../../firebase";
-import {
-  useUser,
-  useFirestore,
-  useSigninCheck,
-} from "reactfire";
-import {
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { useUser, useFirestore, useSigninCheck } from "reactfire";
+import { doc, getDoc } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
 /*const NavBarItem =StyledComponent.button`
   border: none;
@@ -28,11 +21,12 @@ import { Spinner } from "react-bootstrap";
   z-index: 3;
 `; */
 
-export const NavBar = () => {
+export const NavBar = (props) => {
+  const { role } = props;
   const { data: user } = useUser();
   const firestore = useFirestore();
   const navigate = useNavigate();
-
+  const [userRole, setUserRole] = useState("");
   const { status, data: signInCheckResult } = useSigninCheck();
   const pages = [
     {
@@ -71,8 +65,9 @@ export const NavBar = () => {
       text: "Logout",
       onClickFunc: () => {
         signOut(auth).then(() => {
-        navigate("/");
-      }) },
+          navigate("/");
+        });
+      },
       //onClickFunc: () => navigate{},
       id: "logout",
     },
@@ -92,6 +87,7 @@ export const NavBar = () => {
             console.log(onSnapshot);
             const userRole = onSnapshot.get("role");
             console.log(userRole);
+            setUserRole(userRole);
             if (userRole === "Administrator") {
               document.getElementById("logout").style.display = "list-item";
               document.getElementById("login-page").style.display = "none";

@@ -21,7 +21,7 @@ export const HomePage = (props) => {
     <Box component="div" direction="column" className="home__page">
       <Grid
         container={true}
-        columns={24}
+        columns={12}
         rowSpacing={0}
         gridAutoRows
         sx={{
@@ -32,22 +32,24 @@ export const HomePage = (props) => {
       >
         <Grid
           item
-          gridRow={1}
-          xs={12}
           sx={{
             alignItems: "center",
             justifyContent: "center",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
             paddingTop: "150px",
-            margin: "auto",
-            //The logo is off centered, I tried to push it the right but doesn't work correctly
-            right:-1000,
           }}
         >
-          <MNCLogo/>
-          
-        </Grid>
-        <Grid item sx={{ alignItems:"center",justifyContent: "center", width:"100%",  display: "flex",}}>
-          <Item sx={{ alignItems:"center",justifyContent: "center",width:"70",  display: "flex", }}>
+          <MNCLogo />
+          <Item
+            sx={{
+              alignItems: "center",
+              justifyContent: "center",
+              width: "70",
+              display: "flex",
+            }}
+          >
             <SearchForm />
           </Item>
         </Grid>

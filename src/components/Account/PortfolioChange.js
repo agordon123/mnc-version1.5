@@ -1,14 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Stack, Alert } from "@mui/material";
-import {
-  Typography,
-  ButtonGroup,
-  TextareaAutosize,
-} from "@mui/material";
+import { Typography, ButtonGroup, TextareaAutosize } from "@mui/material";
 
 import { Spinner } from "react-bootstrap";
 import { auth } from "../../firebase";
@@ -30,29 +26,31 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
     max: "",
   });
   const userDoc = [
-    {min: "", id:"min"},
-    {min: "" ,id:"max"},
+    { min: "", id: "min" },
+    { min: "", id: "max" },
   ];
   const formRef = React.useRef();
   const docRef = doc(useFirestore(), "users", user.uid);
-  const { status, data } = useFirestoreDocData(docRef);
+  const { status, data: docData } = useFirestoreDocData(docRef);
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
     if (isSubmit) {
       setDoc(docRef, ...formValue).then((res) => {
         if (res) {
-          return <Alert variant="success">Account Updated</Alert>;
+          return (
+            <Alert variant="success">Account Updated</Alert> &&
+            setIsSubmit(false)
+          );
         }
       });
     }
   };
   React.useEffect(() => {
     if (status === "success") {
-      setFormValue(...data);
+      setFormValue(docData);
     }
-  }, [status, setFormValue, data]);
-
+  }, [status, setFormValue, docData]);
 
   return (
     <Box
@@ -61,63 +59,69 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
       sx={{
         "& .MuiTextField-root": { m: 1, width: "25ch" },
         border: 1,
-        borderColor: "gray", borderRadius: "5px", 
+        borderColor: "gray",
+        borderRadius: "5px",
         width: 600,
       }}
       noValidate
       autoComplete="off"
       backgroundColor="#808080"
-      >
+    >
       <div>
-      <Typography
-      variant="h4"
-        sx={{
-        fontFamily: "Garamond",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize:"40px",
-        color:"white"}}>
-       Edit Portfolio Info
-      </Typography>
-        {userDoc.map((min,idx)=>(
-          <TextField
-          id={min.id}
-          key={idx}
-          value={formValue.min}
-          label=" Portfolio Min:"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
+        <Typography
+          variant="h4"
           sx={{
-            backgroundColor: "white",
-            border: 1,
-            borderColor: "gray",
-            borderRadius: "5px",
+            fontFamily: "Garamond",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "40px",
+            color: "white",
           }}
-        />
+        >
+          Edit Portfolio Info
+        </Typography>
+        {userDoc.map((min, idx) => (
+          <TextField
+            id={min.id}
+            key={idx}
+            value={formValue.min}
+            label=" Portfolio Min:"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              backgroundColor: "white",
+              border: 1,
+              borderColor: "gray",
+              borderRadius: "5px",
+            }}
+          />
         ))}
-        {userDoc.map((max,idx)=>
-        <TextField
-        id={max.id}
-        value={formValue.max}
-        key={idx}
-        label=" Portfolio Max:"
-        type="number"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        sx={{
-          backgroundColor: "white",
-          border: 1,
-          borderColor: "gray",
-          borderRadius: "5px",
-        }}
-      />
-        )}
+        {userDoc.map((max, idx) => (
+          <TextField
+            id={max.id}
+            value={formValue.max}
+            key={idx}
+            label=" Portfolio Max:"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              backgroundColor: "white",
+              border: 1,
+              borderColor: "gray",
+              borderRadius: "5px",
+            }}
+          />
+        ))}
       </div>
-      <Button variant="contained" sx={{bottom:0, right:-255}}
-      onClick={handleSubmit}
+      <Button
+        variant="contained"
+        sx={{ bottom: 0, right: -255 }}
+        disabled={isSubmit}
+        onClick={handleSubmit}
       >
         Submit
       </Button>

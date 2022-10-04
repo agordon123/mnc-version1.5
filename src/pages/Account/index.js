@@ -1,12 +1,3 @@
-import {
-  deleteDoc,
-  doc,
-  getDoc,
-  where,
-  query,
-  collection,
-  getDocs,
-} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
@@ -19,7 +10,7 @@ import SignOutBox from "../../components/Account/SignOutBox";
 //import NavBar from "../../components/Misc/NavBar";
 import ProfileEdit from "../../components/Account/AccountProfile";
 import ChangePassword from "../../components/Account/ChangePassword";
-
+import { useFirestore,useUser } from "reactfire";
 import { useAuth } from "reactfire";
 //This is white
 const Item = styled(Paper)(({ theme }) => ({
@@ -43,10 +34,17 @@ const Item2 = styled(Paper)(({ theme }) => ({
 
 //need a profile edit component/form
 //needs a component to display the profile automatically upon loading
-export const AccountPage = () => {
+export const AccountPage = (props) => {
+  const { loggedInUser } = props;
   const navigate = useNavigate();
   const location = useLocation();
   const { status, data: user } = useAuth();
+  const firestore = useFirestore();
+  useEffect(() => {
+    if (status === 'success') {
+      
+    }
+  })
 
   return (
     <Box sx={{ flexGrow: 1 }}>
