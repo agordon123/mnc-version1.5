@@ -9,19 +9,26 @@ import { storage } from "../../firebase";
 //import { getDownloadURL } from "firebase/storage";
 //import { ref } from "firebase/storage";
 import { getDownloadURL, ref as reff } from "firebase/storage"
-import { useStorage, useStorageDownloadURL } from "reactfire";
-
+import { 
+  useFirestore,
+  useStorage,
+  useStorageDownloadURL,
+  useFirestoreCollection,
+  useStorageTask, } from "reactfire"
 import {
-  query,
   getDocs,
-  where,
   collection,
   serverTimestamp,
   orderBy,
   onSnapshot,
   addDoc,
   doc,
+  getDoc,
+documentId,
+setDoc,
+writeBatch,
 } from "firebase/firestore";
+
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -36,7 +43,19 @@ import "../../pages/Listings/styles.css";
 //import {StyleSheet, Text, View, Imahe, TouchableHighlight} from 'react-native';
 //import firebaseConfig from '.friebaseConfig.tsx';
 //import { initializeApp } from "firebase/app";
-
+const initialValues = {
+  type: "forSale",
+  id: "",
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
+  price: "",
+  description: "",
+  images: [],
+  listed_by: "",
+  created_at: "",
+};
 export const CarouselImagePull = () => {
   /*Let me explain what is going on here, 
    When you use import * as React from 'react';, 
@@ -64,6 +83,39 @@ export const CarouselImagePull = () => {
   */
 };
 export function CarouselImage() {
+  const firestore = useFirestore();
+//const storage = useStorage();
+const batch = writeBatch(firestore);
+const formRef = React.useRef();
+const [data, setData] = React.useState(initialValues);
+const [docID, setDocID] = React.useState("");
+//const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`);
+const collectionRef = collection(
+  firestore,
+  `$listings/${data.type}/properties/${docID}`
+);
+const docData = {
+  street: data.street,
+  city: data.city,
+  state: data.state,
+  zip: data.zip,
+  bedrooms: data.bedrooms,
+  bathrooms: data.bathrooms,
+  images: data.images,
+  sqft: data.sqft,
+  price: data.price,
+};
+  
+const [setDocData] = React.useState({ ...collectionRef});
+React.useEffect(() => {
+  const fetchDoc = async () => {
+    getDoc(collectionRef).then((onSnapshot) => {
+      setDocData(...onSnapshot.data(docData));
+      console.log(...onSnapshot.data);
+    });
+  };
+  fetchDoc(docData);
+});
   const storage = useStorage();
   const imageRef1 = reff(
     storage,

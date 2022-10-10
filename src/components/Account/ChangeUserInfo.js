@@ -33,9 +33,23 @@ const Item2 = styled(Paper)(({ theme }) => ({
 }));
 
 export const ProfileChange = React.forwardRef((props, ref) => {
+  const { role } = props;
   const { data: user } = useUser();
-  const [isSubmit, setIsSubmit] = React.useState(false);
+  const firestore = useFirestore();
   const navigate = useNavigate();
+  const formRef = React.useRef();
+  const [userRole, setUserRole] = React.useState("");
+  const { status, data: signInCheckResult } = useSigninCheck();
+
+  const [isSubmit, setIsSubmit] = React.useState(false);
+  //const navigate = useNavigate();
+  const [formValue, setFormValue] = React.useState({
+    email: "",
+    userName: "",
+    role: "",
+    min: "",
+    max: "",
+  });
   const userDoc = [
     { email: "", id: "email" },
     { userName: "", id: "userName" },
@@ -44,15 +58,45 @@ export const ProfileChange = React.forwardRef((props, ref) => {
     { userID: "", id: "userID" },
   ];
 
-  const [formValue, setFormValue] = React.useState({
-    email: "",
-    userName: "",
-    role: "",
+  React.useEffect(() => {
+    const userCheck = async () => {
+      if (status === "loading") {
+        return <Spinner />;
+      }
+      if (signInCheckResult.signedIn === true) {
+        const currentUser = signInCheckResult.user;
+        
+        if (user !== null) {
+          const docRef = doc(firestore, "users", currentUser.uid);
+          await getDoc(docRef).then((onSnapshot) => {
+            console.log(onSnapshot);
+            const userRole = onSnapshot.get("role");
+            console.log(userRole);
+            setUserRole(userRole);
+            if (userRole === "Administrator") {
+              document.getElementById("logout").style.display = "list-item";
+              document.getElementById("login-page").style.display = "none";
+              document.getElementById("admin-page").style.display = "list-item";
+            } else if (userRole !== null) {
+              document.getElementById("logout").style.display = "list-item";
+              document.getElementById("login-page").style.display = "none";
+              document.getElementById("admin-page").style.display = "none";
+            } else {
+              document.getElementById("logout").style.display = "none";
+              document.getElementById("login-page").style.display = "list-item";
+              document.getElementById("admin-page").style.display = "none";
+            }
+          });
+        }
+      }
+    };
+    userCheck();
   });
-  const formRef = React.useRef();
-  const docRef = doc(useFirestore(), "users", user.uid);
-  const { status, data } = useFirestoreDocData(docRef);
+ //const currentUser = signInCheckResult.user;
+ 
   const handleSubmit = (e) => {
+    const currentUser = signInCheckResult.user;
+    const docRef = doc(firestore, "users", currentUser.uid);
     e.preventDefault();
     setIsSubmit(true);
     if (isSubmit) {
@@ -65,45 +109,10 @@ export const ProfileChange = React.forwardRef((props, ref) => {
   };
   React.useEffect(() => {
     if (status === "success") {
-      console.log(data);
-      setFormValue(data);
+      setFormValue(signInCheckResult);
     }
-  }, [status, setFormValue, data]);
+  }, [status, setFormValue, signInCheckResult]);
 
-  /*
-  React.useEffect(() => {
-    const userCheck = async () => {
-      if (status === "loading") {
-        return <Spinner />;
-      }
-      if (signInCheckResult.signedIn === true) {
-        const currentUser = signInCheckResult.user;
-        if (user !== null) {
-          const docRef = doc(firestore, "users", currentUser.uid);
-          await getDoc(docRef).then((onSnapshot) => {
-            console.log(onSnapshot);
-            const userRole = onSnapshot.get("role");
-            console.log(userRole);
-            if (userRole === "Administrator") {
-              document.getElementById("logout").style.display = "list-item";
-              document.getElementById("login-page").style.display = "none";
-              document.getElementById("admin-page").style.display = "list-item"
-            } else if (userRole !== null) {
-              document.getElementById("logout").style.display = "list-item";
-              document.getElementById("login-page").style.display = "none";
-              document.getElementById("admin-page").style.display = "none";
-            } else {
-              document.getElementById("logout").style.display = "none";
-              document.getElementById("login-page").style.display = "list-item"
-              document.getElementById("admin-page").style.display = "none";
-            }
-          });
-        }
-      }
-    };
-    userCheck();
-  });
-  */
   return (
     <Box
       component="form"

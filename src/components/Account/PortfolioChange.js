@@ -5,7 +5,12 @@ import Button from "@mui/material/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Stack, Alert } from "@mui/material";
 import { Typography, ButtonGroup, TextareaAutosize } from "@mui/material";
-
+import {
+  useUser,
+  useFirestore,
+  useSigninCheck,
+  useFirestoreDocData,
+} from "reactfire";
 import { Spinner } from "react-bootstrap";
 import { auth } from "../../firebase";
 import {
@@ -16,11 +21,18 @@ import {
   query,
   setDoc,
 } from "firebase/firestore";
-import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
+//import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
 
 export const PortfolioChange = React.forwardRef((props, ref) => {
-  const { data: user } = useUser();
+  //const { data: user } = useUser();
   const [isSubmit, setIsSubmit] = React.useState(false);
+  const { role } = props;
+  const { data: user } = useUser();
+  const firestore = useFirestore();
+  const navigate = useNavigate();
+  const formRef = React.useRef();
+  const [userRole, setUserRole] = React.useState("");
+  const { status, data: signInCheckResult } = useSigninCheck();
   const [formValue, setFormValue] = React.useState({
     min: "",
     max: "",
@@ -29,33 +41,32 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
     { min: "", id: "min" },
     { min: "", id: "max" },
   ];
-  const formRef = React.useRef();
-  const docRef = doc(useFirestore(), "users", user.uid);
-  const { status, data: docData } = useFirestoreDocData(docRef);
+
   const handleSubmit = (e) => {
+    const currentUser = signInCheckResult.user;
+    const docRef = doc(firestore, "users", currentUser.uid);
     e.preventDefault();
     setIsSubmit(true);
     if (isSubmit) {
       setDoc(docRef, ...formValue).then((res) => {
         if (res) {
-          return (
-            <Alert variant="success">Account Updated</Alert> &&
-            setIsSubmit(false)
-          );
+          return <Alert variant="success">Account Updated</Alert>;
         }
       });
     }
   };
   React.useEffect(() => {
     if (status === "success") {
-      setFormValue(docData);
+      setFormValue(signInCheckResult);
     }
-  }, [status, setFormValue, docData]);
+  }, [status, setFormValue, signInCheckResult]);
+
+
 
   return (
     <Box
       component="form"
-      ref={formRef}
+      //ref={formRef}
       sx={{
         "& .MuiTextField-root": { m: 1, width: "25ch" },
         border: 1,
@@ -121,7 +132,7 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
         variant="contained"
         sx={{ bottom: 0, right: -255 }}
         disabled={isSubmit}
-        onClick={handleSubmit}
+       onClick={handleSubmit}
       >
         Submit
       </Button>

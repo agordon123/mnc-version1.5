@@ -6,6 +6,10 @@ import {
   onSnapshot,
   addDoc,
   doc,
+  getDoc,
+documentId,
+setDoc,
+writeBatch,
 } from "firebase/firestore";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
@@ -16,27 +20,69 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import ContactButton from "./ContactAgent";
+import {
+  useFirestore,
+  useFirestoreCollection,
+  useStorage,
+  useStorageDownloadURL,
+  useStorageTask,
+} from "reactfire";
+/*I tried to put the button outside the table container but it didn't work. 
+So for now it will be there for now. Maybe there is way to change
 
-
-
+*/
+const initialValues = {
+  type: "forSale",
+  id: "",
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
+  price: "",
+  description: "",
+  images: [],
+  listed_by: "",
+  created_at: "",
+};
 export default function BasicTable(props) {
-
-
-
-  const [data, setData] = React.useState("");
+  const firestore = useFirestore();
+  const storage = useStorage();
+  const batch = writeBatch(firestore);
   const formRef = React.useRef();
-  const [type, setType] = React.useState("");
-  const [street, setStreet] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [state, setState] = React.useState("");
-  const [zip, setZip] = React.useState("");
-  const [bedrooms, setBedrooms] = React.useState("");
-  const [bathrooms, setBathrooms] = React.useState("");
-  const [price, setPrice] = React.useState("");
-  const [listed_at, setListedAt] = React.useState("");
-  const [listed_by, setListedBy] = React.useState("");
-  const [images, setImages] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [data, setData] = React.useState(initialValues);
+  const [docID, setDocID] = React.useState("");
+  //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`);
+  const collectionRef = collection(
+    firestore,
+    `$listings/${data.type}/properties/${docID}`
+  );
+  const docData = {
+    street: data.street,
+    city: data.city,
+    state: data.state,
+    zip: data.zip,
+    bedrooms: data.bedrooms,
+    bathrooms: data.bathrooms,
+    images: data.images,
+    sqft: data.sqft,
+    price: data.price,
+    listed_at: data.listed_at,
+    listed_by: data.listed_by
+  };
+  
+  const [setDocData] = React.useState({ ...collectionRef});
+  React.useEffect(() => {
+    const fetchDoc = async () => {
+      getDoc(collectionRef).then((onSnapshot) => {
+        setDocData(...onSnapshot.data(docData));
+        console.log(...onSnapshot.data);
+      });
+    };
+    fetchDoc(docData);
+  });
+
+
 /*
   I am not sure if I fixed it, I looked at the error and the console log
    said I shouldn't be using brackets but instead parenthesis. I didn't test it yet
@@ -49,15 +95,15 @@ export default function BasicTable(props) {
   }
     
   const rows = [
-    createData('Street', street),
-    createData('City', document.getElementById('city')),
-    createData('State', document.getElementById('state')),
-    createData('Zip', document.getElementById('zip')),
-    createData('Bedroom(s)', document.getElementById('bedrooms')),
-    createData('Bathroom(s)', document.getElementById('bathrooms')),
-    createData('Price', document.getElementById('price')),
-    createData('Listed At', document.getElementById('listedAt')),
-    createData('Listed By', document.getElementById('listedBy')),
+    createData('Street', data.street),
+    createData('City', data.city),
+    createData('State', data.state),
+    createData('Zip', data.zip),
+    createData('Bedroom(s)', data.bedrooms),
+    createData('Bathroom(s)', data.bathrooms),
+    createData('Price', data.price),
+    createData('Listed At', data.listed_at),
+    createData('Listed By', data.listed_by),
   ];
 
 
@@ -66,7 +112,7 @@ export default function BasicTable(props) {
       <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-          <TableCell sx ={{fontWeight:"bold"}}>For Rent</TableCell>
+          <TableCell sx ={{fontWeight:"bold"}}>{data.type}</TableCell>
           <TableCell align="left"></TableCell>
           </TableRow>
         </TableHead>
@@ -85,6 +131,11 @@ export default function BasicTable(props) {
           ))}
         </TableBody>
       </Table>
+      <div></div>
+      
+      <ContactButton></ContactButton>
     </TableContainer>
+    
+    
   );
 }

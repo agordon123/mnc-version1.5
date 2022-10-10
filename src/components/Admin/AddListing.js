@@ -254,7 +254,7 @@ export const AddListingForm = () => {
             /*error here 
           Use the `defaultValue` or `value` props instead of setting children on <textarea>.
           I tried to figure this out by typing all of it in pascal case with T capitalized 
-          out but it didn't work.I figured it out, how to fix the error for name by commenting it out and
+          out but it didn't work. I figured it out, how to fix the error for name by commenting it out and
           adding the value. 
           This is the reference on how I found this out
           https://stackoverflow.com/questions/30730369/reactjs-component-not-rendering-textarea-with-state-variable
