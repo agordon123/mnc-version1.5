@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
@@ -32,21 +32,21 @@ const Item2 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const ProfileChange = React.forwardRef((props, ref) => {
+export const ProfileChange = forwardRef((props, ref) => {
   const { role } = props;
   const { data: user } = useUser();
   const firestore = useFirestore();
   const navigate = useNavigate();
-  const formRef = React.useRef();
-  const [userRole, setUserRole] = React.useState("");
-  const [userEmail, setEmail] = React.useState("");
-  const [userName, setuserName] = React.useState("");
+  const formRef = useRef();
+  const [userRole, setUserRole] = useState("");
+  const [userEmail, setEmail] = useState("");
+  const [userName, setuserName] = useState("");
   const { status, data: signInCheckResult } = useSigninCheck();
-  const listingsArray = [1, 2, 3,];
-  const [isSubmit, setIsSubmit] = React.useState(false);
+  const listingsArray = [1, 2, 3];
+  const [isSubmit, setIsSubmit] = useState(false);
   //const navigate = useNavigate();
-  const [formValue, setFormValue] = React.useState({
-    Email: "",
+  const [formValue, setFormValue] = useState({
+    userEmail: "",
     userName: "",
     role: "",
     min: "",
@@ -60,7 +60,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
     { userID: "", id: "userID" },
   ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     const userCheck = async () => {
       if (status === "loading") {
         return <Spinner />;
@@ -73,11 +73,9 @@ export const ProfileChange = React.forwardRef((props, ref) => {
           await getDoc(docRef).then((onSnapshot) => {
             console.log(onSnapshot);
             const userRole = onSnapshot.get("role");
-            const userEmail = onSnapshot.get("email");
+            const userEmail = onSnapshot.get()
             console.log(userRole);
-            console.log(userEmail)
             setUserRole(userRole);
-            setEmail(userEmail);
             if (userRole === "Administrator") {
               document.getElementById("logout").style.display = "list-item";
               document.getElementById("login-page").style.display = "none";
@@ -112,7 +110,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
       });
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     if (status === "success") {
       setFormValue(signInCheckResult);
     }

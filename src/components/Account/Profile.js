@@ -70,7 +70,7 @@ export const Profile = () => {
     const [data, loading, error] = useCollectionData(ref);
   }
       return (
-        <React.Fragment>
+        <Fragment>
           <div>
             <TextFieldProfile
               id="uid-field"
@@ -91,7 +91,7 @@ export const Profile = () => {
               value={user.email}
             />
           </div>
-        </React.Fragment>
+        </Fragment>
       );
     } */
 export default Profile;

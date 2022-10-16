@@ -1,7 +1,7 @@
 import { IconButton, Grid, Button, Stack } from "@mui/material";
 import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
 import { query, collection, getDocs, where ,} from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import { InputUnstyled } from "@mui/base";
 import Item from "../Misc/Surface";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
@@ -56,7 +56,7 @@ const StyledInputElement = styled("input")(
   }
 `
 );
-const CustomInput = React.forwardRef(function CustomInput(props, ref) {
+const CustomInput = forwardRef(function CustomInput(props, ref) {
   return (
     <InputUnstyled
       components={{ Input: StyledInputElement }}

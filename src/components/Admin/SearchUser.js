@@ -7,7 +7,7 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import { Box, TextField, Button, ButtonGroup, Typography } from "@mui/material";
 
 
@@ -31,7 +31,7 @@ export const SearchUser = () => {
   }, []);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Box
         className="search-user-container"
         component="form"
@@ -63,7 +63,7 @@ export const SearchUser = () => {
           </Button>
         </ButtonGroup>
       </Box>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

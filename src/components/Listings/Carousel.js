@@ -1,4 +1,5 @@
 import { auth, db } from "../../firebase";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 /*Do not remove the carousel css */
@@ -66,29 +67,29 @@ export const CarouselImagePull = () => {
 
    To back on track, you see that the usestate and useeffect
 
-  const [data, setData] = React.useState("");
-  const formRef = React.useRef();
-  const [type, setType] = React.useState("");
-  const [street, setStreet] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [state, setState] = React.useState("");
-  const [zip, setZip] = React.useState("");
-  const [bedrooms, setBedrooms] = React.useState("");
-  const [bathrooms, setBathrooms] = React.useState("");
-  const [price, setPrice] = React.useState("");
-  const [listed_at, setListedAt] = React.useState("");
-  const [listed_by, setListedBy] = React.useState("");
-  //const [images, setImages] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [data, setData] = useState("");
+  const formRef = useRef();
+  const [type, setType] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [bedrooms, setBedrooms] = useState("");
+  const [bathrooms, setBathrooms] = useState("");
+  const [price, setPrice] = useState("");
+  const [listed_at, setListedAt] = useState("");
+  const [listed_by, setListedBy] = useState("");
+  //const [images, setImages] = useState("");
+  const [description, setDescription] = useState("");
   */
 };
 export function CarouselImage() {
   const firestore = useFirestore();
 //const storage = useStorage();
 const batch = writeBatch(firestore);
-const formRef = React.useRef();
-const [data, setData] = React.useState(initialValues);
-const [docID, setDocID] = React.useState("");
+const formRef = useRef();
+const [data, setData] = useState(initialValues);
+const [docID, setDocID] = useState("");
 //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`);
 const collectionRef = collection(
   firestore,
@@ -106,8 +107,8 @@ const docData = {
   price: data.price,
 };
   
-const [setDocData] = React.useState({ ...collectionRef});
-React.useEffect(() => {
+const [setDocData] = useState({ ...collectionRef});
+useEffect(() => {
   const fetchDoc = async () => {
     getDoc(collectionRef).then((onSnapshot) => {
       setDocData(...onSnapshot.data(docData));

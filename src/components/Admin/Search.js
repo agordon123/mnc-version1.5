@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useRef, useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   doc,
@@ -25,17 +25,17 @@ export const Search = () => {
         if (snap.exists) {
           console.log(snap.data());
           return (
-            <React.Fragment>
+            <Fragment>
               {snap.data().map((id, value) => {
                 return (
-                  <React.Fragment>
+                  <Fragment>
                     <Box className="search-result">
                       <input value={value} key={id} type="text"></input>
                     </Box>
-                  </React.Fragment>
+                  </Fragment>
                 );
               })}
-            </React.Fragment>
+            </Fragment>
           );
         }
       });
@@ -45,7 +45,7 @@ export const Search = () => {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <h5>Look Up User By Email</h5>
 
       <Box component="form" sx={{ display: "flex", justifyContent: "center" }}>
@@ -55,7 +55,7 @@ export const Search = () => {
           Search
         </Button>
       </Box>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

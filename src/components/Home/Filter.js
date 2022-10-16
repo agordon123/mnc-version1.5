@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect, useRef, forwardRef } from "react";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,13 +7,13 @@ import Select from '@mui/material/Select';
 import { useUser, useFirestore, useSigninCheck } from "reactfire";
 import { doc, getDoc } from "firebase/firestore";
 export default function FilterBox() {
-  const [listing, setListing] = React.useState('');
-  const [neighborhood, setNeighborhood] = React.useState('');
-  const [city, setCity] = React.useState('');
-  const [state, setState] = React.useState('');
-  const [address, setAddess] = React.useState('');
-  const [zip, setZip] = React.useState('');
-  const [listing_ID, setListingID] = React.useState('');
+  const [listing, setListing] = useState('');
+  const [neighborhood, setNeighborhood] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [address, setAddess] = useState('');
+  const [zip, setZip] = useState('');
+  const [listing_ID, setListingID] = useState('');
   const { data: user } = useUser();
 const firestore = useFirestore();
 

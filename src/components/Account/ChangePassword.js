@@ -4,7 +4,7 @@ import { Alert, Box, Button, Typography } from "@mui/material";
 //import { auth } from "../../firebase";
 //import { useAuthState, useUpdateEmail } from "react-firebase-hooks/auth";
 import { query, getDoc } from "firebase/firestore";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   sendPasswordResetEmail,
   verifyPasswordResetCode,
@@ -53,7 +53,7 @@ export const ChangePassword = () => {
   }, []);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Box
         className="account-password-container"
         component="form"
@@ -85,7 +85,7 @@ export const ChangePassword = () => {
         <Button
         style={{color:"white"}}>Change</Button>
       </Box>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
