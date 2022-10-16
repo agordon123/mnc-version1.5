@@ -116,6 +116,9 @@ React.useEffect(() => {
   };
   fetchDoc(docData);
 });
+
+
+
   const storage = useStorage();
   const imageRef1 = reff(
     storage,

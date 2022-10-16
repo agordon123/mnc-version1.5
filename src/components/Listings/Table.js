@@ -52,10 +52,12 @@ export default function BasicTable(props) {
   const formRef = React.useRef();
   const [data, setData] = React.useState(initialValues);
   const [docID, setDocID] = React.useState("");
-  //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`);
+  const [userRole, setUserRole] = React.useState("");
+  const[street, setStreet] = React.useState("");
+  //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`, );
   const collectionRef = collection(
     firestore,
-    `$listings/${data.type}/properties/${docID}`
+    `listings/${data.type}/properties/${docID}`
   );
   const docData = {
     street: data.street,
@@ -71,18 +73,28 @@ export default function BasicTable(props) {
     listed_by: data.listed_by
   };
   
-  const [setDocData] = React.useState({ ...collectionRef});
+  const [setDocData] = React.useState("");
   React.useEffect(() => {
-    const fetchDoc = async () => {
-      getDoc(collectionRef).then((onSnapshot) => {
-        setDocData(...onSnapshot.data(docData));
-        console.log(...onSnapshot.data);
-      });
-    };
-    fetchDoc(docData);
+    const userCheck = async () => {
+          await getDoc(collectionRef).then((onSnapshot) => {
+            console.log(onSnapshot);
+            const street = onSnapshot.get("street");
+            console.log(street);
+            setStreet(street);
+          });
+        }
+      
+    userCheck();
   });
 
-
+/*
+const docRef = doc(firestore, "users", currentUser.uid);
+ getDoc(docRef).then((onSnapshot) => {
+  console.log(onSnapshot);
+  const userRole = onSnapshot.get("role");
+  console.log(userRole);
+  setUserRole(userRole);
+*/
 /*
   I am not sure if I fixed it, I looked at the error and the console log
    said I shouldn't be using brackets but instead parenthesis. I didn't test it yet
@@ -95,7 +107,7 @@ export default function BasicTable(props) {
   }
     
   const rows = [
-    createData('Street', data.street),
+    createData('Street', street),
     createData('City', data.city),
     createData('State', data.state),
     createData('Zip', data.zip),

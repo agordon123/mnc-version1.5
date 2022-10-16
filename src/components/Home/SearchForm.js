@@ -6,71 +6,71 @@ import { InputUnstyled } from "@mui/base";
 import Item from "../Misc/Surface";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { styled } from "@mui/system";
-export const SearchForm = (props) => {
-  const blue = {
-    100: "#DAECFF",
-    200: "#80BFFF",
-    400: "#3399FF",
-    500: "#007FFF",
-    600: "#0072E5",
+//import FilterBox from "./Filter";
+import FormControlLabelPlacement from "./FilterRadioButtons";
+const blue = {
+  100: "#DAECFF",
+  200: "#80BFFF",
+  400: "#3399FF",
+  500: "#007FFF",
+  600: "#0072E5",
+};
+const grey = {
+  50: "#F3F6F9",
+  100: "#E7EBF0",
+  200: "#E0E3E7",
+  300: "#CDD2D7",
+  400: "#B2BAC2",
+  500: "#A0AAB4",
+  600: "#6F7E8C",
+  700: "#3E5060",
+  800: "#2D3843",
+  900: "#1A2027",
+};
+const StyledInputElement = styled("input")(
+  ({ theme }) => `
+  width: 550px;
+  height: 50px;
+  font-family: Garamond;
+  fontSize: 75px;
+  font-weight: 500;
+  line-height: 1.5;
+  padding: 12px;
+  border-radius: 12px;
+  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
+  border: 2px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
+  box-shadow: 0px 2px 2px ${
+    theme.palette.mode === "dark" ? grey[900] : grey[50]
   };
-
-  const grey = {
-    50: "#F3F6F9",
-    100: "#E7EBF0",
-    200: "#E0E3E7",
-    300: "#CDD2D7",
-    400: "#B2BAC2",
-    500: "#A0AAB4",
-    600: "#6F7E8C",
-    700: "#3E5060",
-    800: "#2D3843",
-    900: "#1A2027",
-  };
-
-  const StyledInputElement = styled("input")(
-    ({ theme }) => `
-    width: 400px;
-    height: 50px;
-    font-family: Garamond;
-    fontSize: 75px;
-    font-weight: 500;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px;
-    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-    border: 2px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${
-      theme.palette.mode === "dark" ? grey[900] : grey[50]
+  
+  &:hover {
+    border-color: ${blue[400]};
+  }
+  
+  &:focus {
+    border-color: ${blue[400]};
+    outline: 3px solid ${
+      theme.palette.mode === "dark" ? blue[500] : blue[200]
     };
-  
-    &:hover {
-      border-color: ${blue[400]};
-    }
-  
-    &:focus {
-      border-color: ${blue[400]};
-      outline: 3px solid ${
-        theme.palette.mode === "dark" ? blue[500] : blue[200]
-      };
-    }
-  `
+  }
+`
+);
+const CustomInput = React.forwardRef(function CustomInput(props, ref) {
+  return (
+    <InputUnstyled
+      components={{ Input: StyledInputElement }}
+      {...props}
+      ref={ref}
+      className="search-input"
+      type="text"
+      onChange={(e) => e.target.value}
+      placeholder="Search by City"
+    />
   );
+});
 
-  const CustomInput = React.forwardRef(function CustomInput(props, ref) {
-    return (
-      <InputUnstyled
-        components={{ Input: StyledInputElement }}
-        {...props}
-        ref={ref}
-        className="search-input"
-        type="text"
-        onChange={(e) => e.target.value}
-        placeholder="Search by City"
-      />
-    );
-  });
+export const SearchForm = (props) => {
 
   const [isHover, setIsHover] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
@@ -208,6 +208,7 @@ export const SearchForm = (props) => {
         </IconButton>
       </Item>
       <br></br>
+     <FormControlLabelPlacement></FormControlLabelPlacement>
     </Grid2>
   );
 };
