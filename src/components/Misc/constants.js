@@ -1,4 +1,3 @@
-import { ref, getDownloadURL } from "firebase/storage";
 import { serverTimestamp, collection, addDoc } from "firebase/firestore";
 import { Alert } from "@mui/material";
 import React, { useState, forwardRef, useReducer } from "react";
@@ -7,7 +6,25 @@ export const TextInput = forwardRef((props, ref) => (
   <input ref={ref} className="TextInput" {...props} />
 ));
 
-
+export const AuditLogger = (props) => {
+  const { action, username, userDoc, targetid } = props;
+  switch (action) {
+    case "created user":
+      return { action: action, timestamp: serverTimestamp(),username:username,userDoc:userDoc,targetid:targetid };
+    case "deleted user":
+      return { action: action, timestamp: serverTimestamp(),username:username,userDoc:userDoc,targetid:targetid};
+    case "added listing":
+      return { action: action, timestamp: serverTimestamp(),username:username,userDoc:userDoc,targetid:targetid };
+    case "edited listing":
+      return { action: action, timestamp: serverTimestamp(),username:username,userDoc:userDoc,targetid:targetid};
+    case "removed listing":
+      return {action: action, timestamp: serverTimestamp(),username:username,userDoc:userDoc,targetid:targetid};
+      case "change profile":
+        return {action: action, timestamp: serverTimestamp(),username:username,userDoc:userDoc,targetid:targetid};
+        default:
+          return;
+  }
+};
 export const states = [
   "AL",
   "AK",

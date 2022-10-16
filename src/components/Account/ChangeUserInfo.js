@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, forwardRef } from "react";
+import React,{useEffect,useRef,useState} from 'react';
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
@@ -32,7 +32,7 @@ const Item2 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const ProfileChange = forwardRef((props, ref) => {
+export const ProfileChange = (props) => {
   const { role } = props;
   const { data: user } = useUser();
   const firestore = useFirestore();
@@ -60,7 +60,7 @@ export const ProfileChange = forwardRef((props, ref) => {
     { userID: "", id: "userID" },
   ];
 
-  useEffect(() => {
+ useEffect(() => {
     const userCheck = async () => {
       if (status === "loading") {
         return <Spinner />;
@@ -94,10 +94,10 @@ export const ProfileChange = forwardRef((props, ref) => {
       }
     };
     userCheck();
-  });
+  }, [status, setFormValue, signInCheckResult]);
  //const currentUser = signInCheckResult.user;
  
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     const currentUser = signInCheckResult.user;
     const docRef = doc(firestore, "users", currentUser.uid);
     e.preventDefault();
@@ -110,11 +110,6 @@ export const ProfileChange = forwardRef((props, ref) => {
       });
     }
   };
-  useEffect(() => {
-    if (status === "success") {
-      setFormValue(signInCheckResult);
-    }
-  }, [status, setFormValue, signInCheckResult]);
 
   return (
     <Box
@@ -131,7 +126,7 @@ export const ProfileChange = forwardRef((props, ref) => {
       noValidate
       autoComplete="off"
     >
-      <div>
+     
         <Typography
           variant="h4"
           sx={{
@@ -144,11 +139,11 @@ export const ProfileChange = forwardRef((props, ref) => {
         >
           Edit User Info
         </Typography>
-        {userDoc.map((userName, idx) => (
+      
           <TextField
             required
             id={userName.id}
-            key={idx}
+            //key={idx}
             label="Required"
             defaultValue=" Username:"
             value={formValue.userName}
@@ -159,12 +154,12 @@ export const ProfileChange = forwardRef((props, ref) => {
               borderRadius: "5px",
             }}
           />
-        ))}
-        {userDoc.map((email, idx) => (
+       
+       
           <TextField
             required
-            id={email.id}
-            key={idx}
+            //id={email.id}
+            //key={idx}
             label="Required"
             defaultValue=" Email:"
             value={userEmail}
@@ -175,9 +170,8 @@ export const ProfileChange = forwardRef((props, ref) => {
               borderRadius: "5px",
             }}
           />
-        ))}
-      </div>
-      <div>
+    
+
         <TextField
           id="outlined-password-input"
           label=" Current Phone Number"
@@ -202,8 +196,7 @@ export const ProfileChange = forwardRef((props, ref) => {
             borderRadius: "5px",
           }}
         />
-      </div>
-      <div>
+
         <TextField
           disabled
           id="outlined-disabled"
@@ -216,11 +209,11 @@ export const ProfileChange = forwardRef((props, ref) => {
             borderRadius: "5px",
           }}
         />
-        {userDoc.map((role, idx) => (
+       
           <TextField
             disabled
             id={role.id}
-            key={idx}
+            //key={idx}
             label="Role Change Disabled"
             defaultValue=" User"
             value={formValue.role}
@@ -231,8 +224,7 @@ export const ProfileChange = forwardRef((props, ref) => {
               borderRadius: "5px",
             }}
           />
-        ))}
-      </div>
+
       <Button
         variant="contained"
         sx={{ bottom: 0, right: -255 }}
@@ -242,4 +234,4 @@ export const ProfileChange = forwardRef((props, ref) => {
       </Button>
     </Box>
   );
-});
+}

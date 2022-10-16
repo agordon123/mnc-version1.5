@@ -4,6 +4,7 @@ import { CustomButton } from "../Misc/Buttons";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
+import { useUser } from "reactfire";
 export const RegisterForm = ({ title }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,8 +12,12 @@ export const RegisterForm = ({ title }) => {
   const [error, setError] = useState({});
   const navigate = useNavigate();
   const formRef = useRef();
+  const {data:user} = useUser();
 
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
 
+  }
   const resetPassword = () => {
     navigate("/reset-password");
   };
