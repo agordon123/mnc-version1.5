@@ -39,12 +39,14 @@ export const ProfileChange = React.forwardRef((props, ref) => {
   const navigate = useNavigate();
   const formRef = React.useRef();
   const [userRole, setUserRole] = React.useState("");
+  const [userEmail, setEmail] = React.useState("");
+  const [userName, setuserName] = React.useState("");
   const { status, data: signInCheckResult } = useSigninCheck();
-
+  const listingsArray = [1, 2, 3,];
   const [isSubmit, setIsSubmit] = React.useState(false);
   //const navigate = useNavigate();
   const [formValue, setFormValue] = React.useState({
-    email: "",
+    Email: "",
     userName: "",
     role: "",
     min: "",
@@ -71,8 +73,11 @@ export const ProfileChange = React.forwardRef((props, ref) => {
           await getDoc(docRef).then((onSnapshot) => {
             console.log(onSnapshot);
             const userRole = onSnapshot.get("role");
+            const userEmail = onSnapshot.get("email");
             console.log(userRole);
+            console.log(userEmail)
             setUserRole(userRole);
+            setEmail(userEmail);
             if (userRole === "Administrator") {
               document.getElementById("logout").style.display = "list-item";
               document.getElementById("login-page").style.display = "none";
@@ -164,7 +169,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
             key={idx}
             label="Required"
             defaultValue=" Email:"
-            value={formValue.email}
+            value={userEmail}
             sx={{
               backgroundColor: "white",
               border: 1,

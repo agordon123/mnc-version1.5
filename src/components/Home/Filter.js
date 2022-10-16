@@ -12,7 +12,7 @@ export default function FilterBox() {
   const [city, setCity] = React.useState('');
   const [state, setState] = React.useState('');
   const [address, setAddess] = React.useState('');
-  const [zip, setZip] = React.useState('5');
+  const [zip, setZip] = React.useState('');
   const [listing_ID, setListingID] = React.useState('');
   const { data: user } = useUser();
 const firestore = useFirestore();
