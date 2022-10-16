@@ -13,7 +13,7 @@ import {
   Alert,
 } from "@mui/material";
 import { uuidv4 } from "@firebase/util";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, Fragment } from "react";
 import { UseRadioGroup } from "./AdminPageComponents";
 import { states } from "../Misc/constants";
 import {
@@ -126,7 +126,7 @@ export const AddListingForm = () => {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Grid container>
         <Box
           className="add-listing-form"
@@ -295,7 +295,7 @@ export const AddListingForm = () => {
           </Button>
         </Box>
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

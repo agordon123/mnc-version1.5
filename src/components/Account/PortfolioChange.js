@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -23,17 +23,17 @@ import {
 } from "firebase/firestore";
 //import { useFirestore, useFirestoreDocData, useUser } from "reactfire";
 
-export const PortfolioChange = React.forwardRef((props, ref) => {
+export const PortfolioChange = forwardRef((props, ref) => {
   //const { data: user } = useUser();
-  const [isSubmit, setIsSubmit] = React.useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const { role } = props;
   const { data: user } = useUser();
   const firestore = useFirestore();
   const navigate = useNavigate();
-  const formRef = React.useRef();
-  const [userRole, setUserRole] = React.useState("");
+  const formRef = useRef();
+  const [userRole, setUserRole] = useState("");
   const { status, data: signInCheckResult } = useSigninCheck();
-  const [formValue, setFormValue] = React.useState({
+  const [formValue, setFormValue] = useState({
     min: "",
     max: "",
   });
@@ -55,7 +55,7 @@ export const PortfolioChange = React.forwardRef((props, ref) => {
       });
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     if (status === "success") {
       setFormValue(signInCheckResult);
     }

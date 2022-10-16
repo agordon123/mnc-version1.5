@@ -11,7 +11,7 @@ documentId,
 setDoc,
 writeBatch,
 } from "firebase/firestore";
-import * as React from "react";
+import { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -49,11 +49,11 @@ export default function BasicTable(props) {
   const firestore = useFirestore();
   const storage = useStorage();
   const batch = writeBatch(firestore);
-  const formRef = React.useRef();
-  const [data, setData] = React.useState(initialValues);
-  const [docID, setDocID] = React.useState("");
-  const [userRole, setUserRole] = React.useState("");
-  const[street, setStreet] = React.useState("");
+  const formRef = useRef();
+  const [data, setData] =useState(initialValues);
+  const [docID, setDocID] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const[street, setStreet] = useState("");
   //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`, );
   const collectionRef = collection(
     firestore,
@@ -73,8 +73,8 @@ export default function BasicTable(props) {
     listed_by: data.listed_by
   };
   
-  const [setDocData] = React.useState("");
-  React.useEffect(() => {
+  const [setDocData] = useState("");
+ useEffect(() => {
     const userCheck = async () => {
           await getDoc(collectionRef).then((onSnapshot) => {
             console.log(onSnapshot);
@@ -99,7 +99,10 @@ const docRef = doc(firestore, "users", currentUser.uid);
   I am not sure if I fixed it, I looked at the error and the console log
    said I shouldn't be using brackets but instead parenthesis. I didn't test it yet
    */
- //const [data, setData] = React.useState("");
+ //const [data, setData] = 
+ 
+ 
+ useState("");
 
 
   function createData(name, info) {

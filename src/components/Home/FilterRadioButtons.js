@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect, useRef, forwardRef } from "react";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -6,15 +6,15 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 export default function FormControlLabelPlacement() {
-  //const [value, setValue] = React.useState('female');
+  //const [value, setValue] = useState('female');
 
-  const [listing, setListing] = React.useState('listing');
-  const [neighborhood, setNeighborhood] = React.useState('neighborhood');
-  const [city, setCity] = React.useState('city');
-  const [state, setState] = React.useState('state');
-  const [address, setAddess] = React.useState('address');
-  const [zip, setZip] = React.useState('zip');
-  const [listing_ID, setListingID] = React.useState('listings_id');
+  const [listing, setListing] = useState('listing');
+  const [neighborhood, setNeighborhood] = useState('neighborhood');
+  const [city, setCity] = useState('city');
+  const [state, setState] = useState('state');
+  const [address, setAddess] = useState('address');
+  const [zip, setZip] = useState('zip');
+  const [listing_ID, setListingID] = useState('listings_id');
 
   const handleChange = (event) => {
     setListing(event.target.value);

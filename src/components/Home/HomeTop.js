@@ -1,16 +1,16 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import MNCLogo from "../Misc/MNCLogo";
 
 export const HomeTop = () => {
  
   return (
-    <React.Fragment>
+    <Fragment>
       {" "}
       <MNCLogo id="logo"  />
       {""}
-    </React.Fragment>
+    </Fragment>
   );
 };
 

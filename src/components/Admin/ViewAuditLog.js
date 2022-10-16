@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
   query,
   getDocs,
@@ -14,12 +14,12 @@ export const ViewAuditLog = () => {
   const navigate = useNavigate();
   const handleClick = (e) => {};
   return (
-    <React.Fragment>
+    <Fragment>
       <Button
         onClick={handleClick}
         sx={{ color: "white", backgroundColor: "darkgrey" }}
       />
-    </React.Fragment>
+    </Fragment>
   );
 };
 
