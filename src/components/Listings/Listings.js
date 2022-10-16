@@ -73,7 +73,7 @@ export const Listing = (props) => {
 
   return (
     <Box className="Listing" component="div">
-      <TextField></TextField>
+     
     </Box>
   );
 };

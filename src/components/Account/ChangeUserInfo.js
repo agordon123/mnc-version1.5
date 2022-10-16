@@ -1,4 +1,4 @@
-import * as React from "react";
+import React,{useEffect,useRef,useState} from 'react';
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
@@ -32,7 +32,7 @@ const Item2 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const ProfileChange = React.forwardRef((props, ref) => {
+export const ProfileChange = (props) => {
   const { role } = props;
   const { data: user } = useUser();
   const firestore = useFirestore();
@@ -58,7 +58,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
     { userID: "", id: "userID" },
   ];
 
-  React.useEffect(() => {
+ useEffect(() => {
     const userCheck = async () => {
       if (status === "loading") {
         return <Spinner />;
@@ -91,10 +91,10 @@ export const ProfileChange = React.forwardRef((props, ref) => {
       }
     };
     userCheck();
-  });
+  }, [status, setFormValue, signInCheckResult]);
  //const currentUser = signInCheckResult.user;
  
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     const currentUser = signInCheckResult.user;
     const docRef = doc(firestore, "users", currentUser.uid);
     e.preventDefault();
@@ -107,11 +107,6 @@ export const ProfileChange = React.forwardRef((props, ref) => {
       });
     }
   };
-  React.useEffect(() => {
-    if (status === "success") {
-      setFormValue(signInCheckResult);
-    }
-  }, [status, setFormValue, signInCheckResult]);
 
   return (
     <Box
@@ -128,7 +123,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
       noValidate
       autoComplete="off"
     >
-      <div>
+     
         <Typography
           variant="h4"
           sx={{
@@ -141,7 +136,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
         >
           Edit User Info
         </Typography>
-        {userDoc.map((userName, idx) => (
+      
           <TextField
             required
             id={userName.id}
@@ -156,8 +151,8 @@ export const ProfileChange = React.forwardRef((props, ref) => {
               borderRadius: "5px",
             }}
           />
-        ))}
-        {userDoc.map((email, idx) => (
+       
+       
           <TextField
             required
             id={email.id}
@@ -172,9 +167,8 @@ export const ProfileChange = React.forwardRef((props, ref) => {
               borderRadius: "5px",
             }}
           />
-        ))}
-      </div>
-      <div>
+    
+
         <TextField
           id="outlined-password-input"
           label=" Current Phone Number"
@@ -199,8 +193,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
             borderRadius: "5px",
           }}
         />
-      </div>
-      <div>
+
         <TextField
           disabled
           id="outlined-disabled"
@@ -213,7 +206,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
             borderRadius: "5px",
           }}
         />
-        {userDoc.map((role, idx) => (
+       
           <TextField
             disabled
             id={role.id}
@@ -228,8 +221,7 @@ export const ProfileChange = React.forwardRef((props, ref) => {
               borderRadius: "5px",
             }}
           />
-        ))}
-      </div>
+
       <Button
         variant="contained"
         sx={{ bottom: 0, right: -255 }}
@@ -239,4 +231,4 @@ export const ProfileChange = React.forwardRef((props, ref) => {
       </Button>
     </Box>
   );
-});
+}
