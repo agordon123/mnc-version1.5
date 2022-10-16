@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext, startTransition } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { CatchingPokemonSharp, LogoutOutlined } from "@mui/icons-material";
+import { LogoutOutlined } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { StyledComponent } from "styled-components";
 import { auth } from "../../firebase";
 import { useUser, useFirestore, useSigninCheck } from "reactfire";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, query, where, collection } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
 /*const NavBarItem =StyledComponent.button`
   border: none;
@@ -22,7 +22,7 @@ import { Spinner } from "react-bootstrap";
 `; */
 
 export const NavBar = (props) => {
-  const { role } = props;
+  const { role, email } = props;
   const { data: user } = useUser();
   const firestore = useFirestore();
   const navigate = useNavigate();
@@ -79,10 +79,13 @@ export const NavBar = (props) => {
         return <Spinner />;
       }
       if (signInCheckResult.signedIn === true) {
+        console.log(user);
         const currentUser = signInCheckResult.user;
-
-        if (user !== null) {
-          const docRef = doc(firestore, "users", currentUser.uid);
+        const docRef = query(
+          collection(firestore, "users"),
+          where("email", "==", currentUser.email)
+        );
+        try {
           await getDoc(docRef).then((onSnapshot) => {
             console.log(onSnapshot);
             const userRole = onSnapshot.get("role");
@@ -102,9 +105,12 @@ export const NavBar = (props) => {
               document.getElementById("admin-page").style.display = "none";
             }
           });
+        } catch (error) {
+          console.log(error);
         }
       }
     };
+
     userCheck();
   });
 

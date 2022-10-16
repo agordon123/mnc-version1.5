@@ -4,11 +4,10 @@ import { Box, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import { ProfileChange } from "../../components/Account/ChangeUserInfo";
-import { PortfolioChange } from "../../components/Account/PortfolioChange";
+
 import SignOutBox from "../../components/Account/SignOutBox";
 //import NavBar from "../../components/Misc/NavBar";
-import ProfileEdit from "../../components/Account/AccountProfile";
+import {ProfileChange} from "../../components/Account/ProfileChange";
 import ChangePassword from "../../components/Account/ChangePassword";
 import { useFirestore,useUser } from "reactfire";
 import { useAuth } from "reactfire";
@@ -35,8 +34,7 @@ const Item2 = styled(Paper)(({ theme }) => ({
 //need a profile edit component/form
 //needs a component to display the profile automatically upon loading
 export const AccountPage = (props) => {
-  const { loggedInUser } = props;
-  const navigate = useNavigate();
+  const { role,email,userName } = props;
   const location = useLocation();
   const { status, data: user } = useAuth();
   const firestore = useFirestore();
@@ -68,8 +66,8 @@ export const AccountPage = (props) => {
           <Item sx={{ height: 516, width: 1444 }}>
             <Grid container spacing={5}>
               <Grid item xs={6}>
-                  <ProfileChange></ProfileChange>
-                  <PortfolioChange></PortfolioChange>
+                  <ProfileChange role={props.role} userName={props.userName} email={props.email}></ProfileChange>
+                
               </Grid>
               <Grid item xs={4}>
                 <SignOutBox></SignOutBox>
