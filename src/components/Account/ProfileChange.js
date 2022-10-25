@@ -136,9 +136,10 @@ export const ProfileChange = (props) => {
       sx={{
         "& .MuiTextField-root": { m: 1,width:'50%' },
         border: 1,
-        borderColor: "gray",
+        borderColor: "lightgray",
         borderRadius: "5px",
-        backgroundColor: "gray",
+        backgroundColor: "#eeeeee",
+        fontFamily: "Garamond",
       }}
       noValidate
       onSubmit={handleSubmit}
@@ -150,7 +151,7 @@ export const ProfileChange = (props) => {
           alignItems: "center",
           justifyContent: "center",
           fontSize: "40px",
-          color: "white",
+          color: "gray",
         }}
       >
         Edit User Info

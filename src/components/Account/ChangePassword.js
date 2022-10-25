@@ -53,25 +53,25 @@ export const ChangePassword = () => {
   }, []);
 
   return (
-    <Fragment>
+    <React.Fragment>
       <Box
         className="account-password-container"
         component="form"
-        style={{backgroundColor:"grey"}}
+        style={{backgroundColor: "#eeeeee",}}
         sx={{ display: "flex", flexDirection: "column" }}
       >
-        <Typography variant="h4" sx={{color:"white"}}>Change Password</Typography>
+        <Typography variant="h4" sx={{color: "gray", fontFamily: "Garamond"}}>Change Password</Typography>
       
         <TextField
           name="oldPassword"
           onChange={(e) => setOldPassword(e.target.value)}
-          style={{backgroundColor:"white"}}
+          style={{backgroundColor:"white", fontFamily: "Garamond",}}
          />
          
         <TextField
           name="newPassword"
           onChange={(e) => setNewPassword(e.target.value)}
-          style={{backgroundColor:"white"}}
+          style={{backgroundColor:"white", fontFamily: "Garamond",}}
           
         />
         <TextField
@@ -81,11 +81,11 @@ export const ChangePassword = () => {
           
         />
         <Button onClick={handlePWChange}
-        style={{color:"white"}}>Change Password</Button>
+        style={{color: "gray", fontFamily: "Garamond",}}>Change Password</Button>
         <Button
-        style={{color:"white"}}>Change</Button>
+        style={{color: "gray", fontFamily: "Garamond",}}>Change</Button>
       </Box>
-    </Fragment>
+    </React.Fragment>
   );
 };
 

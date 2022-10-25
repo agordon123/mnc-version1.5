@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-export default function FormControlLabelPlacement() {
+export default function FilterRadioButtons() {
   //const [value, setValue] = useState('female');
 
   const [listing, setListing] = useState('listing');
@@ -28,9 +28,8 @@ export default function FormControlLabelPlacement() {
     width: "100%",
     margin: "auto",
     }}>
-      <FormLabel id="demo-controlled-radio-buttons-group"
-      sx={{fontWeight: 'bold', fontSize:"25px"}}
-      >Listing Filter</FormLabel>
+    
+        
       <RadioGroup
         aria-labelledby="demo-controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"

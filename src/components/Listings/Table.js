@@ -45,12 +45,13 @@ const initialValues = {
   listed_by: "",
   created_at: "",
 };
+
 export default function BasicTable(props) {
   const firestore = useFirestore();
   const storage = useStorage();
   const batch = writeBatch(firestore);
   const formRef = useRef();
-  const [data, setData] =useState(initialValues);
+  const [data, setData] = useState(initialValues);
   const [docID, setDocID] = useState("");
   const [userRole, setUserRole] = useState("");
   const[street, setStreet] = useState("");
@@ -74,6 +75,7 @@ export default function BasicTable(props) {
   };
   
   const [setDocData] = useState("");
+  
  useEffect(() => {
     const userCheck = async () => {
           await getDoc(collectionRef).then((onSnapshot) => {
@@ -102,7 +104,10 @@ const docRef = doc(firestore, "users", currentUser.uid);
  //const [data, setData] = 
  
  
- useState("");
+ //useState("");
+
+
+ 
 
 
   function createData(name, info) {

@@ -31,12 +31,13 @@ export const SignOutBox = () => {
         position: "relative",
         textAlign: "left",
         backgroundColor: "#eeeeee",
-        color: "rgb(128, 128, 128)",
+        color: "gray",
         fontSize: "20px",
+        fontFamily: "Garamond",
       }}
       className="SignOutBox"
     >
-      <Typography variant="h4">Sign Out</Typography>
+      <Typography variant="h4" sx={{}}>Sign Out</Typography>
 
       <Typography variant="body1">
         Signing out? You can always log back in

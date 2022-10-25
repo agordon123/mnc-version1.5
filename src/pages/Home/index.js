@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { NavBar } from "../../components/Misc/NavBar";
 import { MNCLogo } from "../../components/Misc/MNCLogo";
 import { SearchForm } from "../../components/Home/SearchForm";
+
 //actions needed to finish HomePage
 //needs to be styled and modularized into a logo and search bar , and a footer underneath
 

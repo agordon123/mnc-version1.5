@@ -1,13 +1,31 @@
 import { IconButton, Grid, Button, Stack } from "@mui/material";
 import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
-import { query, collection, getDocs, where ,} from "firebase/firestore";
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useEffect } from "react";
 import { InputUnstyled } from "@mui/base";
 import Item from "../Misc/Surface";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { styled } from "@mui/system";
+import { useUser, useFirestore, useSigninCheck } from "reactfire";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  setDoc,
+  collection,
+  where,
+  addDoc,
+  Firestore,
+} from "firebase/firestore";
+import { Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "../../pages/Home/styles.css";
+
 //import FilterBox from "./Filter";
-import FormControlLabelPlacement from "./FilterRadioButtons";
+//import FormControlLabelPlacement from "./FilterRadioButtons";
+import FilterRadioButtons  from "../../components/Home/FilterRadioButtons";
+import { async } from "@firebase/util";
 const blue = {
   100: "#DAECFF",
   200: "#80BFFF",
@@ -57,6 +75,7 @@ const StyledInputElement = styled("input")(
 `
 );
 const CustomInput = forwardRef(function CustomInput(props, ref) {
+  
   return (
     <InputUnstyled
       components={{ Input: StyledInputElement }}
@@ -64,11 +83,23 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
       ref={ref}
       className="search-input"
       type="text"
-      onChange={(e) => e.target.value}
       placeholder="Search by City"
     />
   );
 });
+const initialValues = {
+  type: "forSale",
+  id: "",
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
+  price: "",
+  description: "",
+  images: [],
+  listed_by: "",
+  created_at: "",
+};
 
 export const SearchForm = (props) => {
 
@@ -101,8 +132,27 @@ export const SearchForm = (props) => {
     setIsHover3(false);
   };
 
-  const [searchQuery, setSearchQuery] = useState("");
+  //const [data, setData] = useState("");
+  const[info, setInfo] = useState(initialValues);
+  const [listings, setListings] = useState([]);
+  const { status, data: signInCheckResult } = useSigninCheck();
+  const firestore = useFirestore();
+  //const [docID, setDocID] = useState("");
+  const listingsRef = collection(firestore, `listings/${info.type}/properties`);
+    
+  useEffect(()=>{
+    const getData = async ()=>{
+      const data = await getDocs(listingsRef);
+      setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+      console.log(data);
+    };
+    getData();
+  }, []);
+
+  const [searchQuery, setSearchQuery] = useState([]);
+
   const [type, setType] = useState("");
+
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -179,14 +229,23 @@ export const SearchForm = (props) => {
           >
             Sold
           </Button>
+         
         </Item>
       </Grid2>
+      <br></br>
+      <Item  elevation={0}
+      sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+      <FilterRadioButtons></FilterRadioButtons>
+      </Item>
       <br></br>
       <Item
         elevation={0}
         sx={{ width: "100%", flexDirection: "row", display: "flex" }}
       >
-        <CustomInput onChange={(e) => e.target.value} />
+       
+       
+        <CustomInput onChange={(e) => setListings(e.target.value)}/>
+        
         <IconButton
           className="search-icon"
           aria-label="search"
@@ -199,6 +258,7 @@ export const SearchForm = (props) => {
           }}
           onClick={handleSearch}
         >
+  
           <SearchTwoToneIcon
             sx={{
               height: 35,
@@ -206,9 +266,25 @@ export const SearchForm = (props) => {
             }}
           />
         </IconButton>
+
+      </Item>
+      <Item elevation={0}
+sx={{flexDirection: "column", display: "flex" }} className="box">
+      {listings.map((listing, index)=> {
+   return( 
+   <div key = {index}>
+    <p> Bathrooms: {listing.bathrooms}</p>
+     <p>Price: {listing.price}</p>
+     <p>City: {listing.city}</p>
+     <p>Description: {listing.descriptions}</p>
+     <p>State: {listing.state}</p>
+     <p>Street: {listing.street}</p>
+     <p>Zip: {listing.zip}</p>
+   </div>
+   );
+ })}
       </Item>
       <br></br>
-     <FormControlLabelPlacement></FormControlLabelPlacement>
     </Grid2>
   );
 };
