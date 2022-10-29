@@ -106,10 +106,7 @@ export const SearchForm = (props) => {
   const [isHover, setIsHover] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
   const [isHover3, setIsHover3] = useState(false);
-  const handleSearch = (e) => {
-    e.preventDefault();
 
-  }
   const handleMouseEnter = () => {
     setIsHover(true);
   };
@@ -135,6 +132,19 @@ export const SearchForm = (props) => {
   //const [data, setData] = useState("");
   const[info, setInfo] = useState(initialValues);
   const [listings, setListings] = useState([]);
+/*
+  const [listings, setListings] = useState([
+  {"street": ""},
+  {"city": ""},
+  {"state": ""},
+  {"zip": ""},
+  {"price": ""},
+  {"description": ""},
+  {"images": []},
+  {"listed_by": ""},
+  {"created_at": ""}]);
+ */
+ 
   const { status, data: signInCheckResult } = useSigninCheck();
   const firestore = useFirestore();
   //const [docID, setDocID] = useState("");
@@ -149,9 +159,20 @@ export const SearchForm = (props) => {
     getData();
   }, []);
 
-  const [searchQuery, setSearchQuery] = useState([]);
+  const handleSearch = (e) => {
+    e.preventDefault();
+  }
 
+  
   const [type, setType] = useState("");
+
+  
+  const [searchQuery, setSearchQuery] = useState("");
+ 
+
+  const getInfo = async() =>{
+      await getDocs(listingsRef, {bathrooms: searchQuery})
+  };
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
@@ -244,7 +265,7 @@ export const SearchForm = (props) => {
       >
        
        
-        <CustomInput onChange={(e) => setListings(e.target.value)}/>
+        <CustomInput onChange={handleChange}/>
         
         <IconButton
           className="search-icon"
@@ -256,7 +277,7 @@ export const SearchForm = (props) => {
             width: 35,
             top: 8,
           }}
-          onClick={handleSearch}
+          onClick={getInfo}
         >
   
           <SearchTwoToneIcon
@@ -270,13 +291,14 @@ export const SearchForm = (props) => {
       </Item>
       <Item elevation={0}
 sx={{flexDirection: "column", display: "flex" }} className="box">
-      {listings.map((listing, index)=> {
+      {
+      listings.map((listing, index)=> {
    return( 
    <div key = {index}>
     <p> Bathrooms: {listing.bathrooms}</p>
      <p>Price: {listing.price}</p>
      <p>City: {listing.city}</p>
-     <p>Description: {listing.descriptions}</p>
+     <p>Description: {listing.description}</p>
      <p>State: {listing.state}</p>
      <p>Street: {listing.street}</p>
      <p>Zip: {listing.zip}</p>
