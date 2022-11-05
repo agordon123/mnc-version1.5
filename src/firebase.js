@@ -7,10 +7,11 @@ import {
   StorageProvider,
   AuthProvider,
   useFirebaseApp,
-  FirestoreProvider,
+  FirestoreProvider,useInitAuth,useInitFirestore,useInitStorage, AppCheckProvider
 } from "reactfire";
 import { App } from "./App";
 import { BrowserRouter } from "react-router-dom";
+import { initializeAppCheck } from "firebase/app-check";
 export const firebaseConfig = {
   apiKey: "AIzaSyDWCSguMcsxy-39ZV2vfPJwQdmd44JP0rk",
   authDomain: "mnc-development.firebaseapp.com",
@@ -29,12 +30,15 @@ export const GlobalFirebaseProvider = ({ children }) => {
   const auth = getAuth(app);
   const db = getFirestore(app);
   const storage = getStorage(app);
+
   return (
     <BrowserRouter>
       <AuthProvider sdk={auth}>
         <FirestoreProvider sdk={db}>
           <StorageProvider sdk={storage}>
+      
             <App />
+         
           </StorageProvider>
         </FirestoreProvider>
       </AuthProvider>

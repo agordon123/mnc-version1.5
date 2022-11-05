@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useReducer, useRef } from "react";
-import { Box, TextField, Button, ButtonGroup, Dialog } from "@mui/material";
-import { CustomButton } from "../Misc/Buttons";
+import { ConstructionOutlined } from "@mui/icons-material";
+import { Alert, Box, Button, ButtonGroup, Dialog, TextField } from "@mui/material";
+import { beforeAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
-import { useUser } from "reactfire";
+import { useAuth, useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
+import { CustomButton } from "../Misc/Buttons";
+
+
 export const RegisterForm = ({ title }) => {
+  const [loading,setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,10 +17,49 @@ export const RegisterForm = ({ title }) => {
   const navigate = useNavigate();
   const formRef = useRef();
   const {data:user} = useUser();
-
-  const handleSubmit = async(e) =>{
-    e.preventDefault();
-
+  const firestore = useFirestore();
+  const collectionRef = collection(firestore,'/users');
+  const {data:auth} = useAuth();
+  const createUserInFirestore =async(email,uuid) =>{
+    try{
+    const uuid = uuid;
+    const email = email;
+    addDoc(collectionRef +`${uuid}`,{email:email,role:"user",uid:uuid,created_at:serverTimestamp(),portfolioMin:0,portfolioMax:1000000}).then((onComplete)=>{
+      console.log(onComplete);
+      setTimeout(onComplete,3000);
+      navigate('/',)
+    })
+    }catch(error){
+      console.log(error,"error creating user in firestore");
+    }
+  } 
+  const handleSubmit = async() =>{
+    setLoading=true;
+    if(!validatePassword())
+    {
+      listErrors();
+    }else{
+      
+      try {
+        await createUserWithEmailAndPassword(auth,email,password).then((userCred)=>{
+          const email = userCred.user.email;
+          const uuid = userCred.user.uid;
+          const subscribe = beforeAuthStateChanged(auth,userCred,()=>createUserInFirestore(email,uuid))
+         
+           createUserInFirestore(email,uuid).then((res)=>{
+            setTimeout(res,2000);
+            if(!res.error){
+            return <Alert severity="success"> New User {uuid} created</Alert>
+            }else{
+              return <Alert severity="error"> Problem Creating User</Alert>
+            }
+            
+          });
+        });
+      } catch (error) {
+        console.log(error,"error message")
+      }
+    }
   }
   const resetPassword = () => {
     navigate("/reset-password");
@@ -38,7 +81,9 @@ export const RegisterForm = ({ title }) => {
     }
     return isValid;
   };
-
+ useEffect(()=>{
+  
+ })
   return (
     <div className="register-form">
       <h1> {title} Form</h1>
@@ -46,7 +91,8 @@ export const RegisterForm = ({ title }) => {
         component="form"
         autoComplete
         noValidate
-    
+        ref={formRef}
+        onSubmit={handleSubmit}
         sx={{
           display: "flex",
           flexDirection: "column",

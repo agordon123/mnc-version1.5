@@ -152,9 +152,12 @@ export const SearchForm = (props) => {
     
   useEffect(()=>{
     const getData = async ()=>{
-      const data = await getDocs(listingsRef);
-      setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
-      console.log(data);
+      const q = await getDocs(listingsRef,where()).then((onSnapshot)=>{
+        onSnapshot.docs.entries();
+        setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+        console.log(data);
+        })
+      
     };
     getData();
   }, []);

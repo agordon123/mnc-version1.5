@@ -37,7 +37,6 @@ import {
   uploadBytes,
   ref,
 } from "firebase/storage";
-import { child } from "firebase/database";
 
 const initialValues = {
   docId: "",

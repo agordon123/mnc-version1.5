@@ -1,33 +1,42 @@
-import React, { useState, useEffect, useContext, startTransition } from "react";
+import React, { useState, useEffect, startTransition,Suspense ,useCallback, useMemo} from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { LogoutOutlined } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import { StyledComponent } from "styled-components";
-import { auth } from "../../firebase";
-import { useUser, useFirestore, useSigninCheck } from "reactfire";
-import { doc, getDoc, query, where, collection } from "firebase/firestore";
-import { Spinner } from "react-bootstrap";
-/*const NavBarItem =StyledComponent.button`
-  border: none;
-  background-color: rgb(196, 196, 196);
-  cursor: pointer;
-  color: white;
-  font-size: 20px;
-  padding: 19px 20px;
-  text-decoration: none;
-  text-align: left;
-  z-index: 3;
-`; */
+import app, { auth } from "../../firebase";
+import { useUser, useFirestore, useSigninCheck, useFirestoreDocData, checkOptions, useInitAuth, useFirestoreCollection } from "reactfire";
+import { doc, getDoc, query, where, collection, orderBy } from "firebase/firestore";
+import { setTokenAutoRefreshEnabled } from "firebase/app-check";
 
-export const NavBar = (props) => {
-  const { role, email } = props;
-  const { data: user } = useUser();
+const logoutButton = document.getElementById('logout');
+const loginButton = document.getElementById('login-page');
+const adminButton = document.getElementById('admin-page');
+export const buttonHider = (userState) =>{
+  if(userState.loggedIn === true && userState.role !== "Administrator"){
+    logoutButton.style.display = "list-item";
+    loginButton.style.display  = "none";
+    adminButton.style.display = "none"
+  }else if(userState.loggedIn === true && userState.role === "Administrator"){
+    logoutButton.style.display = "list-item";
+    loginButton.style.display = "none";
+    adminButton.style.display = "list-item"
+  }else{
+    logoutButton.style.display = "none";
+    loginButton.style.display = "list-item";
+    adminButton.style.display ="none"
+  }
+}
+export const NavBar = () => {
+ 
+  const { status,data: user } = useUser();
   const firestore = useFirestore();
+  
+  const collectionRef = collection(firestore,'/users');
+ 
+ 
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState("");
-  const { status, data: signInCheckResult } = useSigninCheck();
+  
+  const { data: signInCheckResult } = useSigninCheck();
   const pages = [
     {
       page: "/admin",
@@ -64,7 +73,9 @@ export const NavBar = (props) => {
       page: "/",
       text: "Logout",
       onClickFunc: () => {
-        signOut(auth).then(() => {
+        signOut(auth).then((res) => {
+          console.log(res);
+          if(!res.error)
           navigate("/");
         });
       },
@@ -72,14 +83,29 @@ export const NavBar = (props) => {
       id: "logout",
     },
   ];
+  const buttonHider = (user) =>{
+    
+    if(user === true && user !== "Administrator"){
+      logoutButton.style.display = "list-item";
+      loginButton.style.display  = "none";
+      adminButton.style.display = "none"
+    }else if(user === true && user === "Administrator"){
+      logoutButton.style.display = "list-item";
+      loginButton.style.display = "none";
+      adminButton.style.display = "list-item"
+    }else{
+      logoutButton.style.display = "none";
+      loginButton.style.display = "list-item";
+      adminButton.style.display ="none"
+    }
 
+  }
   useEffect(() => {
+ 
     const userCheck = async () => {
-      if (status === "loading") {
-        return <Spinner />;
-      }
-      if (signInCheckResult.signedIn === true) {
-        console.log(user);
+      if (status !== "loading" && signInCheckResult.user !==null ) 
+       {
+        console.log(signInCheckResult);
         const currentUser = signInCheckResult.user;
         const docRef = query(
           collection(firestore, "users"),
@@ -87,31 +113,19 @@ export const NavBar = (props) => {
         );
         try {
           await getDoc(docRef).then((onSnapshot) => {
-            console.log(onSnapshot);
-            const userRole = onSnapshot.get("role");
-            console.log(userRole);
-            setUserRole(userRole);
-            if (userRole === "Administrator") {
-              document.getElementById("logout").style.display = "list-item";
-              document.getElementById("login-page").style.display = "none";
-              document.getElementById("admin-page").style.display = "list-item";
-            } else if (userRole !== null) {
-              document.getElementById("logout").style.display = "list-item";
-              document.getElementById("login-page").style.display = "none";
-              document.getElementById("admin-page").style.display = "none";
-            } else {
-              document.getElementById("logout").style.display = "none";
-              document.getElementById("login-page").style.display = "list-item";
-              document.getElementById("admin-page").style.display = "none";
-            }
+           const userResult = onSnapshot.data()
+          
           });
         } catch (error) {
           console.log(error);
         }
       }
     };
-
-    userCheck();
+    userCheck().then(()=>{
+      setTokenAutoRefreshEnabled(app)
+      onAuthStateChanged(auth,buttonHider())
+      
+    })
   });
 
   return (

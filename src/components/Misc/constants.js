@@ -6,8 +6,8 @@ export const TextInput = forwardRef((props, ref) => (
   <input ref={ref} className="TextInput" {...props} />
 ));
 
-export const AuditLogger = (props) => {
-  const { action, username, userDoc, targetid } = props;
+export const AuditLogger = ({ action, username, userDoc, targetid }) => {
+ 
   switch (action) {
     case "created user":
       return { action: action, timestamp: serverTimestamp(),username:username,userDoc:userDoc,targetid:targetid };

@@ -1,7 +1,7 @@
 import React, { useState, useRef, Fragment } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Box, TextField, Button } from "@mui/material";
-import { authInstance,db,useAuth } from "../../firebase";
+import { useAuth,useInitAuth } from "reactfire";
 const ResetPassword = ({ title }) => {
   const [ email, setEmail ] = useState("");
   const { user, userDoc } = useAuth();

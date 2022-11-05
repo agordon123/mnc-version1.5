@@ -9,36 +9,27 @@ import Contact from "./pages/Contact/index";
 import HomePage from "./pages/Home/index";
 import AdminDashboard from "./pages/Admin";
 import AuditLog from "./pages/Admin/AuditLog";
-import { useUser } from "reactfire";
+import { preloadFirestoreDoc, useSigninCheck, useUser,preloadUser, useFirestore, useFirestoreDoc, useObservable, useAuth } from "reactfire";
 import NavBar from "./components/Misc/NavBar";
 import { Spinner } from "react-bootstrap";
+import { getDoc, query } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { buttonHider } from "./components/Misc/NavBar";
 
-export const App = () => {
-  const { status, data: user } = useUser();
+export const App = ({children}) => {
 
-  const getUser = async () => {
-    if (status === "loading") {
-      return <Spinner />;
-    }
-    return user;
-  };
+ 
+  
+  
+
+
+
   useEffect(() => {
-    const userCheck = async () => {
-      if (status === "loading") {
-        return <Spinner />;
-      }
-      if (user !== null) {
-        const currentUser = user;
-        return currentUser;
-      } else {
-        return false;
-      }
-    };
-    userCheck();
+
   });
   return (
     <div className="App">
-      <NavBar user={getUser} />
+   <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/contact" element={<Contact />} />
@@ -57,7 +48,7 @@ export const App = () => {
           path="/create-profile"
           element={<AuthPage title="New User Profile" />}
         />
-        <Route path="/auditlog" element={<AuditLog />} />
+        <Route path="/admin/auditlog" element={<AuditLog />} />
       </Routes>
     </div>
   );
