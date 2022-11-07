@@ -130,8 +130,23 @@ export const SearchForm = (props) => {
   };
 
   //const [data, setData] = useState("");
-  const[info, setInfo] = useState(initialValues);
-  const [listings, setListings] = useState([]);
+  const[data, setData] = useState(initialValues);
+  const [listings, setListings] = useState([
+    {
+    bathrooms:"",
+    bedrooms:"",
+    street:"", 
+    city:"", 
+    state:"", 
+    zip:"", 
+    price:"",
+    description:"",
+    images:[],
+    listed_by:"",
+    created_at:""
+  }
+  ]);
+  
 /*
   const [listings, setListings] = useState([
   {"street": ""},
@@ -148,16 +163,7 @@ export const SearchForm = (props) => {
   const { status, data: signInCheckResult } = useSigninCheck();
   const firestore = useFirestore();
   //const [docID, setDocID] = useState("");
-  const listingsRef = collection(firestore, `listings/${info.type}/properties`);
-    
-  useEffect(()=>{
-    const getData = async ()=>{
-      const data = await getDocs(listingsRef);
-      setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
-      console.log(data);
-    };
-    getData();
-  }, []);
+  const listingsRef = collection(firestore, `listings/${data.type}/properties`);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -166,16 +172,34 @@ export const SearchForm = (props) => {
   
   const [type, setType] = useState("");
 
-  
-  const [searchQuery, setSearchQuery] = useState("");
- 
 
-  const getInfo = async() =>{
-      await getDocs(listingsRef, {bathrooms: searchQuery})
+  const [searchQuery, setSearchQuery] = useState("");
+  useEffect(()=>{
+
+   
+  },[]);
+
+  const getData = async ()=>{
+    try {
+      console.log(listingsRef, where("bathrooms", "<=", `${searchQuery}` ))
+      const q = await 
+      query(listingsRef, where("bathrooms", "<=", `${searchQuery}` )).then((onSnapshot)=>{
+        onSnapshot.docs.map((field,idx)=>{
+          console.log(field,idx);
+        })
+        //setListings(data.docs?.map((doc)=> ({...doc.data(), id: doc.id})));
+        console.log(data)})
+    } catch (error) {
+    }
+  };
+
+  const getListingsData = async() =>{
+      await getDocs(listingsRef, {"bathrooms": searchQuery})
   };
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
+    e.preventDefault();
   };
 
   return (
@@ -265,7 +289,7 @@ export const SearchForm = (props) => {
       >
        
        
-        <CustomInput onChange={handleChange}/>
+        <CustomInput onChange={handleChange} value={searchQuery} onClick={getData}/>
         
         <IconButton
           className="search-icon"
@@ -277,7 +301,6 @@ export const SearchForm = (props) => {
             width: 35,
             top: 8,
           }}
-          onClick={getInfo}
         >
   
           <SearchTwoToneIcon
@@ -292,16 +315,17 @@ export const SearchForm = (props) => {
       <Item elevation={0}
 sx={{flexDirection: "column", display: "flex" }} className="box">
       {
-      listings.map((listing, index)=> {
+      listings?.map((listings, index)=> {
    return( 
    <div key = {index}>
-    <p> Bathrooms: {listing.bathrooms}</p>
-     <p>Price: {listing.price}</p>
-     <p>City: {listing.city}</p>
-     <p>Description: {listing.description}</p>
-     <p>State: {listing.state}</p>
-     <p>Street: {listing.street}</p>
-     <p>Zip: {listing.zip}</p>
+    <p> Bathrooms: {listings.bathrooms}</p>
+    <p>Bedrooms:{listings.bedrooms}</p>
+     <p>Price: {listings.price}</p>
+     <p>City: {listings.city}</p>
+     <p>Description: {listings.description}</p>
+     <p>State: {listings.state}</p>
+     <p>Street: {listings.street}</p>
+     <p>Zip: {listings.zip}</p>
    </div>
    );
  })}
