@@ -79,7 +79,6 @@ export const NavBar = () => {
           navigate("/");
         });
       },
-      //onClickFunc: () => navigate{},
       id: "logout",
     },
   ];

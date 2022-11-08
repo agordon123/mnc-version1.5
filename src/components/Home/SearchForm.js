@@ -145,14 +145,17 @@ export const SearchForm = (props) => {
   {"created_at": ""}]);
  */
  
-  const { status, data: signInCheckResult } = useSigninCheck();
+  //const { status, data: signInCheckResult } = useSigninCheck();
   const firestore = useFirestore();
   //const [docID, setDocID] = useState("");
+  const [type, setType] = useState("");
   const listingsRef = collection(firestore, `listings/${info.type}/properties`);
-    
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(()=>{
     const getData = async ()=>{
-      const q = await getDocs(listingsRef,where()).then((onSnapshot)=>{
+
+      const data = await getDocs(listingsRef,where("bathrooms" , "<=", `${searchQuery}`)).then((onSnapshot)=>{
         onSnapshot.docs.entries();
         setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
         console.log(data);
@@ -166,19 +169,14 @@ export const SearchForm = (props) => {
     e.preventDefault();
   }
 
-  
-  const [type, setType] = useState("");
-
-  
-  const [searchQuery, setSearchQuery] = useState("");
- 
-
   const getInfo = async() =>{
       await getDocs(listingsRef, {bathrooms: searchQuery})
   };
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
+    e.preventDefault();
+
   };
 
   return (
@@ -268,7 +266,7 @@ export const SearchForm = (props) => {
       >
        
        
-        <CustomInput onChange={handleChange}/>
+        <CustomInput onChange={handleChange} value={searchQuery}/>
         
         <IconButton
           className="search-icon"
@@ -280,7 +278,6 @@ export const SearchForm = (props) => {
             width: 35,
             top: 8,
           }}
-          onClick={getInfo}
         >
   
           <SearchTwoToneIcon
