@@ -151,7 +151,11 @@ export const SearchForm = (props) => {
   const [type, setType] = useState("");
   const listingsRef = collection(firestore, `listings/${info.type}/properties`);
   const [searchQuery, setSearchQuery] = useState("");
-  
+  const handleChange = (e) => {
+    setSearchQuery(e.target.value);
+    e.preventDefault();
+
+  };
   useEffect(()=>{
      const getData = async ()=>{
       const data = await getDocs(listingsRef);
@@ -166,8 +170,23 @@ export const SearchForm = (props) => {
   const seachFilter = listings.filter((listing)=>{
     return listing.bathrooms.includes(searchWord)
   });
+  if (searchWord === ''){
+       setListings([]);
+  }else {
+    setListings(seachFilter);
+  }
+ };
+
+ /*const seachFilter = listings.filter((listing)=>{
+    if (listings === ''){
+       return listing;
+    }
+    else if (listing.bathrooms.includes(searchWord)) {
+      return listing;
+    }
+  });
   setListings(seachFilter);
- }
+ } */
 
 /*
   const getData = async ()=>{
@@ -189,11 +208,7 @@ export const SearchForm = (props) => {
       await getDocs(listingsRef, {bathrooms: searchQuery})
   };
 */
-  const handleChange = (e) => {
-    setSearchQuery(e.target.value);
-    e.preventDefault();
-
-  };
+ 
 
   return (
     <Grid2
@@ -305,11 +320,11 @@ export const SearchForm = (props) => {
 
       </Item>
       <Item elevation={0}
-sx={{flexDirection: "column", display: "flex" }} className="box">
+sx={{flexDirection: "column", display: "flex" }}>
       {
       listings.map((listing, index)=> {
    return( 
-   <div key = {index}>
+   <div className = "box" key = {index}>
     <p> Bathrooms: {listing.bathrooms}</p>
      <p>Price: {listing.price}</p>
      <p>City: {listing.city}</p>
