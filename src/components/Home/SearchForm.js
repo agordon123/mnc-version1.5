@@ -130,23 +130,8 @@ export const SearchForm = (props) => {
   };
 
   //const [data, setData] = useState("");
-  const[data, setData] = useState(initialValues);
-  const [listings, setListings] = useState([
-    {
-    bathrooms:"",
-    bedrooms:"",
-    street:"", 
-    city:"", 
-    state:"", 
-    zip:"", 
-    price:"",
-    description:"",
-    images:[],
-    listed_by:"",
-    created_at:""
-  }
-  ]);
-  
+  const[info, setInfo] = useState(initialValues);
+  const [listings, setListings] = useState([]);
 /*
   const [listings, setListings] = useState([
   {"street": ""},
@@ -160,46 +145,54 @@ export const SearchForm = (props) => {
   {"created_at": ""}]);
  */
  
-  const { status, data: signInCheckResult } = useSigninCheck();
+  //const { status, data: signInCheckResult } = useSigninCheck();
   const firestore = useFirestore();
   //const [docID, setDocID] = useState("");
-  const listingsRef = collection(firestore, `listings/${data.type}/properties`);
+  const [type, setType] = useState("");
+  const listingsRef = collection(firestore, `listings/${info.type}/properties`);
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  useEffect(()=>{
+     const getData = async ()=>{
+      const data = await getDocs(listingsRef);
+      setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+      console.log(data);
+     }
+     getData();
+  }, []);
+
+ const handleFilter =(e) =>{
+  const searchWord = e.target.value;
+  const seachFilter = listings.filter((listing)=>{
+    return listing.bathrooms.includes(searchWord)
+  });
+  setListings(seachFilter);
+ }
+
+/*
+  const getData = async ()=>{
+    const data = await getDocs(listingsRef, where("bathrooms" , "==", `${searchQuery}`)).then((onSnapshot)=>{
+      onSnapshot.docs.entries(listings.bathrooms);
+      setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+      console.log(data);
+      })
+  };
+  getData();
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
   }
-
-  
-  const [type, setType] = useState("");
-
-
-  const [searchQuery, setSearchQuery] = useState("");
-  useEffect(()=>{
-
-   
-  },[]);
-
-  const getData = async ()=>{
-    try {
-      console.log(listingsRef, where("bathrooms", "<=", `${searchQuery}` ))
-      const q = await 
-      query(listingsRef, where("bathrooms", "<=", `${searchQuery}` )).then((onSnapshot)=>{
-        onSnapshot.docs.map((field,idx)=>{
-          console.log(field,idx);
-        })
-        //setListings(data.docs?.map((doc)=> ({...doc.data(), id: doc.id})));
-        console.log(data)})
-    } catch (error) {
-    }
+  */
+/*
+  const getInfo = async() =>{
+      await getDocs(listingsRef, {bathrooms: searchQuery})
   };
-
-  const getListingsData = async() =>{
-      await getDocs(listingsRef, {"bathrooms": searchQuery})
-  };
-
+*/
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
     e.preventDefault();
+
   };
 
   return (
@@ -288,8 +281,7 @@ export const SearchForm = (props) => {
         sx={{ width: "100%", flexDirection: "row", display: "flex" }}
       >
        
-       
-        <CustomInput onChange={handleChange} value={searchQuery} onClick={getData}/>
+        <CustomInput onChange={handleFilter} />
         
         <IconButton
           className="search-icon"
@@ -315,17 +307,16 @@ export const SearchForm = (props) => {
       <Item elevation={0}
 sx={{flexDirection: "column", display: "flex" }} className="box">
       {
-      listings?.map((listings, index)=> {
+      listings.map((listing, index)=> {
    return( 
    <div key = {index}>
-    <p> Bathrooms: {listings.bathrooms}</p>
-    <p>Bedrooms:{listings.bedrooms}</p>
-     <p>Price: {listings.price}</p>
-     <p>City: {listings.city}</p>
-     <p>Description: {listings.description}</p>
-     <p>State: {listings.state}</p>
-     <p>Street: {listings.street}</p>
-     <p>Zip: {listings.zip}</p>
+    <p> Bathrooms: {listing.bathrooms}</p>
+     <p>Price: {listing.price}</p>
+     <p>City: {listing.city}</p>
+     <p>Description: {listing.description}</p>
+     <p>State: {listing.state}</p>
+     <p>Street: {listing.street}</p>
+     <p>Zip: {listing.zip}</p>
    </div>
    );
  })}
