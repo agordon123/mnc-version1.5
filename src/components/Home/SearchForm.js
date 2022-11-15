@@ -150,12 +150,14 @@ export const SearchForm = (props) => {
   //const [docID, setDocID] = useState("");
   const [type, setType] = useState("");
   const listingsRef = collection(firestore, `listings/${info.type}/properties`);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState([]);
+  /*
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
     e.preventDefault();
 
   };
+  */
   useEffect(()=>{
      const getData = async ()=>{
       const data = await getDocs(listingsRef);
@@ -170,13 +172,12 @@ export const SearchForm = (props) => {
   const seachFilter = listings.filter((listing)=>{
     return listing.bathrooms.includes(searchWord)
   });
-  if (searchWord === ''){
-       setListings([]);
+  if (searchWord === ""){
+    setSearchQuery([]);
   }else {
-    setListings(seachFilter);
+    setSearchQuery(seachFilter);
   }
  };
-
  /*const seachFilter = listings.filter((listing)=>{
     if (listings === ''){
        return listing;
@@ -285,12 +286,7 @@ export const SearchForm = (props) => {
          
         </Item>
       </Grid2>
-      <br></br>
-      <Item  elevation={0}
-      sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-      <FilterRadioButtons></FilterRadioButtons>
-      </Item>
-      <br></br>
+     
       <Item
         elevation={0}
         sx={{ width: "100%", flexDirection: "row", display: "flex" }}
@@ -321,20 +317,25 @@ export const SearchForm = (props) => {
       </Item>
       <Item elevation={0}
 sx={{flexDirection: "column", display: "flex" }}>
-      {
-      listings.map((listing, index)=> {
-   return( 
-   <div className = "box" key = {index}>
-    <p> Bathrooms: {listing.bathrooms}</p>
-     <p>Price: {listing.price}</p>
-     <p>City: {listing.city}</p>
-     <p>Description: {listing.description}</p>
+
+{searchQuery.length !== 0 && (
+ <div>
+  {searchQuery.slice(0,15).map((listing, index)=>{
+    return(
+      <div className = "box" key = {index}>
+      <p>Bathrooms: {listing.bathrooms}</p>
+      <p>Price: {listing.price}</p>
+      <p>City: {listing.city}</p>
+     <p>Description: {listing.description}</p> 
      <p>State: {listing.state}</p>
      <p>Street: {listing.street}</p>
      <p>Zip: {listing.zip}</p>
-   </div>
-   );
- })}
+      </div>
+    )
+   
+  })}
+ </div>
+)}
       </Item>
       <br></br>
     </Grid2>
