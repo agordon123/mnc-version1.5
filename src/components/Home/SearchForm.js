@@ -1,5 +1,6 @@
 import { IconButton, Grid, Button, Stack } from "@mui/material";
 import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
+import CloseIcon from '@mui/icons-material/Close';
 import React, { useState, forwardRef, useEffect } from "react";
 import { InputUnstyled } from "@mui/base";
 import Item from "../Misc/Surface";
@@ -170,7 +171,13 @@ export const SearchForm = (props) => {
  const handleFilter =(e) =>{
   const searchWord = e.target.value;
   const seachFilter = listings.filter((listing)=>{
-    return listing.bathrooms.includes(searchWord)
+    return listing.bathrooms.includes(searchWord) || 
+    listing.bedrooms.includes(searchWord) || 
+    listing.street.toLowerCase().includes(searchWord) ||
+    listing.zip.toLowerCase().includes(searchWord) ||
+    listing.price.includes(searchWord) ||
+    listing.description.toLowerCase().includes(searchWord) ||
+    listing.city.toLowerCase().includes(searchWord)
   });
   if (searchWord === ""){
     setSearchQuery([]);
@@ -302,7 +309,7 @@ export const SearchForm = (props) => {
           sx={{
             height: 35,
             width: 35,
-            top: 8,
+            top: 6,
           }}
         >
   
@@ -332,7 +339,6 @@ sx={{flexDirection: "column", display: "flex" }}>
      <p>Zip: {listing.zip}</p>
       </div>
     )
-   
   })}
  </div>
 )}
