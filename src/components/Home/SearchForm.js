@@ -84,7 +84,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
       ref={ref}
       className="search-input"
       type="text"
-      placeholder="Search by City"
+      placeholder="Search by city, zip, bathrooms, bedrooms, descriptions, price, etc..."
     />
   );
 });
@@ -177,7 +177,8 @@ export const SearchForm = (props) => {
     listing.zip.toLowerCase().includes(searchWord) ||
     listing.price.includes(searchWord) ||
     listing.description.toLowerCase().includes(searchWord) ||
-    listing.city.toLowerCase().includes(searchWord)
+    listing.city.toLowerCase().includes(searchWord) ||
+    listing.state.toLowerCase().includes(searchWord)
   });
   if (searchWord === ""){
     setSearchQuery([]);
