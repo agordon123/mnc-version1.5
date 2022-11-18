@@ -102,6 +102,7 @@ const initialValues = {
   created_at: "",
 };
 
+
 export const SearchForm = (props) => {
 
   const [isHover, setIsHover] = useState(false);
@@ -133,6 +134,12 @@ export const SearchForm = (props) => {
   //const [data, setData] = useState("");
   const[info, setInfo] = useState(initialValues);
   const [listings, setListings] = useState([]);
+  const navigate = useNavigate();
+  
+  const goListings = () =>
+    navigate({
+      pathname: '/listings',
+    });
 /*
   const [listings, setListings] = useState([
   {"street": ""},
@@ -312,6 +319,7 @@ export const SearchForm = (props) => {
             width: 35,
             top: 6,
           }}
+          onClick={goListings}
         >
   
           <SearchTwoToneIcon
@@ -332,6 +340,7 @@ sx={{flexDirection: "column", display: "flex" }}>
     return(
       <div className = "box" key = {index}>
       <p>Bathrooms: {listing.bathrooms}</p>
+      <p>Bedrooms: {listing.bedrooms}</p>
       <p>Price: {listing.price}</p>
       <p>City: {listing.city}</p>
      <p>Description: {listing.description}</p> 
