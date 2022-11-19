@@ -20,7 +20,7 @@ import {
   Firestore,
 } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
 
 //import FilterBox from "./Filter";
@@ -89,7 +89,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
   );
 });
 const initialValues = {
-  type: "forSale",
+  //type: "forSale",
   id: "",
   street: "",
   city: "",
@@ -139,6 +139,7 @@ export const SearchForm = (props) => {
   const goListings = () =>
     navigate({
       pathname: '/listings',
+      //search: `?${createSearchParams(searchQuery)}`,
     });
 /*
   const [listings, setListings] = useState([
@@ -156,9 +157,13 @@ export const SearchForm = (props) => {
   //const { status, data: signInCheckResult } = useSigninCheck();
   const firestore = useFirestore();
   //const [docID, setDocID] = useState("");
-  const [type, setType] = useState("");
-  const listingsRef = collection(firestore, `listings/${info.type}/properties`);
+ 
+  const [type, setType] = useState("forSale");
+  const listingsRef = collection(firestore, `listings/${type}/properties`);
   const [searchQuery, setSearchQuery] = useState([]);
+  const handleType = (e)=>{
+    setType(e.target.value)
+  }
   /*
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
@@ -248,6 +253,8 @@ export const SearchForm = (props) => {
             onMouseLeave={handleMouseLeave}
             disableFocusRipple
             className="buy-button"
+            onChange={handleType}
+            value={type}
             style={{
               fontSize: "16px",
               color: isHover ? "black" : "white",
@@ -274,6 +281,8 @@ export const SearchForm = (props) => {
               backgroundColor: isHover2 ? "white" : "#858181",
               fontFamily: "Garamond",
             }}
+            onChange={handleType}
+            value={type}
             onClick={() => setType("rentals")}
           >
             Rent
@@ -294,6 +303,8 @@ export const SearchForm = (props) => {
               color: isHover3 ? "black" : "black",
               fontWeight: "bold",
             }}
+            onChange={handleType}
+            value={type}
             onClick={() => setType("sold")}
           >
             Sold

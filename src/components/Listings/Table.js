@@ -58,23 +58,9 @@ export default function BasicTable(props) {
   //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`, );
   const collectionRef = collection(
     firestore,
-    `listings/${data.type}/properties/${docID}`
+    `listings/${data.type}/properties/`
   );
-  const docData = {
-    street: data.street,
-    city: data.city,
-    state: data.state,
-    zip: data.zip,
-    bedrooms: data.bedrooms,
-    bathrooms: data.bathrooms,
-    images: data.images,
-    sqft: data.sqft,
-    price: data.price,
-    listed_at: data.listed_at,
-    listed_by: data.listed_by
-  };
   
-  const [setDocData] = useState("");
   
  useEffect(() => {
     const userCheck = async () => {
