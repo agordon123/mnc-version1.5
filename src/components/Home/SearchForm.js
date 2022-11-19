@@ -148,29 +148,42 @@ export const SearchForm = (props) => {
   }
   ]);
  
-  const [searchQuery, setSearchQuery] = useState("");
+  const { status, data: signInCheckResult } = useSigninCheck();
+  const firestore = useFirestore();
+  //const [docID, setDocID] = useState("");
+  const listingsRef = collection(firestore, `listings/${info.type}/properties`);
+    
   useEffect(()=>{
     const getData = async ()=>{
-      try {
-        const q = await getDocs(listingsRef, where("bathrooms", "<=", `${searchQuery}`)).then((onSnapshot)=>{
-          onSnapshot.docs.map((field,idx)=>{
-            console.log(field,idx);
-          })
-          setListings(data.docs?.map((doc)=> ({...doc.data(), id: doc.id})));
-          console.log(data)})
-      } catch (error) {
-        
-      }
+      const q = await getDocs(listingsRef,where()).then((onSnapshot)=>{
+        onSnapshot.docs.entries();
+        setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+        console.log(data);
+        })
+      
     };
     getData();
   }, []);
 
-  const getListingsData = async() =>{
-      await getDocs(listingsRef, {"bathrooms": searchQuery})
+  const handleSearch = (e) => {
+    e.preventDefault();
+  }
+
+  
+  const [type, setType] = useState("");
+
+  
+  const [searchQuery, setSearchQuery] = useState("");
+ 
+
+  const getInfo = async() =>{
+      await getDocs(listingsRef, {bathrooms: searchQuery})
   };
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
+    e.preventDefault();
+
   };
 
   return (
@@ -260,7 +273,7 @@ export const SearchForm = (props) => {
       >
        
        
-        <CustomInput onChange={handleChange} value={searchQuery}/>
+        <CustomInput onChange={handleChange}/>
         
         <IconButton
           className="search-icon"
@@ -272,7 +285,7 @@ export const SearchForm = (props) => {
             width: 35,
             top: 8,
           }}
-          onClick={getListingsData}
+          onClick={getInfo}
         >
   
           <SearchTwoToneIcon
