@@ -22,10 +22,10 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
+import { UseButtonGroup } from "./HomePageComponents";
 
 //import FilterBox from "./Filter";
-//import FormControlLabelPlacement from "./FilterRadioButtons";
-import FilterRadioButtons  from "../../components/Home/FilterRadioButtons";
+
 import { async } from "@firebase/util";
 const blue = {
   100: "#DAECFF",
@@ -89,17 +89,18 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
   );
 });
 const initialValues = {
-  //type: "forSale",
-  id: "",
+  type: "forSale",
   street: "",
   city: "",
   state: "",
   zip: "",
   price: "",
+  bedrooms: "",
+  bathrooms: "",
+  sqft: "",
   description: "",
   images: [],
-  listed_by: "",
-  created_at: "",
+  imageCount: 0,
 };
 
 
@@ -158,11 +159,12 @@ export const SearchForm = (props) => {
   const firestore = useFirestore();
   //const [docID, setDocID] = useState("");
  
-  const [type, setType] = useState("forSale");
-  const listingsRef = collection(firestore, `listings/${type}/properties`);
+  //const [type, setType] = useState("forSale");
+  const listingsRef = collection(firestore, `listings/${info.type}/properties`);
   const [searchQuery, setSearchQuery] = useState([]);
+  
   const handleType = (e)=>{
-    setType(e.target.value)
+    setInfo(e.target.value)
   }
   /*
   const handleChange = (e) => {
@@ -248,68 +250,12 @@ export const SearchForm = (props) => {
           elevation={0}
           sx={{ display: "flex", flexDirection: "row", width: "100%" }}
         >
-          <Button
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            disableFocusRipple
-            className="buy-button"
-            onChange={handleType}
-            value={type}
-            style={{
-              fontSize: "16px",
-              color: isHover ? "black" : "white",
-              backgroundColor: isHover ? "white" : "#63666A",
-              fontWeight: "bold",
-              padding: "15px",
-              fontFamily: "Garamond",
-            }}
-            onClick={() => setType("forSale")}
-          >
-            Buy
-          </Button>
-
-          <Button
-            onMouseEnter={handleMouseEnter2}
-            onMouseLeave={handleMouseLeave2}
-            disableFocusRipple
-            className="rent-button"
-            style={{
-              fontWeight: "bold",
-              padding: "15px",
-              fontSize: "16px",
-              color: isHover2 ? "black" : "white",
-              backgroundColor: isHover2 ? "white" : "#858181",
-              fontFamily: "Garamond",
-            }}
-            onChange={handleType}
-            value={type}
-            onClick={() => setType("rentals")}
-          >
-            Rent
-          </Button>
-
-          <Button
-            onMouseEnter={handleMouseEnter3}
-            onMouseLeave={handleMouseLeave3}
-            className="sold-button"
-            style={{
-              borderBox: "solid 1px black",
-              textAlign: "center",
-              padding: "15px",
-              fontSize: "16px",
-              width: "90px",
-              fontFamily: "Garamond",
-              backgroundColor: isHover3 ? "white" : "lightgrey",
-              color: isHover3 ? "black" : "black",
-              fontWeight: "bold",
-            }}
-            onChange={handleType}
-            value={type}
-            onClick={() => setType("sold")}
-          >
-            Sold
-          </Button>
-         
+      <UseButtonGroup
+        aria-label="listing-type"
+        onChange={(e) => setInfo({ ...info, type: e.target.value })}
+        name="type"
+        />
+      
         </Item>
       </Grid2>
      

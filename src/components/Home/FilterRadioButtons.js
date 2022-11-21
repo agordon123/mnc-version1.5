@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import Radio from '@mui/material/Radio';
+import { Button } from "@mui/material";
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
@@ -37,7 +38,7 @@ export default function FilterRadioButtons() {
         onChange={handleChange}
         sx={{ display: "flex", flexDirection: "row", width: "100%" }}
       >
-        <FormControlLabel value={neighborhood} control={<Radio />} label="Neighborhood" />
+        <FormControlLabel value={neighborhood} control={<Button />} label="Neighborhood" />
         <FormControlLabel value={city} control={<Radio />} label="City" />
         <FormControlLabel value={state} control={<Radio />} label="State" />
         <FormControlLabel value={address} control={<Radio />} label="Address" />
