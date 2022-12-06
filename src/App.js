@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Routes
+ } from "react-router-dom";
 import "./App.css";
 import { AuthPage } from "./pages/Authentication";
 import ListingPage from "./pages/Listings/index";
@@ -12,17 +17,16 @@ import AuditLog from "./pages/Admin/AuditLog";
 import { preloadFirestoreDoc, useSigninCheck, useUser,preloadUser, useFirestore, useFirestoreDoc, useObservable, useAuth } from "reactfire";
 import NavBar from "./components/Misc/NavBar";
 import { Spinner } from "react-bootstrap";
-import { getDoc, query } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import { buttonHider } from "./components/Misc/NavBar";
+import { useParams } from 'react-router-dom'
+import SearchForm from "./components/Home/SearchForm";
 
-export const App = ({children}) => {
 
- 
+
+
+export const App = ({searchQuery}) => {
+
   
-  
-
-
+  const { status, data: user } = useUser();
 
   useEffect(() => {
 
@@ -44,6 +48,7 @@ export const App = ({children}) => {
         <Route path="/login" element={<AuthPage title="Login" />} />
         <Route path="/register" element={<AuthPage title="Register" />} />
         <Route path="/listings" element={<ListingPage />} />
+        
         <Route
           path="/create-profile"
           element={<AuthPage title="New User Profile" />}

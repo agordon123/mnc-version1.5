@@ -21,6 +21,10 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../pages/Home/styles.css";
+import { UseButtonGroup } from "./HomePageComponents";
+import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom'
+
 //import FilterBox from "./Filter";
 //import FormControlLabelPlacement from "./FilterRadioButtons";
 import FilterRadioButtons  from "../../components/Home/FilterRadioButtons";
@@ -131,7 +135,17 @@ export const SearchForm = (props) => {
   };
 
   //const [data, setData] = useState("");
-  const[data, setData] = useState(initialValues);
+  const[info, setInfo] = useState(initialValues);
+  const [listings, setListings] = useState([]);
+  const navigate = useNavigate();
+  
+  const goListings = () =>
+    navigate({
+      //pathname: `/listings/${searchQuery.bathrooms}`
+      pathname:'/listings'
+    });
+  
+/*
   const [listings, setListings] = useState([
     {
     bathrooms:"",
@@ -164,6 +178,46 @@ export const SearchForm = (props) => {
     };
     getData();
   }, []);
+
+ const handleFilter =(e) =>{
+  const searchWord = e.target.value;
+  const seachFilter = listings.filter((listing)=>{
+    return listing.bathrooms.includes(searchWord) || 
+    listing.bedrooms.includes(searchWord) || 
+    listing.street.toLowerCase().includes(searchWord) ||
+    listing.zip.toLowerCase().includes(searchWord) ||
+    listing.price.includes(searchWord) ||
+    listing.description.toLowerCase().includes(searchWord) ||
+    listing.city.toLowerCase().includes(searchWord) ||
+    listing.state.toLowerCase().includes(searchWord) 
+  });
+  if (searchWord === ""){
+    setSearchQuery([]);
+  }else {
+    setSearchQuery(seachFilter);
+  }
+ };
+ /*const seachFilter = listings.filter((listing)=>{
+    if (listings === ''){
+       return listing;
+    }
+    else if (listing.bathrooms.includes(searchWord)) {
+      return listing;
+    }
+  });
+  setListings(seachFilter);
+ } */
+
+/*
+  const getData = async ()=>{
+    const data = await getDocs(listingsRef, where("bathrooms" , "==", `${searchQuery}`)).then((onSnapshot)=>{
+      onSnapshot.docs.entries(listings.bathrooms);
+      setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+      console.log(data);
+      })
+  };
+  getData();
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -203,63 +257,7 @@ export const SearchForm = (props) => {
           elevation={0}
           sx={{ display: "flex", flexDirection: "row", width: "100%" }}
         >
-          <Button
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            disableFocusRipple
-            className="buy-button"
-            style={{
-              fontSize: "16px",
-              color: isHover ? "black" : "white",
-              backgroundColor: isHover ? "white" : "#63666A",
-              fontWeight: "bold",
-              padding: "15px",
-              fontFamily: "Garamond",
-            }}
-            onClick={() => setType("forSale")}
-          >
-            Buy
-          </Button>
-
-          <Button
-            onMouseEnter={handleMouseEnter2}
-            onMouseLeave={handleMouseLeave2}
-            disableFocusRipple
-            className="rent-button"
-            style={{
-              fontWeight: "bold",
-              padding: "15px",
-              fontSize: "16px",
-              color: isHover2 ? "black" : "white",
-              backgroundColor: isHover2 ? "white" : "#858181",
-              fontFamily: "Garamond",
-            }}
-            onClick={() => setType("rentals")}
-          >
-            Rent
-          </Button>
-
-          <Button
-            onMouseEnter={handleMouseEnter3}
-            onMouseLeave={handleMouseLeave3}
-            className="sold-button"
-            style={{
-              borderBox: "solid 1px black",
-              textAlign: "center",
-              padding: "15px",
-              fontSize: "16px",
-              width: "90px",
-              fontFamily: "Garamond",
-              backgroundColor: isHover3 ? "white" : "lightgrey",
-              color: isHover3 ? "black" : "black",
-              fontWeight: "bold",
-            }}
-            onClick={() => setType("sold")}
-          >
-            Sold
-          </Button>
-         
-        </Item>
+      </Item>
       </Grid2>
       <br></br>
       <Item  elevation={0}
@@ -269,11 +267,16 @@ export const SearchForm = (props) => {
       <br></br>
       <Item
         elevation={0}
-        sx={{ width: "100%", flexDirection: "row", display: "flex" }}
+        sx={{ width: "100%", flexDirection: "column", display: "flex" }}
       >
-       
-       
-        <CustomInput onChange={handleChange}/>
+       <UseButtonGroup
+        aria-label="listing-type"
+        onChange={(e) => setInfo({ ...info, type: e.target.value })}
+        name="type"
+        />
+        <CustomInput onChange={handleFilter}>
+          
+          </CustomInput> 
         
         <IconButton
           className="search-icon"
@@ -298,22 +301,29 @@ export const SearchForm = (props) => {
 
       </Item>
       <Item elevation={0}
-sx={{flexDirection: "column", display: "flex" }} className="box">
-      {
-      listings?.map((listings, index)=> {
-   return( 
-   <div key = {index}>
-    <p> Bathrooms: {listings.bathrooms}</p>
-    <p>Bedrooms:{listings.bedrooms}</p>
-     <p>Price: {listings.price}</p>
-     <p>City: {listings.city}</p>
-     <p>Description: {listings.description}</p>
-     <p>State: {listings.state}</p>
-     <p>Street: {listings.street}</p>
-     <p>Zip: {listings.zip}</p>
-   </div>
-   );
- })}
+sx={{flexDirection: "column", display: "flex" }}>
+<>
+{searchQuery.length !== 0 && (
+ <div>
+  {searchQuery.slice(0,15).map((listing, index)=>{
+    return(
+      <div className = "box" key = {index}>
+      <p>Bathrooms: {listing.bathrooms}</p>
+      <p>Bedrooms: {listing.bedrooms}</p>
+      <p>Price: {listing.price}</p>
+      <p>City: {listing.city}</p>
+     <p>Description: {listing.description}</p> 
+     <p>State: {listing.state}</p>
+     <p>Street: {listing.street}</p>
+     <p>Zip: {listing.zip}</p>
+    
+      </div>
+      
+    )
+  })}
+ </div>
+)}
+</>
       </Item>
       <br></br>
     </Grid2>
