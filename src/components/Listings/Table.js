@@ -28,6 +28,10 @@ import {
   useStorageDownloadURL,
   useStorageTask,
 } from "reactfire";
+import SearchForm from "../Home/SearchForm";
+import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+
 /*I tried to put the button outside the table container but it didn't work. 
 So for now it will be there for now. Maybe there is way to change
 
@@ -45,8 +49,9 @@ const initialValues = {
   listed_by: "",
   created_at: "",
 };
-
-export default function BasicTable(props) {
+const BasicTable =({searchQuery})=>{
+  
+  const {bathrooms} = useParams();
   const firestore = useFirestore();
   const storage = useStorage();
   const batch = writeBatch(firestore);
@@ -60,88 +65,50 @@ export default function BasicTable(props) {
     firestore,
     `listings/${data.type}/properties/`
   );
-  
-  
- useEffect(() => {
-    const userCheck = async () => {
-          await getDoc(collectionRef).then((onSnapshot) => {
-            console.log(onSnapshot);
-            const street = onSnapshot.get("street");
-            console.log(street);
-            setStreet(street);
-          });
-        }
-      
-    userCheck();
-  });
-
-/*
-const docRef = doc(firestore, "users", currentUser.uid);
- getDoc(docRef).then((onSnapshot) => {
-  console.log(onSnapshot);
-  const userRole = onSnapshot.get("role");
-  console.log(userRole);
-  setUserRole(userRole);
-*/
-/*
-  I am not sure if I fixed it, I looked at the error and the console log
-   said I shouldn't be using brackets but instead parenthesis. I didn't test it yet
-   */
- //const [data, setData] = 
- 
- 
- //useState("");
-
-
- 
-
 
   function createData(name, info) {
     return { name, info};
   }
     
   const rows = [
-    createData('Street', street),
-    createData('City', data.city),
-    createData('State', data.state),
-    createData('Zip', data.zip),
-    createData('Bedroom(s)', data.bedrooms),
-    createData('Bathroom(s)', data.bathrooms),
-    createData('Price', data.price),
-    createData('Listed At', data.listed_at),
-    createData('Listed By', data.listed_by),
+    createData('Street',  ),
+    createData('City', ),
+    createData('State', ),
+    createData('Zip', ),
+    createData('Bedroom(s)', ),
+    createData('Bathroom(s)', ),
+    createData('Price', ),
+    createData('Listed At',),
+    createData('Listed By', ),
   ];
-
-
-  return (
+  return(
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-          <TableCell sx ={{fontWeight:"bold"}}>{data.type}</TableCell>
-          <TableCell align="left"></TableCell>
+    <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
+      <TableHead>
+        <TableRow>
+        <TableCell sx ={{fontWeight:"bold"}}>{data.type}</TableCell>
+        <TableCell align="left"></TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {searchQuery.filter((listing) => listing.bathrooms === bathrooms).map((listing, index) => (
+          <TableRow
+            key={index}
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+            <TableCell component="th" scope="row">
+              {listing.bedrooms}
+            </TableCell>
+            <TableCell align="left">{listing.bathrooms}</TableCell>
+            
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="left">{row.info}</TableCell>
-              
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div></div>
-      
-      <ContactButton></ContactButton>
-    </TableContainer>
+        ))}
+      </TableBody>
+    </Table>
+    <div></div>
     
-    
-  );
+    <ContactButton></ContactButton>
+  </TableContainer>
+  )
 }
+export default BasicTable
