@@ -22,10 +22,12 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
-import { UseRadioGroup } from "../Admin/AdminPageComponents";
+import { UseButtonGroup } from "./HomePageComponents";
+import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom'
+
 //import FilterBox from "./Filter";
-//import FormControlLabelPlacement from "./FilterRadioButtons";
-import FilterRadioButtons  from "../../components/Home/FilterRadioButtons";
+
 import { async } from "@firebase/util";
 const blue = {
   100: "#DAECFF",
@@ -89,17 +91,18 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
   );
 });
 const initialValues = {
-  //type: "forSale",
-  id: "",
+  type: "forSale",
   street: "",
   city: "",
   state: "",
   zip: "",
   price: "",
+  bedrooms: "",
+  bathrooms: "",
+  sqft: "",
   description: "",
   images: [],
-  listed_by: "",
-  created_at: "",
+  imageCount: 0,
 };
 
 
@@ -138,9 +141,10 @@ export const SearchForm = (props) => {
   
   const goListings = () =>
     navigate({
-      pathname: '/listings',
-      //search: `?${createSearchParams(searchQuery)}`,
+      //pathname: `/listings/${searchQuery.bathrooms}`
+      pathname:'/listings'
     });
+  
 /*
   const [listings, setListings] = useState([
   {"street": ""},
@@ -158,11 +162,12 @@ export const SearchForm = (props) => {
   const firestore = useFirestore();
   //const [docID, setDocID] = useState("");
  
-  const [type, setType] = useState("forSale");
-  const listingsRef = collection(firestore, `listings/${type}/properties`);
+  //const [type, setType] = useState("forSale");
+  const listingsRef = collection(firestore, `listings/${info.type}/properties`);
   const [searchQuery, setSearchQuery] = useState([]);
+  
   const handleType = (e)=>{
-    setType(e.target.value)
+    setInfo(e.target.value)
   }
   /*
   const handleChange = (e) => {
@@ -190,7 +195,7 @@ export const SearchForm = (props) => {
     listing.price.includes(searchWord) ||
     listing.description.toLowerCase().includes(searchWord) ||
     listing.city.toLowerCase().includes(searchWord) ||
-    listing.state.toLowerCase().includes(searchWord)
+    listing.state.toLowerCase().includes(searchWord) 
   });
   if (searchWord === ""){
     setSearchQuery([]);
@@ -247,7 +252,7 @@ export const SearchForm = (props) => {
         <Item
           elevation={0}
           sx={{ display: "flex", flexDirection: "row", width: "100%" }}
-        ><UseRadioGroup />
+        >
           <Button
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -315,10 +320,16 @@ export const SearchForm = (props) => {
      
       <Item
         elevation={0}
-        sx={{ width: "100%", flexDirection: "row", display: "flex" }}
+        sx={{ width: "100%", flexDirection: "column", display: "flex" }}
       >
-       
-        <CustomInput onChange={handleFilter} />
+       <UseButtonGroup
+        aria-label="listing-type"
+        onChange={(e) => setInfo({ ...info, type: e.target.value })}
+        name="type"
+        />
+        <CustomInput onChange={handleFilter}>
+          
+          </CustomInput> 
         
         <IconButton
           className="search-icon"
@@ -344,7 +355,7 @@ export const SearchForm = (props) => {
       </Item>
       <Item elevation={0}
 sx={{flexDirection: "column", display: "flex" }}>
-
+<>
 {searchQuery.length !== 0 && (
  <div>
   {searchQuery.slice(0,15).map((listing, index)=>{
@@ -358,11 +369,14 @@ sx={{flexDirection: "column", display: "flex" }}>
      <p>State: {listing.state}</p>
      <p>Street: {listing.street}</p>
      <p>Zip: {listing.zip}</p>
+    
       </div>
+      
     )
   })}
  </div>
 )}
+</>
       </Item>
       <br></br>
     </Grid2>
