@@ -22,7 +22,7 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
-
+import { UseRadioGroup } from "../Admin/AdminPageComponents";
 //import FilterBox from "./Filter";
 //import FormControlLabelPlacement from "./FilterRadioButtons";
 import FilterRadioButtons  from "../../components/Home/FilterRadioButtons";
@@ -247,7 +247,7 @@ export const SearchForm = (props) => {
         <Item
           elevation={0}
           sx={{ display: "flex", flexDirection: "row", width: "100%" }}
-        >
+        ><UseRadioGroup />
           <Button
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
