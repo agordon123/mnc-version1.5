@@ -19,9 +19,8 @@ import NavBar from "./components/Misc/NavBar";
 import { Spinner } from "react-bootstrap";
 import { useParams } from 'react-router-dom'
 import SearchForm from "./components/Home/SearchForm";
-
-
-
+import ListingsContainer from "./components/Home/SearchForm";
+import BasicTable from "./components/Listings/Table";
 
 export const App = ({searchQuery}) => {
 
@@ -64,7 +63,8 @@ export const App = ({searchQuery}) => {
         />
         <Route path="/login" element={<AuthPage title="Login" />} />
         <Route path="/register" element={<AuthPage title="Register" />} />
-        <Route path="/listings" element={<ListingPage />} />
+        <Route path="/listings" element={<ListingsContainer data={searchQuery} />} />
+        <Route path="/listings/:bathrooms" element={<ListingPage data={searchQuery} />} />
         
         <Route
           path="/create-profile"

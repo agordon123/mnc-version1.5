@@ -118,7 +118,6 @@ export const UseButtonGroup = ({ onChange }) => {
               padding: "15px",
               fontFamily: "Garamond",
             }}
-            //onClick={(e) => onchange(e.target.value)}
           >
             Buy
           </Button>

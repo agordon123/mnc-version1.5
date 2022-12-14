@@ -141,8 +141,8 @@ export const SearchForm = (props) => {
   
   const goListings = () =>
     navigate({
-      //pathname: `/listings/${searchQuery.bathrooms}`
-      pathname:'/listings'
+      pathname: `/listings/${searchQuery.bathrooms}`
+      //pathname:'/listings'
     });
   
 /*
@@ -167,7 +167,7 @@ export const SearchForm = (props) => {
   const [searchQuery, setSearchQuery] = useState([]);
   
   const handleType = (e)=>{
-    setInfo(e.target.value)
+    setInfo({ ...info, type: e.target.value })
   }
   /*
   const handleChange = (e) => {
@@ -190,7 +190,7 @@ export const SearchForm = (props) => {
   const seachFilter = listings.filter((listing)=>{
     return listing.bathrooms.includes(searchWord) || 
     listing.bedrooms.includes(searchWord) || 
-    listing.street.toLowerCase().includes(searchWord) ||
+    listing.street.toLowerCase().includes(searchWord) || 
     listing.zip.toLowerCase().includes(searchWord) ||
     listing.price.includes(searchWord) ||
     listing.description.toLowerCase().includes(searchWord) ||
@@ -253,67 +253,7 @@ export const SearchForm = (props) => {
           elevation={0}
           sx={{ display: "flex", flexDirection: "row", width: "100%" }}
         >
-          <Button
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            disableFocusRipple
-            className="buy-button"
-            onChange={handleType}
-            value={type}
-            style={{
-              fontSize: "16px",
-              color: isHover ? "black" : "white",
-              backgroundColor: isHover ? "white" : "#63666A",
-              fontWeight: "bold",
-              padding: "15px",
-              fontFamily: "Garamond",
-            }}
-            onClick={() => setType("forSale")}
-          >
-            Buy
-          </Button>
-
-          <Button
-            onMouseEnter={handleMouseEnter2}
-            onMouseLeave={handleMouseLeave2}
-            disableFocusRipple
-            className="rent-button"
-            style={{
-              fontWeight: "bold",
-              padding: "15px",
-              fontSize: "16px",
-              color: isHover2 ? "black" : "white",
-              backgroundColor: isHover2 ? "white" : "#858181",
-              fontFamily: "Garamond",
-            }}
-            onChange={handleType}
-            value={type}
-            onClick={() => setType("rentals")}
-          >
-            Rent
-          </Button>
-
-          <Button
-            onMouseEnter={handleMouseEnter3}
-            onMouseLeave={handleMouseLeave3}
-            className="sold-button"
-            style={{
-              borderBox: "solid 1px black",
-              textAlign: "center",
-              padding: "15px",
-              fontSize: "16px",
-              width: "90px",
-              fontFamily: "Garamond",
-              backgroundColor: isHover3 ? "white" : "lightgrey",
-              color: isHover3 ? "black" : "black",
-              fontWeight: "bold",
-            }}
-            onChange={handleType}
-            value={type}
-            onClick={() => setType("sold")}
-          >
-            Sold
-          </Button>
+         
          
         </Item>
       </Grid2>
@@ -360,16 +300,17 @@ sx={{flexDirection: "column", display: "flex" }}>
  <div>
   {searchQuery.slice(0,15).map((listing, index)=>{
     return(
+
       <div className = "box" key = {index}>
       <p>Bathrooms: {listing.bathrooms}</p>
       <p>Bedrooms: {listing.bedrooms}</p>
       <p>Price: {listing.price}</p>
       <p>City: {listing.city}</p>
-     <p>Description: {listing.description}</p> 
-     <p>State: {listing.state}</p>
-     <p>Street: {listing.street}</p>
+      <p>Description: {listing.description}</p> 
+      <p>State: {listing.state}</p>
+      <p>Street: {listing.street}</p>
      <p>Zip: {listing.zip}</p>
-    
+      <p><Link to = {`/listing/${listing.bathrooms}`}>Click Me</Link></p>
       </div>
       
     )

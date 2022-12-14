@@ -4,7 +4,8 @@ import SearchForm from "./SearchForm";
 const ListingsContainer =({searchQuery})=>{
     return(
         <div>
-        <SearchForm data = {searchQuery} />
+        <SearchForm data={searchQuery} />
         </div>
     )
 }
+export default ListingsContainer

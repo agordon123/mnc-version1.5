@@ -49,23 +49,24 @@ const initialValues = {
   listed_by: "",
   created_at: "",
 };
-const BasicTable =({searchQuery})=>{
+const BasicTable =({data})=>{
   
   const {bathrooms} = useParams();
   const firestore = useFirestore();
   const storage = useStorage();
   const batch = writeBatch(firestore);
   const formRef = useRef();
-  const [data, setData] = useState(initialValues);
+  //const [searchQuery, setsearchQuery] = useState(initialValues);
   const [docID, setDocID] = useState("");
   const [userRole, setUserRole] = useState("");
   const[street, setStreet] = useState("");
-  //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`, );
+  //const newDoc = doc(firestore, `$listings/${searchQuery.type}/properties/${docID}`, );
+  /*
   const collectionRef = collection(
     firestore,
-    `listings/${data.type}/properties/`
+    `listings/${searchQuery.type}/properties/`
   );
-
+*/
   function createData(name, info) {
     return { name, info};
   }
@@ -82,33 +83,14 @@ const BasicTable =({searchQuery})=>{
     createData('Listed By', ),
   ];
   return(
-    <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
-      <TableHead>
-        <TableRow>
-        <TableCell sx ={{fontWeight:"bold"}}>{data.type}</TableCell>
-        <TableCell align="left"></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {searchQuery.filter((listing) => listing.bathrooms === bathrooms).map((listing, index) => (
-          <TableRow
-            key={index}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-          >
-            <TableCell component="th" scope="row">
-              {listing.bedrooms}
-            </TableCell>
-            <TableCell align="left">{listing.bathrooms}</TableCell>
-            
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-    <div></div>
-    
-    <ContactButton></ContactButton>
-  </TableContainer>
+   <div>
+    {data.filter(listing => listing.bathrooms === bathrooms).map((listing,index)=> (
+      <div key ={index}>
+       <p>{listing.bathrooms}</p>
+       <p>{listing.bedrooms}</p>
+      </div>
+    ))}
+   </div>
   )
 }
 export default BasicTable
