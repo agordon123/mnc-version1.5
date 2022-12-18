@@ -47,6 +47,7 @@ const initialValues = {
   description: "",
   images: [],
   listed_by: "",
+  bathrooms:"",
   created_at: "",
 };
 const BasicTable =({data})=>{
@@ -97,7 +98,7 @@ const BasicTable =({data})=>{
       <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-          <TableCell sx ={{fontWeight:"bold"}}>{Data.type}</TableCell>
+          <TableCell sx ={{fontWeight:"bold"}}>{Data.bathrooms}</TableCell>
           <TableCell align="left"></TableCell> 
           </TableRow>
           </TableHead>

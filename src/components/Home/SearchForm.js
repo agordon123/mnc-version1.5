@@ -22,6 +22,7 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
+import "../../pages/Listings/styles.css";
 import { UseButtonGroup } from "./HomePageComponents";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom'
@@ -303,7 +304,7 @@ sx={{flexDirection: "column", display: "flex" }}>
 
       <div className = "box" key = {index}>
      
-      <Link to = {`/listing/${listing.bathrooms}`}> 
+      <a href = {`/listing/${listing.bathrooms}`}> 
       <p>Bathrooms: {listing.bathrooms}</p>
       <p>Bedrooms: {listing.bedrooms}</p>
       <p>Price: {listing.price}</p>
@@ -311,7 +312,7 @@ sx={{flexDirection: "column", display: "flex" }}>
       <p>Description: {listing.description}</p> 
       <p>State: {listing.state}</p>
       <p>Street: {listing.street}</p>
-     <p>Zip: {listing.zip}</p></Link>
+     <p>Zip: {listing.zip}</p></a>
       </div>
       
     )

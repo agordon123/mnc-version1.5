@@ -17,3 +17,7 @@
   height:620px;
   margin: auto;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
