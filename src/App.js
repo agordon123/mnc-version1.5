@@ -1,10 +1,9 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
   Route,
   Routes
  } from "react-router-dom";
+
 import "./App.css";
 import { AuthPage } from "./pages/Authentication";
 import ListingPage from "./pages/Listings/index";
@@ -50,28 +49,32 @@ export const App = ({searchQuery}) => {
   return (
     <div className="App">
       <NavBar user={getUser} />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/account" element={<AccountPage />} />
 
-        <Route path="/admin" element={<AdminDashboard />} />
+        
 
-        <Route
-          path="/reset-password"
+        <Routes>
+        <Route exact path="/" element={<HomePage />} />
+        <Route exact path="/contact" element={<Contact />} />
+        <Route exact path="/account" element={<AccountPage />} />
+
+        <Route exact path="/admin" element={<AdminDashboard />} />
+
+        <Route exact path="/reset-password"
           element={<AuthPage title={"Password Reset"} />}
         />
-        <Route path="/login" element={<AuthPage title="Login" />} />
-        <Route path="/register" element={<AuthPage title="Register" />} />
-        <Route path="/listings" element={<ListingsContainer data={searchQuery} />} />
-        <Route path="/listings/:bathrooms" element={<ListingPage data={searchQuery} />} />
+        <Route exact path="/login" element={<AuthPage title="Login" />} />
+        <Route exact path="/register" element={<AuthPage title="Register" />} />
         
         <Route
-          path="/create-profile"
+         exact path="/create-profile"
           element={<AuthPage title="New User Profile" />}
         />
-        <Route path="/auditlog" element={<AuditLog />} />
-      </Routes>
+        <Route exact path="/auditlog" element={<AuditLog />} />
+        <Route path="/listings" element={<ListingPage data={searchQuery} />} />
+        <Route path="/listings/:bathrooms" element={<ListingPage data={searchQuery} />} />
+        
+        </Routes>
+  
     </div>
   );
 };

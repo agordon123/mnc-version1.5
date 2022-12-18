@@ -56,6 +56,7 @@ const BasicTable =({data})=>{
   const storage = useStorage();
   const batch = writeBatch(firestore);
   const formRef = useRef();
+  const [Data, SetData] = useState(initialValues);
   //const [searchQuery, setsearchQuery] = useState(initialValues);
   const [docID, setDocID] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -66,6 +67,15 @@ const BasicTable =({data})=>{
     firestore,
     `listings/${searchQuery.type}/properties/`
   );
+
+  <div>
+    {data.filter(listing => listing.bathrooms === bathrooms).map((listing,index)=> (
+      <div key ={index}>
+       <p>{listing.bathrooms}</p>
+       <p>{listing.bedrooms}</p>
+      </div>
+    ))}
+   </div>
 */
   function createData(name, info) {
     return { name, info};
@@ -83,14 +93,33 @@ const BasicTable =({data})=>{
     createData('Listed By', ),
   ];
   return(
-   <div>
-    {data.filter(listing => listing.bathrooms === bathrooms).map((listing,index)=> (
-      <div key ={index}>
-       <p>{listing.bathrooms}</p>
-       <p>{listing.bedrooms}</p>
-      </div>
-    ))}
-   </div>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+          <TableCell sx ={{fontWeight:"bold"}}>{Data.type}</TableCell>
+          <TableCell align="left"></TableCell> 
+          </TableRow>
+          </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow
+              key={row.name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="left">{row.info}</TableCell>
+              
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <div></div>
+      
+      <ContactButton></ContactButton>
+    </TableContainer>
   )
 }
 export default BasicTable

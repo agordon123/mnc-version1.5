@@ -1,10 +1,10 @@
 import React from "react";
 import SearchForm from "./SearchForm";
 
-const ListingsContainer =({searchQuery})=>{
+const ListingsContainer =({data})=>{
     return(
         <div>
-        <SearchForm data={searchQuery} />
+        <SearchForm data={data} />
         </div>
     )
 }

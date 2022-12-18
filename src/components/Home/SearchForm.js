@@ -302,6 +302,8 @@ sx={{flexDirection: "column", display: "flex" }}>
     return(
 
       <div className = "box" key = {index}>
+     
+      <Link to = {`/listing/${listing.bathrooms}`}> 
       <p>Bathrooms: {listing.bathrooms}</p>
       <p>Bedrooms: {listing.bedrooms}</p>
       <p>Price: {listing.price}</p>
@@ -309,8 +311,7 @@ sx={{flexDirection: "column", display: "flex" }}>
       <p>Description: {listing.description}</p> 
       <p>State: {listing.state}</p>
       <p>Street: {listing.street}</p>
-     <p>Zip: {listing.zip}</p>
-      <p><Link to = {`/listing/${listing.bathrooms}`}>Click Me</Link></p>
+     <p>Zip: {listing.zip}</p></Link>
       </div>
       
     )
