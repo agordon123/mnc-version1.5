@@ -1,4 +1,4 @@
-button#login-page {
+/*button#login-page {
   border: none;
   background-color: rgb(196, 196, 196);
   cursor: pointer;
@@ -82,14 +82,34 @@ div#rs-btn-toolbar {
   opacity: 0.8;
   background-color: #686868;
 }
-.box {
+.boxStyles {
   text-align: left;
   border: black ridge 1px;
   border-radius: 10px;
   margin: 3px;
   width: 25rem;
   padding-left: 10px;
-  font-size:25px;
+  font-size: 25px;
+  font-weight: bold;
+  color:black;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  color: black;
+  background-color: lightgrey;
+}
+*/
+.searchStyle{
+  text-align: left;
+  border: black ridge 1px;
+  border-radius: 10px;
+  margin: 3px;
+  width: 25rem;
+  padding-left: 10px;
+  font-size: 25px;
   font-weight: bold;
   color:black;
 }

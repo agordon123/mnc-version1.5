@@ -36,7 +36,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const ListingPage = ({ data, type }) => {
+export const ListingPage = ({ data }) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0.1}>

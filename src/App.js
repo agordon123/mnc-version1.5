@@ -16,6 +16,7 @@ import AuditLog from "./pages/Admin/AuditLog";
 import { useUser } from "reactfire";
 import NavBar from "./components/Misc/NavBar";
 import { Spinner } from "react-bootstrap";
+import SearchPage from "./pages/Search";
 import { useParams } from 'react-router-dom'
 import SearchForm from "./components/Home/SearchForm";
 import ListingsContainer from "./components/Home/SearchForm";
@@ -50,8 +51,6 @@ export const App = ({searchQuery}) => {
     <div className="App">
       <NavBar user={getUser} />
 
-        
-
         <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/contact" element={<Contact />} />
@@ -72,6 +71,8 @@ export const App = ({searchQuery}) => {
         <Route exact path="/auditlog" element={<AuditLog />} />
         <Route path="/listings" element={<ListingPage data={searchQuery} />} />
         <Route path="/listings/:bathrooms" element={<ListingPage data={searchQuery} />} />
+        <Route path="/search" element={<SearchPage/>} />
+        
         
         </Routes>
   

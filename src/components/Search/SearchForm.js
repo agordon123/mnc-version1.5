@@ -23,6 +23,7 @@ import { Spinner } from "react-bootstrap";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
 import "../../pages/Listings/styles.css";
+import "../../pages/Search/styles.css"
 import { UseButtonGroup } from "./HomePageComponents";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom'
@@ -31,10 +32,15 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
-import App from "../../App";
 //import FilterBox from "./Filter";
-
+import App from "../../App";
 import { async } from "@firebase/util";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 const blue = {
   100: "#DAECFF",
   200: "#80BFFF",
@@ -92,7 +98,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
       ref={ref}
       className="search-input"
       type="text"
-      placeholder="Search by Location or point of interest"
+      placeholder="Search by zip, bathrooms, bedrooms, descriptions, price, etc..."
     />
   );
 });
@@ -244,76 +250,103 @@ export const SearchForm = (props) => {
 
   return (
     <Grid2
-      component="form"
+    component="form"
       sx={{
-        display: "flex",
-        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
         margin: "auto",
-      }}
-    >
-      <Grid2 sm={8}>
-        <Item
-          elevation={0}
-          sx={{ display: "flex", flexDirection: "row", width: "100%" }}
-        >
-    
-        </Item>
-      </Grid2>
-     
-      <Item
-        elevation={0}
-        sx={{ width: "100%", flexDirection: "column", display: "flex" }}
-      >
-        
-       <UseButtonGroup
-        aria-label="listing-type"
-        onChange={(e) => setInfo({ ...info, type: e.target.value })}
-        name="type"
-        sx={{alignItems: "center", justifyContent: "center"}}
-        />
+      }}>
+         <Grid2 sm={12}>
+      
+               <AppBar position="static" sx ={{color:"white", backgroundColor:"rgb(196, 196, 196)",
+    boxShadow: "0px 5px 10px 2px #888888", textDecoration: "none", overflow:"hidden", 
+    display: "flex", flexDirection: "row",justifyContent: "space-between", alignItems: "center", fontSize: "20px"}}>
+        <Toolbar>
         <CustomInput onChange={handleFilter}>
           
           </CustomInput> 
-        
-        <IconButton
-          className="search-icon"
-          aria-label="search"
-          type="submit"
-          disableFocusRipple
-          sx={{
-            height: 35,
-            width: 35,
-            top: 6,
-          }}
-          onClick={goListings}
+           
+           <IconButton
+             className="search-icon"
+             aria-label="search"
+             type="submit"
+             disableFocusRipple
+             sx={{
+               height: 35,
+               width: 35,
+               top: 5,
+             }}
+             onClick={goListings}
+           >
+     
+             <SearchTwoToneIcon
+               sx={{
+                 height: 35,
+                 width: 40,
+               }}
+             />
+           </IconButton>
+      <FormControl required sx={{ m: 1, minWidth: 120, backgroundColor:"white", color:"black",justifyContent: "center",
+          alignItems: "center"}}>
+        <InputLabel id="demo-simple-select-required-label">Type</InputLabel>
+        <Select
+          labelId="demo-simple-select-required-label"
+          id="demo-simple-select-required"
+          value={info.type}
+          onChange={(e) => setInfo({ ...info, type: e.target.value })}
+          sx={{ color: "black", fontFamily: "Garamond",
+          width: "100%",
+          fontSize:"20px",
+          justifyContent: "center",
+          alignItems: "center",}}
+          variant="filled"
         >
-  
-          <SearchTwoToneIcon
-            sx={{
-              height: 35,
-              width: 40,
-            }}
-          />
-        </IconButton>
-
-      </Item>
+          <MenuItem value={"forSale"}>Buy</MenuItem>
+          <MenuItem value={"sold"}>Sold</MenuItem>
+          <MenuItem value={"rentals"}>Rent</MenuItem>
+        </Select>
+        
+      </FormControl>
+     
+ 
+        </Toolbar>
+      </AppBar>
       <Item elevation={0}
-sx={{flexDirection: "column", display: "flex" }}>
+sx={{flexDirection: "row", display: "flex" }}>
 <>
 {searchQuery.length !== 0 && (
  <div>
   {searchQuery.slice(0,15).map((listing, index)=>{
     return(
-      <div className = "box" key = {index}>
-      <a href = {`/listing/${listing.bathrooms}`}> 
-      
-      <p>City: {listing.city}</p>
-    
-     </a>
-      </div>
+      <div key = {index} elevation={0}>
+      <Grid container spacing={1} elevation={0}>
+<Grid xs={8} elevation={0}>
+
+<img src ={listing.image} alt="" sx={{height:"150px", width:"250px"}}/>
+
+</Grid>
+<Grid xs={4}>
+ <Item sx={{
+  textAlign: "left",border: "black ridge 1px", borderRadius: "10px",
+  margin: "3px",width: "25rem",paddingLeft: "10px",
+  fontSize:"25px",fontWeight: "bold",color:"black"}} elevation={0}> 
+<a href = {`/listing/${listing.bathrooms}`}> 
+<p>Bathrooms: {listing.bathrooms}</p>
+<p>Bedrooms: {listing.bedrooms}</p>
+<p>Price: {listing.price}</p>
+<p>City: {listing.city}</p>
+<p>Description: {listing.description}</p> 
+<p>State: {listing.state}</p>
+<p>Street: {listing.street}</p>
+<p>Zip: {listing.zip}</p></a>
+</Item>
+
+</Grid>
+
+</Grid>
+
+   </div>
       
     )
   })}
@@ -321,8 +354,14 @@ sx={{flexDirection: "column", display: "flex" }}>
 )}
 </>
       </Item>
-      <br></br>
+      </Grid2>
+
+
+
+
+
     </Grid2>
+
   );
 };
 

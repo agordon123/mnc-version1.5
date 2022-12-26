@@ -98,7 +98,7 @@ const BasicTable =({data})=>{
       <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-          <TableCell sx ={{fontWeight:"bold"}}>{Data.bathrooms}</TableCell>
+          <TableCell sx ={{fontWeight:"bold"}}>{bathrooms}</TableCell>
           <TableCell align="left"></TableCell> 
           </TableRow>
           </TableHead>
