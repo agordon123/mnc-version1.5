@@ -69,8 +69,8 @@ export const App = ({searchQuery}) => {
           element={<AuthPage title="New User Profile" />}
         />
         <Route exact path="/auditlog" element={<AuditLog />} />
-        <Route path="/listings" element={<ListingPage data={searchQuery} />} />
-        <Route path="/listings/:bathrooms" element={<ListingPage data={searchQuery} />} />
+        <Route path="/listings" element={<ListingPage/>} />
+        <Route path="/listings/:bathrooms" element={<ListingPage/>} />
         <Route path="/search" element={<SearchPage/>} />
         
         

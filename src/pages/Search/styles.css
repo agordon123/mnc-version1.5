@@ -107,9 +107,15 @@ a:hover {
   border: black ridge 1px;
   border-radius: 10px;
   margin: 3px;
-  width: 25rem;
+  width: 30rem;
   padding-left: 10px;
   font-size: 25px;
   font-weight: bold;
   color:black;
+}
+.Image {
+  width: 850px;
+  height: 400px;
+  margin: auto;
+  justify-items: stretch;
 }

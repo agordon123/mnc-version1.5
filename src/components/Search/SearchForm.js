@@ -41,7 +41,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import SearchContainer from "./SearchContainer";
-
+import ListingPage from "../../pages/Listings";
 const blue = {
   100: "#DAECFF",
   200: "#80BFFF",
@@ -309,8 +309,8 @@ export const SearchForm = (props) => {
         </Select>
         
       </FormControl>
-     <SearchContainer data={searchQuery}/>
- 
+   
+      
         </Toolbar>
       </AppBar>
       <Item elevation={0}
@@ -323,15 +323,18 @@ sx={{flexDirection: "row", display: "flex" }}>
       <div key = {index} elevation={0}>
       <Grid container spacing={1} elevation={0}>
 <Grid xs={8} elevation={0}>
-<Item>
-<img src ={listing.image} alt="" sx={{height:"150px", width:"250px"}}/>
+<Item sx={{}}>
+<div>
+<img src ={listing.image} alt="" className="Image"/>
+</div>
 </Item>
 </Grid>
-<Grid xs={4}>
+<Grid xs={4} elevation={0}>
  <Item sx={{
-  textAlign: "left",border: "black ridge 1px", borderRadius: "10px",
-  margin: "3px",width: "25rem",paddingLeft: "10px",
-  fontSize:"25px",fontWeight: "bold",color:"black"}} elevation={0}> 
+  textAlign: "left",
+  margin: "3px",width: "30rem",paddingLeft: "10px",
+  fontSize:"20px",fontWeight: "bold",color:"black"}}> 
+<div>
 <a href = {`/listing/${listing.bathrooms}`}> 
 <p>Bathrooms: {listing.bathrooms}</p>
 <p>Bedrooms: {listing.bedrooms}</p>
@@ -341,6 +344,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 <p>State: {listing.state}</p>
 <p>Street: {listing.street}</p>
 <p>Zip: {listing.zip}</p></a>
+</div>
 </Item>
 
 </Grid>

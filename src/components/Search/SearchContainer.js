@@ -5,7 +5,7 @@ import App from "../../App";
 const SearchContainer =({data})=>{
     return(
         <div>
-        <BasicTable data={data} />
+     
  
         </div>
     )
