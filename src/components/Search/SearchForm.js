@@ -40,6 +40,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import SearchContainer from "./SearchContainer";
 
 const blue = {
   100: "#DAECFF",
@@ -308,7 +309,7 @@ export const SearchForm = (props) => {
         </Select>
         
       </FormControl>
-     
+     <SearchContainer data={searchQuery}/>
  
         </Toolbar>
       </AppBar>
@@ -322,9 +323,9 @@ sx={{flexDirection: "row", display: "flex" }}>
       <div key = {index} elevation={0}>
       <Grid container spacing={1} elevation={0}>
 <Grid xs={8} elevation={0}>
-
+<Item>
 <img src ={listing.image} alt="" sx={{height:"150px", width:"250px"}}/>
-
+</Item>
 </Grid>
 <Grid xs={4}>
  <Item sx={{
@@ -355,11 +356,6 @@ sx={{flexDirection: "row", display: "flex" }}>
 </>
       </Item>
       </Grid2>
-
-
-
-
-
     </Grid2>
 
   );

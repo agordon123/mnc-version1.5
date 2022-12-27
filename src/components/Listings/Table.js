@@ -94,11 +94,14 @@ const BasicTable =({data})=>{
     createData('Listed By', ),
   ];
   return(
-    <TableContainer component={Paper}>
+    <div>
+      {data.filter(listing => listing.bathrooms === bathrooms).map((listing, index)=>(
+        <div key={index}>
+          <TableContainer component={Paper}>
       <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-          <TableCell sx ={{fontWeight:"bold"}}>{bathrooms}</TableCell>
+          <TableCell sx ={{fontWeight:"bold"}}>{listing.bathrooms}</TableCell>
           <TableCell align="left"></TableCell> 
           </TableRow>
           </TableHead>
@@ -121,6 +124,10 @@ const BasicTable =({data})=>{
       
       <ContactButton></ContactButton>
     </TableContainer>
+        </div>
+      ))}
+    </div>
+   
   )
 }
 export default BasicTable
