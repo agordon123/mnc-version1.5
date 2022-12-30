@@ -309,7 +309,7 @@ export const SearchForm = (props) => {
         </Select>
         
       </FormControl>
-   
+  
       
         </Toolbar>
       </AppBar>
@@ -348,7 +348,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 </Item>
 
 </Grid>
-
+<ListingPage data={searchQuery}/>
 </Grid>
 
    </div>
