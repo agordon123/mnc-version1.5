@@ -348,7 +348,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 </Item>
 
 </Grid>
-<ListingPage data={searchQuery}/>
+
 </Grid>
 
    </div>
@@ -359,6 +359,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 )}
 </>
       </Item>
+      <ListingPage data={searchQuery}/>
       </Grid2>
     </Grid2>
 

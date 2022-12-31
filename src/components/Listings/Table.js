@@ -95,7 +95,7 @@ const BasicTable =({data})=>{
   ];
   return(
     <div>
-      {data.map((listing, index)=>(
+      {data.map(listing => listing.bathrooms === bathrooms).map((listing, index)=>(
         <div key={index}>
           <TableContainer component={Paper}>
       <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">

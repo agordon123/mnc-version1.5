@@ -108,6 +108,9 @@ const docData = {
 };
   
 const [setDocData] = useState({ ...collectionRef});
+
+
+
 useEffect(() => {
   const fetchDoc = async () => {
     getDoc(collectionRef).then((onSnapshot) => {

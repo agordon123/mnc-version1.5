@@ -6,11 +6,11 @@ const style = {
   justifyContent: "center",
   padding: "100px",
 };
-export const MNCLogo = () => {
+export const MNCLogoGray = () => {
   const storage = useStorage();
   const logoRef = reff(
     storage,
-    "gs://mnc-development.appspot.com/images/mncdevelopmentlogo.jpg"
+    "gs://mnc-development.appspot.com/images/mncdevelopmentlogoAdjusted.jpg"
   );
   const { status, data: imageURL } = useStorageDownloadURL(logoRef);
 
@@ -20,8 +20,8 @@ export const MNCLogo = () => {
 
   return (
     <React.Fragment>
-      <img src={imageURL} alt="logo" id="logo" sx={{style}} />
+      <img src={imageURL} alt="logo" id="logo" sx={{ style }} />
     </React.Fragment>
   );
 };
-export default MNCLogo;
+export default MNCLogoGray;

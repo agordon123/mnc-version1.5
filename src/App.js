@@ -22,7 +22,7 @@ import SearchForm from "./components/Home/SearchForm";
 import ListingsContainer from "./components/Home/SearchForm";
 import BasicTable from "./components/Listings/Table";
 
-export const App = ({searchQuery}) => {
+export const App = ({}) => {
 
   
   const { status, data: user } = useUser();

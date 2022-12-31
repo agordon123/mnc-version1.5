@@ -9,6 +9,7 @@ import { auth } from "../../firebase";
 import { useUser, useFirestore, useSigninCheck } from "reactfire";
 import { doc, getDoc, query, where, collection } from "firebase/firestore";
 import { Spinner } from "react-bootstrap";
+import {MNCLogoGray} from "./MNCLogoGray";
 /*const NavBarItem =StyledComponent.button`
   border: none;
   background-color: rgb(196, 196, 196);
@@ -119,7 +120,7 @@ export const NavBar = (props) => {
       <div className="navigation-bar">
         <div className="navigation-bar-left">
           <button className="nav-btn" href="/" onClick={() => navigate("/")}>
-            MNC Development 3.20
+            <MNCLogoGray/>
           </button>
           <HomeIcon size={25} padding="2" />
         </div>
