@@ -360,7 +360,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 )}
 </>
       </Item>
-     <App data={searchQuery}/>
+     
       </Grid2>
     </Grid2>
 

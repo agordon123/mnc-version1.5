@@ -271,7 +271,7 @@ export const SearchForm = (props) => {
         
         <Item elevation={0}
         sx={{ width: "100%", flexDirection: "row", display: "flex", 
-        alignItems: "center", justifyContent: "center" }}>
+        alignItems: "center", justifyContent: "center"}}>
         <UseButtonGroup
         aria-label="listing-type"
         onChange={(e) => setInfo({ ...info, type: e.target.value })}
