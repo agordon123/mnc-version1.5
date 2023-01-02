@@ -335,7 +335,7 @@ sx={{flexDirection: "row", display: "flex" }}>
   margin: "3px",width: "30rem",paddingLeft: "10px",
   fontSize:"20px",fontWeight: "bold",color:"black"}}> 
 <div>
-<a href = {`/listing/${listing.bathrooms}`}> 
+<Link to= {`/listings/${listing.bathrooms}`}> 
 <p>Bathrooms: {listing.bathrooms}</p>
 <p>Bedrooms: {listing.bedrooms}</p>
 <p>Price: {listing.price}</p>
@@ -343,7 +343,8 @@ sx={{flexDirection: "row", display: "flex" }}>
 <p>Description: {listing.description}</p> 
 <p>State: {listing.state}</p>
 <p>Street: {listing.street}</p>
-<p>Zip: {listing.zip}</p></a>
+<p>Zip: {listing.zip}</p>
+</Link>
 </div>
 </Item>
 
@@ -359,7 +360,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 )}
 </>
       </Item>
-      <ListingPage data={searchQuery}/>
+     <App data={searchQuery}/>
       </Grid2>
     </Grid2>
 

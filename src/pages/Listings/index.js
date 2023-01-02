@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import NestedList from "../../components/Listings/Sidenav.js";
+import SearchForm from "../../components/Search/SearchForm";
 
 //Actions Needed to Complete Listing Page
 // 1. Get Listing Data

@@ -22,7 +22,7 @@ import SearchForm from "./components/Home/SearchForm";
 import ListingsContainer from "./components/Home/SearchForm";
 import BasicTable from "./components/Listings/Table";
 
-export const App = ({}) => {
+export const App = ({data}) => {
 
   
   const { status, data: user } = useUser();
@@ -69,8 +69,8 @@ export const App = ({}) => {
           element={<AuthPage title="New User Profile" />}
         />
         <Route exact path="/auditlog" element={<AuditLog />} />
-        <Route path="/listings" element={<ListingPage/>} />
-        <Route path="/listings/:bathrooms" element={<ListingPage/>} />
+        <Route path="/listings/" element={<ListingPage/>} />
+        <Route path="/listings/:bathrooms" element={<ListingPage data={data}/>} />
         <Route path="/search" element={<SearchPage/>} />
         
         

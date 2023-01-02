@@ -33,6 +33,7 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import App from "../../App";
 //import FilterBox from "./Filter";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 import { async } from "@firebase/util";
 const blue = {
@@ -268,13 +269,20 @@ export const SearchForm = (props) => {
         sx={{ width: "100%", flexDirection: "column", display: "flex" }}
       >
         
-       <UseButtonGroup
+        <Item elevation={0}
+        sx={{ width: "100%", flexDirection: "row", display: "flex", 
+        alignItems: "center", justifyContent: "center" }}>
+        <UseButtonGroup
         aria-label="listing-type"
         onChange={(e) => setInfo({ ...info, type: e.target.value })}
         name="type"
         sx={{alignItems: "center", justifyContent: "center"}}
         />
-        <CustomInput onChange={handleFilter}>
+        </Item>
+      
+      <Item elevation={0} 
+      sx={{ width: "100%", flexDirection: "row", display: "flex" }}>
+      <CustomInput onChange={handleFilter}>
           
           </CustomInput> 
         
@@ -298,18 +306,19 @@ export const SearchForm = (props) => {
             }}
           />
         </IconButton>
+      </Item>
 
       </Item>
       <Item elevation={0}
 sx={{flexDirection: "column", display: "flex" }}>
 <>
 {searchQuery.length !== 0 && (
- <div>
+ <div className= "dataResult">
   {searchQuery.slice(0,15).map((listing, index)=>{
     return(
-      <div className = "box" key = {index}>
+      <div className = "dataItem" key = {index}>
       <a href = {`/listing/${listing.bathrooms}`}> 
-      
+     
       <p>City: {listing.city}</p>
     
      </a>
