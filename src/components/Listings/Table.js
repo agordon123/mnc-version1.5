@@ -105,8 +105,7 @@ const BasicTable =({data})=>{
   ];
   return(
     <div>
-      {
-         
+      {  
               listings.filter((listing) => listing.bathrooms === bathrooms )
               .map((listing, index) => (
                 <div key={index}>
@@ -114,23 +113,55 @@ const BasicTable =({data})=>{
       <Table sx={{ minWidth: 200, minHeight: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-          <TableCell sx ={{fontWeight:"bold"}}>{listing.bathrooms}</TableCell>
-          <TableCell align="left">{listing.price}</TableCell> 
+          <TableCell sx ={{fontWeight:"bold"}}>{Data.type}</TableCell>
+          <TableCell align="left"></TableCell> 
           </TableRow>
           </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="left">{row.info}</TableCell>
-              
-            </TableRow>
-          ))}
+          <TableRow>
+          <TableCell component="th" scope="row">
+          Street
+          </TableCell>
+          <TableCell align="left">{listing.street}</TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell component="th" scope="row">
+          City
+          </TableCell>
+          <TableCell align="left">{listing.city}</TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell component="th" scope="row">
+          State
+          </TableCell>
+          <TableCell align="left">{listing.state}</TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell component="th" scope="row">
+          Zip
+          </TableCell>
+          <TableCell align="left">{listing.zip}</TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell component="th" scope="row">
+         Bedroom(s)
+          </TableCell>
+          <TableCell align="left">{listing.bedrooms}</TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell component="th" scope="row">
+          Bathroom(s)
+          </TableCell>
+          <TableCell align="left">{listing.bathrooms}</TableCell>
+          </TableRow>
+          <TableRow>
+          <TableCell component="th" scope="row">
+          Price
+          </TableCell>
+          <TableCell align="left">{listing.price}</TableCell>
+          </TableRow>
+          
+          
         </TableBody>
       </Table>
       <div></div>
