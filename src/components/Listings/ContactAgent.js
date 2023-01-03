@@ -15,6 +15,17 @@ import {
   import emailjs from "@emailjs/browser";
 
   export default function ContactButton() {
+    const [isHover5, setIsHover5] = useState(false);
+
+    const handleMouseEnter5 = () => {
+      setIsHover5(true);
+    };
+  
+    const handleMouseLeave5 = () => {
+      setIsHover5(false);
+    };
+  
+
     const handleSubmit = (e) => {
       e.preventDefault();
       emailjs
@@ -39,15 +50,21 @@ import {
      
       <Button variant="outlined"
       onClick={handleSubmit}
-      sx={{
-      fontFamily: "Garamond",
-      background: "gray",
-      width: "100%",
-      border: "2px solid white",
-      borderRadius: "10px;",
-      color: "white",
-      }}>
-      Contact Agent about this listing
+      onMouseEnter={handleMouseEnter5}
+      onMouseLeave={handleMouseLeave5}
+      style={{
+        fontSize: "14px",
+        color: isHover5 ? "black" : "white",
+        backgroundColor: isHover5 ? "white" : "#63666A",
+        fontWeight: "bold",
+        padding: "12px",
+        fontFamily: "Garamond",
+        width: "100%",
+        border: "2px solid white",
+        borderRadius: "10px;",
+      }}
+     >
+      Contact an agent about this listing
       </Button>
      
     );
