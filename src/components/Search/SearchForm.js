@@ -40,7 +40,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import SearchContainer from "./SearchContainer";
 import ListingPage from "../../pages/Listings";
 const blue = {
   100: "#DAECFF",
@@ -119,7 +118,7 @@ const initialValues = {
 };
 
 
-export const SearchForm = (props) => {
+export const SearchForm = ({}) => {
 
   const [isHover, setIsHover] = useState(false);
   const [isHover2, setIsHover2] = useState(false);

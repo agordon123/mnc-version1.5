@@ -57,11 +57,21 @@ const BasicTable =({data})=>{
   const storage = useStorage();
   const batch = writeBatch(firestore);
   const formRef = useRef();
+  const [listings, setListings] = useState([]);
+  
   const [Data, SetData] = useState(initialValues);
-  //const [searchQuery, setsearchQuery] = useState(initialValues);
-  const [docID, setDocID] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const[street, setStreet] = useState("");
+
+  const listingsRef = collection(firestore, `listings/${Data.type}/properties`);
+  
+  useEffect(()=>{
+    const getData = async ()=>{
+     const data = await getDocs(listingsRef);
+     setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+     console.log(data);
+    }
+    getData();
+ }, []);
+  
   //const newDoc = doc(firestore, `$listings/${searchQuery.type}/properties/${docID}`, );
   /*
   const collectionRef = collection(
@@ -96,8 +106,8 @@ const BasicTable =({data})=>{
   return(
     <div>
       {
-         data
-              .filter((listing) => listing.bathrooms === bathrooms )
+         
+              listings.filter((listing) => listing.bathrooms === bathrooms )
               .map((listing, index) => (
                 <div key={index}>
           <TableContainer component={Paper}>
