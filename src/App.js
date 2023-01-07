@@ -20,7 +20,7 @@ import SearchPage from "./pages/Search";
 import { useParams } from 'react-router-dom'
 import SearchForm from "./components/Home/SearchForm";
 import ListingsContainer from "./components/Home/SearchForm";
-import BasicTable from "./components/Listings/Table";
+
 
 export const App = ({}) => {
 
@@ -70,8 +70,8 @@ export const App = ({}) => {
         />
         <Route exact path="/auditlog" element={<AuditLog />} />
         <Route path="/listings/" element={<ListingPage/>} />
-        <Route path="/listings/:bathrooms" element={<ListingPage/>} />
-        <Route path="/search" element={<SearchPage/>} />
+        <Route path="/listings/:listing_ID" element={<ListingPage/>} />
+        <Route path="/search/:city" element={<SearchPage/>} />
         
         
         </Routes>

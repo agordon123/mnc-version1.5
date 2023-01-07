@@ -22,7 +22,24 @@ import {
 import Stack from "@mui/material/Stack";
 import NestedList from "../../components/Listings/Sidenav.js";
 import SearchForm from "../../components/Search/SearchForm";
-
+import { useParams } from "react-router-dom";
+import {
+  collection,
+  serverTimestamp,
+  orderBy,
+  addDoc,
+  getDoc,
+documentId,
+setDoc,
+writeBatch,
+} from "firebase/firestore";
+import {
+  useFirestore,
+  useFirestoreCollection,
+  useStorage,
+  useStorageDownloadURL,
+  useStorageTask,
+} from "reactfire";
 //Actions Needed to Complete Listing Page
 // 1. Get Listing Data
 // 2. Get Listing Images
@@ -37,12 +54,46 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const ListingPage = ({ data }) => {
+const initialValues = {
+  type: "forSale",
+  id: "",
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
+  price: "",
+  description: "",
+  images: [],
+  listed_by: "",
+  bathrooms:"",
+  created_at: "",
+};
+export const ListingPage = ({}) => {
+  const {listing_ID} = useParams();
+  const firestore = useFirestore();
+  const [listings, setListings] = useState([]);
+  const [Data, SetData] = useState(initialValues);
+  const listingsRef = collection(firestore, `listings/${Data.type}/properties`);
+  
+  useEffect(()=>{
+    const getData = async ()=>{
+     const data = await getDocs(listingsRef);
+     setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+     console.log(data);
+    }
+    getData();
+ }, []);
   return (
-    <Box sx={{ flexGrow: 1 }}>
+   <div>
+    {
+       listings
+              .filter((listing) => listing.listing_ID === listing_ID)
+              .map((listing, index) => (
+                <div key={ index }>
+      <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0.1}>
         <Grid item xs={10}>
-          <CarouselImage></CarouselImage>
+          <CarouselImage Data={Data}></CarouselImage>
           <Box
             sx={{
               margin: "10px",
@@ -53,17 +104,19 @@ export const ListingPage = ({ data }) => {
             }}
           >
             <Typography>
-              Description: “Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua.
+             {listing.description}
+             <p style={{display:"none"}}>{listing_ID}</p>
             </Typography>
           </Box>
         </Grid>
         <Grid item xs={2}>
-            <BasicTable data ={data}></BasicTable>
+            <BasicTable Data={Data}></BasicTable>
         </Grid>
       </Grid>
     </Box>
+                </div>
+              ))}
+   </div>
   );
 };
 

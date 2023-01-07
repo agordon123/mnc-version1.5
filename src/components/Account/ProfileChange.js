@@ -26,6 +26,7 @@ import {
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Stack } from "@mui/system";
+import { useParams } from "react-router-dom";
 
 const Item2 = styled(Paper)(({ theme }) => ({
   backgroundColor:

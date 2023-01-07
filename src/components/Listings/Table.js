@@ -50,16 +50,13 @@ const initialValues = {
   bathrooms:"",
   created_at: "",
 };
-const BasicTable =({data})=>{
-  
-  const {bathrooms} = useParams();
+const BasicTable =({Data})=>{
+  const {listing_ID} = useParams();
   const firestore = useFirestore();
   const storage = useStorage();
   const batch = writeBatch(firestore);
   const formRef = useRef();
   const [listings, setListings] = useState([]);
-  
-  const [Data, SetData] = useState(initialValues);
 
   const listingsRef = collection(firestore, `listings/${Data.type}/properties`);
   
@@ -106,7 +103,7 @@ const BasicTable =({data})=>{
   return(
     <div>
       {  
-              listings.filter((listing) => listing.bathrooms === bathrooms )
+              listings.filter((listing) => listing.listing_ID === listing_ID)
               .map((listing, index) => (
                 <div key={index}>
           <TableContainer component={Paper}>
@@ -114,7 +111,7 @@ const BasicTable =({data})=>{
         <TableHead>
           <TableRow>
           <TableCell sx ={{fontWeight:"bold"}}>{Data.type}</TableCell>
-          <TableCell align="left"></TableCell> 
+          <TableCell align="left" style={{display:"none"}}>{listing.listing_ID}</TableCell> 
           </TableRow>
           </TableHead>
         <TableBody>

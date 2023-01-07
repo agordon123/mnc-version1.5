@@ -317,7 +317,7 @@ sx={{flexDirection: "column", display: "flex" }}>
   {searchQuery.slice(0,15).map((listing, index)=>{
     return(
       <div className = "dataItem" key = {index}>
-      <a href = {`/listing/${listing.bathrooms}`}> 
+      <a href = {`/search/${listing.city}`}> 
      
       <p>City: {listing.city}</p>
     

@@ -61,7 +61,7 @@ import {
         fontFamily: "Garamond",
         width: "100%",
         border: "2px solid white",
-        borderRadius: "10px;",
+        borderRadius: "10px",
       }}
      >
       Contact an agent about this listing

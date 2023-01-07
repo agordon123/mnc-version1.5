@@ -150,7 +150,7 @@ export const SearchForm = ({}) => {
   const[info, setInfo] = useState(initialValues);
   const [listings, setListings] = useState([]);
   const navigate = useNavigate();
-  
+  const {city} = useParams();
   const goListings = () =>
     navigate({
       pathname: `/listings/${searchQuery.bathrooms}`
@@ -200,14 +200,8 @@ export const SearchForm = ({}) => {
  const handleFilter =(e) =>{
   const searchWord = e.target.value;
   const seachFilter = listings.filter((listing)=>{
-    return listing.bathrooms.includes(searchWord) || 
-    listing.bedrooms.includes(searchWord) || 
-    listing.street.toLowerCase().includes(searchWord) || 
-    listing.zip.toLowerCase().includes(searchWord) ||
-    listing.price.includes(searchWord) ||
-    listing.description.toLowerCase().includes(searchWord) ||
-    listing.city.toLowerCase().includes(searchWord) ||
-    listing.state.toLowerCase().includes(searchWord) 
+    return  listing.city.toLowerCase().includes(searchWord) ||
+    listing.city.toUpperCase().includes(searchWord) 
   });
   if (searchWord === ""){
     setSearchQuery([]);
@@ -317,7 +311,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 <>
 {searchQuery.length !== 0 && (
  <div>
-  {searchQuery.slice(0,15).map((listing, index)=>{
+  {searchQuery.slice(0,15).filter((listing) => listing.city === city).map((listing, index)=>{
     return(
       <div key = {index} elevation={0}>
       <Grid container spacing={1} elevation={0}>
@@ -334,7 +328,7 @@ sx={{flexDirection: "row", display: "flex" }}>
   margin: "3px",width: "30rem",paddingLeft: "10px",
   fontSize:"20px",fontWeight: "bold",color:"black"}}> 
 <div>
-<Link to= {`/listings/${listing.bathrooms}`}> 
+<a href={`/listings/${listing.listing_ID}`}> 
 <p>Bathrooms: {listing.bathrooms}</p>
 <p>Bedrooms: {listing.bedrooms}</p>
 <p>Price: {listing.price}</p>
@@ -343,7 +337,8 @@ sx={{flexDirection: "row", display: "flex" }}>
 <p>State: {listing.state}</p>
 <p>Street: {listing.street}</p>
 <p>Zip: {listing.zip}</p>
-</Link>
+<p sx={{display:"none"}}>Listing ID: {listing.listing_ID}</p>
+</a>
 </div>
 </Item>
 

@@ -43,7 +43,9 @@ import Select from '@mui/material/Select';
 import ListingPage from "../../pages/Listings";
 import SearchForm from "../components/Search";
 import BasicTable from "../Listings/Table";
-
+/*
+This file was used to test props, this page should not be reused. 
+*/
 const blue = {
   100: "#DAECFF",
   200: "#80BFFF",
