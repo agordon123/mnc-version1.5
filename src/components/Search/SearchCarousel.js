@@ -93,6 +93,7 @@ const [data, setData] = useState(initialValues);
 const [docID, setDocID] = useState("");
 const [listings, setListings] = useState([]);
 const {listing_ID} = useParams();
+const {city} = useParams();
 
  
 const listingsRef = collection(firestore, `listings/${data.type}/properties`);
@@ -171,20 +172,21 @@ useEffect(() => {
     <div>
        {
             listings
-              .filter((listing) => listing.listing_ID === listing_ID)
+              .filter((listing) => listing.city === city)
               .map((listing, index) => (
                 <div className="full-card" key={ index }>
-                  <Carousel>
+    <Carousel style={{ width: "850px",
+  height: "400px",margin: "auto"}}>
       <Carousel.Item>
-        <img className="Image" src={listing.images.images1} alt="First slide" />
+        <img className="CarouselImage" src={listing.images1} alt="First slide" />
         <Carousel.Caption>
           <h3>First slide label</h3>
           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          <p style={{display:"none"}}>{listing.listing_ID}</p>
+          <p style={{display:"none"}}>{listing.city}</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="Image" src={listing.images.images2} alt="Second slide" />
+        <img className="CarouselImage" src={listing.images2} alt="Second slide" />
 
         <Carousel.Caption>
           <h3>Second slide label</h3>
@@ -192,7 +194,7 @@ useEffect(() => {
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="Image" src={listing.images.images3} alt="Third slide" />
+        <img className="CarouselImage" src={listing.images3} alt="Third slide" />
 
         <Carousel.Caption>
           <h3>Third slide label</h3>

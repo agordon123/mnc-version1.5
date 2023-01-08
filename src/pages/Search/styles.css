@@ -113,7 +113,7 @@ a:hover {
   font-weight: bold;
   color:black;
 }
-.Image {
+.CarouselImage {
   width: 850px;
   height: 400px;
   margin: auto;
@@ -134,7 +134,11 @@ a:hover {
   }
 }
 */
-
+.carousel {
+width:1200px;
+height:620px;
+margin: auto;
+}
 a {
 text-decoration: none;
 color: black;

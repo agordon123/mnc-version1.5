@@ -204,11 +204,11 @@ export const SearchForm = () => {
     return listing.bathrooms.includes(searchWord) || 
     listing.bedrooms.includes(searchWord) || 
     listing.street.toLowerCase().includes(searchWord) || 
-    listing.zip.includes(searchWord) ||
+    listing.zip.toLowerCase().includes(searchWord) ||
     listing.price.includes(searchWord) ||
     listing.description.toLowerCase().includes(searchWord) ||
-    listing.city.toLowerCase().includes(searchWord) || 
-    listing.state.toLowerCase().includes(searchWord)
+    listing.city.toLowerCase().includes(searchWord) ||
+    listing.state.toLowerCase().includes(searchWord) 
   });
   if (searchWord === ""){
     setSearchQuery([]);
@@ -344,7 +344,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 <p>State: {listing.state}</p>
 <p>Street: {listing.street}</p>
 <p>Zip: {listing.zip}</p>
-<p sx={{display:"none"}}>Listing ID: {listing.listing_ID}</p>
+<p style={{display:"none"}}>Listing ID: {listing.listing_ID}</p>
 </a>
 </div>
 </Item>
