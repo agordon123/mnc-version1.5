@@ -68,6 +68,7 @@ const initialValues = {
   bathrooms:"",
   created_at: "",
 };
+/*  <p style={{display:"none"}}>{listing_ID}</p> inside the topography and it causes invaild dom nesting */
 export const ListingPage = ({}) => {
   const {listing_ID} = useParams();
   const firestore = useFirestore();
@@ -105,7 +106,6 @@ export const ListingPage = ({}) => {
           >
             <Typography>
              {listing.description}
-             <p style={{display:"none"}}>{listing_ID}</p>
             </Typography>
           </Box>
         </Grid>

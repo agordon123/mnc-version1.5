@@ -203,12 +203,12 @@ export const SearchForm = () => {
   const seachFilter = listings.filter((listing)=>{
     return listing.bathrooms.includes(searchWord) || 
     listing.bedrooms.includes(searchWord) || 
-    listing.street.toLowerCase().includes(searchWord) || 
-    listing.zip.toLowerCase().includes(searchWord) ||
+    listing.street.toLowerCase().includes(searchWord) || listing.street.toUpperCase().includes(searchWord)||
+    listing.zip.includes(searchWord) ||
     listing.price.includes(searchWord) ||
-    listing.description.toLowerCase().includes(searchWord) ||
-    listing.city.toLowerCase().includes(searchWord) ||
-    listing.state.toLowerCase().includes(searchWord) 
+    listing.description.toLowerCase().includes(searchWord) ||listing.description.toUpperCase().includes(searchWord)||
+    listing.city.toLowerCase().includes(searchWord) ||listing.city.toUpperCase().includes(searchWord)||
+    listing.state.toLowerCase().includes(searchWord)|| listing.state.toUpperCase().includes(searchWord)
   });
   if (searchWord === ""){
     setSearchQuery([]);
