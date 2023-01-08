@@ -18,8 +18,8 @@ import NavBar from "./components/Misc/NavBar";
 import { Spinner } from "react-bootstrap";
 import SearchPage from "./pages/Search";
 import { useParams } from 'react-router-dom'
-import SearchForm from "./components/Home/SearchForm";
-import ListingsContainer from "./components/Home/SearchForm";
+import SearchForm from "./components/Home/HomeSearchForm";
+import ListingsContainer from "./components/Home/HomeSearchForm";
 
 
 export const App = ({}) => {
@@ -55,6 +55,7 @@ export const App = ({}) => {
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/contact" element={<Contact />} />
         <Route exact path="/account" element={<AccountPage />} />
+        <Route exact path="/account:uid" element={<AccountPage />} />
 
         <Route exact path="/admin" element={<AdminDashboard />} />
 

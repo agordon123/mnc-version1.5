@@ -28,7 +28,7 @@ import {
   useStorageDownloadURL,
   useStorageTask,
 } from "reactfire";
-import SearchForm from "../Home/SearchForm";
+import SearchForm from "../Home/HomeSearchForm";
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 

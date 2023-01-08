@@ -23,7 +23,7 @@ import { Spinner } from "react-bootstrap";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
 import "../../pages/Listings/styles.css";
-import "../../pages/Search/styles.css"
+import "../../pages/Search/styles.css";
 import { UseButtonGroup } from "./HomePageComponents";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom'
@@ -40,7 +40,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ListingPage from "../../pages/Listings";
+//import ListingPage from "../../pages/Listings";
+import CarouselSearchImage from "./SearchCarousel";
+
 const blue = {
   100: "#DAECFF",
   200: "#80BFFF",
@@ -171,10 +173,9 @@ export const SearchForm = () => {
  */
  
   //const { status, data: signInCheckResult } = useSigninCheck();
+  
   const firestore = useFirestore();
-  //const [docID, setDocID] = useState("");
  
-  //const [type, setType] = useState("forSale");
   const listingsRef = collection(firestore, `listings/${info.type}/properties`);
   const [searchQuery, setSearchQuery] = useState([]);
   
@@ -202,13 +203,12 @@ export const SearchForm = () => {
   const seachFilter = listings.filter((listing)=>{
     return listing.bathrooms.includes(searchWord) || 
     listing.bedrooms.includes(searchWord) || 
-    listing.street.toLowerCase().includes(searchWord) ||
-    listing.zip.toLowerCase().includes(searchWord) ||
+    listing.street.toLowerCase().includes(searchWord) || 
+    listing.zip.includes(searchWord) ||
     listing.price.includes(searchWord) ||
     listing.description.toLowerCase().includes(searchWord) ||
-    listing.city.toLowerCase().includes(searchWord) ||
-    listing.state.toLowerCase().includes(searchWord) 
-
+    listing.city.toLowerCase().includes(searchWord) || 
+    listing.state.toLowerCase().includes(searchWord)
   });
   if (searchWord === ""){
     setSearchQuery([]);
@@ -325,7 +325,7 @@ sx={{flexDirection: "row", display: "flex" }}>
 <Grid xs={8} elevation={0}>
 <Item sx={{}}>
 <div>
-<img src ={listing.image} alt="" className="Image"/>
+<CarouselSearchImage></CarouselSearchImage>
 </div>
 </Item>
 </Grid>

@@ -29,7 +29,6 @@ documentId,
 setDoc,
 writeBatch,
 } from "firebase/firestore";
-
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -39,7 +38,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import "../../pages/Listings/styles.css";
+//import "../../pages/Listings/styles.css";
+import "../../pages/Search/styles.css";
+import { useParams } from "react-router-dom";
 
 //import {StyleSheet, Text, View, Imahe, TouchableHighlight} from 'react-native';
 //import firebaseConfig from '.friebaseConfig.tsx';
@@ -83,14 +84,30 @@ export const CarouselImagePull = () => {
   const [description, setDescription] = useState("");
   */
 };
-export function CarouselImage() {
-  const firestore = useFirestore();
+export function CarouselSearchImage() {
+const firestore = useFirestore();
 //const storage = useStorage();
-const batch = writeBatch(firestore);
-const formRef = useRef();
+//const batch = writeBatch(firestore);
+//const formRef = useRef();
 const [data, setData] = useState(initialValues);
 const [docID, setDocID] = useState("");
+const [listings, setListings] = useState([]);
+const {listing_ID} = useParams();
+
+ 
+const listingsRef = collection(firestore, `listings/${data.type}/properties`);
+useEffect(()=>{
+  const getData = async ()=>{
+   const data = await getDocs(listingsRef);
+   setListings(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+   console.log(data);
+  }
+  getData();
+}, []);
+
+
 //const newDoc = doc(firestore, `$listings/${data.type}/properties/${docID}`);
+/*
 const collectionRef = collection(
   firestore,
   `$listings/${data.type}/properties/${docID}`
@@ -109,11 +126,6 @@ const docData = {
   
 const [setDocData] = useState({ ...collectionRef});
 
-const [index, setIndex] = useState(0);
-
-const handleSelect = (selectedIndex, e) => {
-  setIndex(selectedIndex);
-};
 
 
 useEffect(() => {
@@ -125,7 +137,7 @@ useEffect(() => {
   };
   fetchDoc(docData);
 });
-
+*/
 
 
   const storage = useStorage();
@@ -154,17 +166,25 @@ useEffect(() => {
   if (status3 === "loading") {
     return <span>loading...</span>;
   }
+
   return (
-    <Carousel fade activeIndex={index} onSelect={handleSelect}>
+    <div>
+       {
+            listings
+              .filter((listing) => listing.listing_ID === listing_ID)
+              .map((listing, index) => (
+                <div className="full-card" key={ index }>
+                  <Carousel>
       <Carousel.Item>
-        <img className="carousel" src={url1} alt="First slide" />
+        <img className="Image" src={listing.images.images1} alt="First slide" />
         <Carousel.Caption>
           <h3>First slide label</h3>
           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <p style={{display:"none"}}>{listing.listing_ID}</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="carousel" src={url2} alt="Second slide" />
+        <img className="Image" src={listing.images.images2} alt="Second slide" />
 
         <Carousel.Caption>
           <h3>Second slide label</h3>
@@ -172,7 +192,7 @@ useEffect(() => {
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="carousel" src={url3} alt="Third slide" />
+        <img className="Image" src={listing.images.images3} alt="Third slide" />
 
         <Carousel.Caption>
           <h3>Third slide label</h3>
@@ -182,7 +202,10 @@ useEffect(() => {
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
+                </div>
+              ))}
+    </div>
   );
 }
 
-export default CarouselImage;
+export default CarouselSearchImage;

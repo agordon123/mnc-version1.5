@@ -113,7 +113,7 @@ const initialValues = {
 };
 
 
-export const SearchForm = (props) => {
+export const HomeSearchForm = (props) => {
 
   const [isHover, setIsHover] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
@@ -331,4 +331,4 @@ sx={{flexDirection: "column", display: "flex" }}>
   );
 };
 
-export default SearchForm;
+export default HomeSearchForm;

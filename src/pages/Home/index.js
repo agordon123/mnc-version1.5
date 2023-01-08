@@ -6,7 +6,7 @@ import { Item } from "../../components/Admin/AdminPageComponents";
 import { useLocation } from "react-router-dom";
 import { NavBar } from "../../components/Misc/NavBar";
 import { MNCLogo } from "../../components/Misc/MNCLogo";
-import { SearchForm } from "../../components/Home/SearchForm";
+import { HomeSearchForm } from "../../components/Home/HomeSearchForm";
 
 //actions needed to finish HomePage
 //needs to be styled and modularized into a logo and search bar , and a footer underneath
@@ -51,7 +51,7 @@ export const HomePage = (props) => {
               display: "flex",
             }}
           >
-            <SearchForm />
+            <HomeSearchForm/>
           </Item>
         </Grid>
       </Grid>
