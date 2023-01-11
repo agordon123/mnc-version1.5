@@ -70,12 +70,14 @@ export const ProfileChange = (props) => {
     min: "",
     max: "",
   });
+  /*
   const userDoc = [
     { email: "", id: "email" },
     { userName: "", id: "userName" },
     { role: "", id: "role" },
     { userID: "", id: "userID" },
   ];
+  */
   useEffect(() => {
     const userCheck = async () => {
       if (status === "loading") {
@@ -103,9 +105,10 @@ export const ProfileChange = (props) => {
             currentUser.email,
           ]);
           await getDoc(docRef).then((onSnapshot) => {
-            console.log(onSnapshot);
             const userRole = onSnapshot.get("role");
             const userEmail = onSnapshot.get("email");
+            console.log(onSnapshot);
+            
           });
         }
       }

@@ -23,7 +23,7 @@ import { Spinner } from "react-bootstrap";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import "../../pages/Home/styles.css";
 import "../../pages/Listings/styles.css";
-import { UseButtonGroup } from "./HomePageComponents";
+import { UseButtonGroup } from "./HomeButtons";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar';
